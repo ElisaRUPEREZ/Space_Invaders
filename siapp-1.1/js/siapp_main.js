@@ -3,7 +3,7 @@
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
 let vaisseau;
-const worldPosition = new THREE.Vector3();
+let aliens;
 
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
@@ -13,12 +13,11 @@ function keyPressed(e){
   console.log("event key    !");
   switch(e.key) {
     case 'ArrowLeft':
-          vaisseau.translateX(0.4);
-          vaisseau.getWorldPosition(worldPosition)
-          console.log("coord vaisseau : " + worldPosition[0]);
+          vaisseau.position.x += 0.4;
+          //console.log("coord : " + vaisseau.position.x);
         break;
     case 'ArrowRight':
-          vaisseau.translateX(-0.4);
+          vaisseau.position.x -= 0.4;
         break;
     case ' ':
           console.log("tirer un missile");
@@ -29,7 +28,7 @@ function keyPressed(e){
     break;
 
     case '1':
-          camera.position.set(0, 20, -35);
+          camera.position.set(0, 15, -30);
     break;
     case 'i':
           console.log("invincible");
@@ -85,6 +84,11 @@ function init() {
   vaisseau.position.set(0, 1.5, -20);
   scene.add( vaisseau );
 
+  aliens = new THREE.Group();
+  scene.add( aliens );
+
+
+
   const fps  = 60;
   const slow = 1; // slow motion! 1: normal speed, 2: half speed...
   loop.dt       = 0,
@@ -94,7 +98,7 @@ function init() {
   loop.step     = 1/loop.fps;
   loop.slow     = slow;
   loop.slowStep = loop.slow * loop.step;
-  console.log("Fin de l'init");
+
 }
 
 function gameLoop() {
