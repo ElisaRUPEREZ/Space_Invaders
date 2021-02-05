@@ -72,9 +72,9 @@ function init() {
   stats.domElement.style.position	= 'absolute';
   stats.domElement.style.bottom	= '0px';
   document.body.appendChild( stats.domElement );
-
+ // GridHelper
   const gridHelper = new THREE.GridHelper( 50, 50);
-  scene.add( gridHelper );
+  scene.add(gridHelper);
 
   // add some geometries
   const geometry = new THREE.BoxGeometry(5,3,3);
