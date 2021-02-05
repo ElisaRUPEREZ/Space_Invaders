@@ -2,10 +2,44 @@
 
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
-let torus;
+let vaisseau;
+const worldPosition = new THREE.Vector3();
 
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
+window.addEventListener('keydown', keyPressed);
+
+function keyPressed(e){
+  console.log("event key    !");
+  switch(e.key) {
+    case 'ArrowLeft':
+          vaisseau.translateX(0.4);
+          vaisseau.getWorldPosition(worldPosition)
+          console.log("coord vaisseau : " + worldPosition[0]);
+        break;
+    case 'ArrowRight':
+          vaisseau.translateX(-0.4);
+        break;
+    case ' ':
+          console.log("tirer un missile");
+    break;
+
+    case '0':
+          camera.position.set(0, 50, 0);
+    break;
+
+    case '1':
+          camera.position.set(0, 20, -35);
+    break;
+    case 'i':
+          console.log("invincible");
+    break;
+    case 'k':
+          console.log("kill all");
+    break;
+  }
+  e.preventDefault();
+}
 
 function go() {
   console.log("Go!");
@@ -20,8 +54,9 @@ function init() {
 
   scene = new THREE.Scene();
 
+// Caméra vue de DESSUS :
   camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
-  camera.position.set(0, 0, -30);
+  camera.position.set(0, 50, 0);
 
   controls = new THREE.TrackballControls(camera, container);
   controls.target = new THREE.Vector3(0, 0, 0.75);
@@ -39,11 +74,16 @@ function init() {
   stats.domElement.style.bottom	= '0px';
   document.body.appendChild( stats.domElement );
 
+  const gridHelper = new THREE.GridHelper( 50, 50);
+  scene.add( gridHelper );
+
   // add some geometries
-  const geometry = new THREE.TorusGeometry( 10, 3, 16, 100, );
+  const geometry = new THREE.BoxGeometry(5,3,3);
   const material = new THREE.MeshNormalMaterial( );
-  torus = new THREE.Mesh( geometry, material, );
-  scene.add( torus );
+  vaisseau = new THREE.Mesh( geometry, material, );
+
+  vaisseau.position.set(0, 1.5, -20);
+  scene.add( vaisseau );
 
   const fps  = 60;
   const slow = 1; // slow motion! 1: normal speed, 2: half speed...
@@ -54,20 +94,27 @@ function init() {
   loop.step     = 1/loop.fps;
   loop.slow     = slow;
   loop.slowStep = loop.slow * loop.step;
-
+  console.log("Fin de l'init");
 }
 
 function gameLoop() {
 
   // gestion de l'incrément du temps
-  loop.now = timestamp();
+/*  loop.now = timestamp();
   loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
   while(loop.dt > loop.slowStep) {
     loop.dt = loop.dt - loop.slowStep;
     update(loop.step); // déplace les objets d'une fraction de seconde
-  }
+  }*/
+
+  //Déplacement des aliens
+
+
+
+
+
   renderer.render(scene, camera);  // rendu de la scène
-  loop.last = loop.now;
+//  loop.last = loop.now;
 
   requestAnimationFrame(gameLoop); // relance la boucle du jeu
 
@@ -77,7 +124,7 @@ function gameLoop() {
 
 function update(step) {
   const angleIncr = Math.PI * 2 * step / 5 ; // une rotation complète en 5 secondes
-  torus.rotateY(angleIncr);
+  cube.rotateY(angleIncr);
 }
 
 function resize() {
