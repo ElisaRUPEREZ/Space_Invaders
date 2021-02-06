@@ -8,12 +8,14 @@ let soucoupe;
 let aliens;
 let tirEnCours = false;
 let moveDir = true; /// sens de déplacement des aliens
+let ApparitionSoucoupe = false;
 
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
+
 var keyboard = new THREEx.KeyboardState();
-var clock = new THREE.Clock();
+
 function keyPressed(e) {
   console.log("event key !");
   switch(e.key) {
@@ -78,7 +80,7 @@ function init() {
   const material = new THREE.MeshNormalMaterial( );
   vaisseau = new THREE.Mesh( geometry, material, );
 
-  vaisseau.position.set(0, 1, -20);
+  vaisseau.position.set(0, 1, -22);
   scene.add( vaisseau );
 // Balle 1 à la fois disparait lorsque elle atteint le bout du plateau ou touche sa cible
   const geometryS = new THREE.SphereGeometry(0.5);
@@ -94,29 +96,30 @@ function init() {
   const materialA = new THREE.MeshBasicMaterial();
   var xOffset = -17;
 
-    for (var i = 1; i <= 10 ; i++) {
-        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
-        alien.position.x = (3 * i) + xOffset;
-        alien.position.y = 1;
-        alien.position.z = 0;
-        aliens.add( alien );
-     }
-
   for (var i = 1; i <= 10 ; i++) {
-     var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
+      var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
       alien.position.x = (3 * i) + xOffset;
       alien.position.y = 1;
-     alien.position.z = 4;
-     aliens.add( alien );
+      alien.position.z = 0;
+      aliens.add( alien );
+   }
+
+  for (var i = 1; i <= 10 ; i++) {
+      var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
+      alien.position.x = (3 * i) + xOffset;
+      alien.position.y = 1;
+      alien.position.z = 4;
+      aliens.add( alien );
    }
 
     for (var i = 1; i <= 10 ; i++) {
-           var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
-            alien.position.x = (3 * i) + xOffset;
-            alien.position.y = 1;
-            alien.position.z = 8;
-           aliens.add( alien );
+        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
+        alien.position.x = (3 * i) + xOffset;
+        alien.position.y = 1;
+        alien.position.z = 8;
+        aliens.add( alien );
     }
+
     soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
     soucoupe.position.set(-30, 1, 20);
     soucoupe.visible = false;
@@ -124,8 +127,11 @@ function init() {
     scene.add( soucoupe );
 
     //TODO: Création des 4 boucliers :
-
-
+    const geometryWield = new THREE.PlaneGeometry( 6, 4 );
+    const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide} );
+    const plane = new THREE.Mesh( geometryWield , materialWield  );
+    plane.position.set(15, 1, -20);
+    scene.add( plane );
 
     const fps  = 60;
     const slow = 1; // slow motion! 1: normal speed, 2: half speed...
@@ -158,7 +164,7 @@ function gameLoop() {
         ActiveTir();
       }
   }
-//tir
+
   if (tirEnCours) {
     bullet.position.z += 0.8;
     if (bullet.position.z > 25) {
@@ -166,12 +172,13 @@ function gameLoop() {
     }
   }
 
-/// Déplacement des Aliens  :
-
-/// Apparition de la soucoupe volante de temps en temps
-  soucoupe.visible = true;
-  soucoupe.position.x += 0.2;
-  soucoupe.rotateZ(Math.PI/14);
+  //TODO : Mettre un intervalle de temps
+    if (Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
+      console.log("OK !!!");
+      ApparitionSoucoupe = true;
+      soucoupe.visible = true;
+      soucoupe.position.x = -30;
+    }
 
 
   renderer.render(scene, camera);  // rendu de la scène
@@ -197,7 +204,16 @@ function update(step) {
     } else {
       aliens.position.x -=move;
     }
-  //Mouvements de la soucoupe :
+
+    /// Apparition de la soucoupe volante de temps en temps ex toutes les 8 secondes
+    if (soucoupe.position.x <30 && ApparitionSoucoupe) {
+      soucoupe.position.x += 0.2;
+      soucoupe.rotateZ(Math.PI/14);
+    } else {
+      soucoupe.visible = false;
+      ApparitionSoucoupe = false;
+    }
+
 }
 
 function resize() {
