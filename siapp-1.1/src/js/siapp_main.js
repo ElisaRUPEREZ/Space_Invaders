@@ -7,30 +7,16 @@ let bullet;
 let soucoupe;
 let aliens;
 let tirEnCours = false;
+let moveDir = true; /// sens de déplacement des aliens
 
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
-
-let SpacePressed = false;
-
+var keyboard = new THREEx.KeyboardState();
+var clock = new THREE.Clock();
 function keyPressed(e) {
   console.log("event key !");
   switch(e.key) {
-    case 'ArrowLeft':
-       vaisseau.position.x += 0.4;
-          //console.log("coord : " + vaisseau.position.x);
-        break;
-    case 'ArrowRight':
-          vaisseau.position.x -= 0.4;
-        break;
-    case ' ':
-          if (!tirEnCours) {
-            ActiveTir();
-          }
-          console.log("tirer un missile");
-    break;
-
     case '0':
           camera.position.set(0, 50, 0);
     break;
@@ -58,7 +44,6 @@ function init() {
   container = document.querySelector('#siapp');
   w = container.clientWidth;
   h = container.clientHeight;
-
   scene = new THREE.Scene();
 
 // Caméra vue de DESSUS :
@@ -85,7 +70,7 @@ function init() {
   stats.domElement.style.bottom	= '0px';
   document.body.appendChild( stats.domElement );
  // GridHelper
-  const gridHelper = new THREE.GridHelper( 50, 50);
+  const gridHelper = new THREE.GridHelper(50, 50);
   scene.add(gridHelper);
 
   // add some geometries
@@ -93,7 +78,7 @@ function init() {
   const material = new THREE.MeshNormalMaterial( );
   vaisseau = new THREE.Mesh( geometry, material, );
 
-  vaisseau.position.set(0, 1.5, -20);
+  vaisseau.position.set(0, 1, -20);
   scene.add( vaisseau );
 // Balle 1 à la fois disparait lorsque elle atteint le bout du plateau ou touche sa cible
   const geometryS = new THREE.SphereGeometry(0.5);
@@ -112,7 +97,7 @@ function init() {
     for (var i = 1; i <= 10 ; i++) {
         var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
         alien.position.x = (3 * i) + xOffset;
-        alien.position.y = 1.5;
+        alien.position.y = 1;
         alien.position.z = 0;
         aliens.add( alien );
      }
@@ -120,7 +105,7 @@ function init() {
   for (var i = 1; i <= 10 ; i++) {
      var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
       alien.position.x = (3 * i) + xOffset;
-      alien.position.y = 1.5;
+      alien.position.y = 1;
      alien.position.z = 4;
      aliens.add( alien );
    }
@@ -128,7 +113,7 @@ function init() {
     for (var i = 1; i <= 10 ; i++) {
            var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
             alien.position.x = (3 * i) + xOffset;
-            alien.position.y = 1.5;
+            alien.position.y = 1;
             alien.position.z = 8;
            aliens.add( alien );
     }
@@ -138,48 +123,60 @@ function init() {
     soucoupe.rotateX(Math.PI/2);
     scene.add( soucoupe );
 
+    //TODO: Création des 4 boucliers :
 
-  const fps  = 60;
-  const slow = 1; // slow motion! 1: normal speed, 2: half speed...
-  loop.dt       = 0,
-  loop.now      = timestamp();
-  loop.last     = loop.now;
-  loop.fps      = fps;
-  loop.step     = 1/loop.fps;
-  loop.slow     = slow;
-  loop.slowStep = loop.slow * loop.step;
+
+
+    const fps  = 60;
+    const slow = 1; // slow motion! 1: normal speed, 2: half speed...
+    loop.dt       = 0,
+    loop.now      = timestamp();
+    loop.last     = loop.now;
+    loop.fps      = fps;
+    loop.step     = 1/loop.fps;
+    loop.slow     = slow;
+    loop.slowStep = loop.slow * loop.step;
 
 }
-
 function gameLoop() {
 
   // gestion de l'incrément du temps
-/*  loop.now = timestamp();
+  loop.now = timestamp();
   loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
   while(loop.dt > loop.slowStep) {
     loop.dt = loop.dt - loop.slowStep;
     update(loop.step); // déplace les objets d'une fraction de seconde
-  }*/
-  /// Déplacement des Aliens  :
+  }
+
+//Déplacements du vaisseau
+  if ( keyboard.pressed("left") )
+    vaisseau.position.x += 0.2;
+  if ( keyboard.pressed("right") )
+    vaisseau.position.x -= 0.2;
+  if ( keyboard.pressed("space") ){
+      if (!tirEnCours) {
+        ActiveTir();
+      }
+  }
+//tir
+  if (tirEnCours) {
+    bullet.position.z += 0.8;
+    if (bullet.position.z > 25) {
+      DesactiveTir();
+    }
+  }
+
+/// Déplacement des Aliens  :
 
 /// Apparition de la soucoupe volante de temps en temps
   soucoupe.visible = true;
-  soucoupe.position.x += 0.3;
-  soucoupe.rotateZ(Math.PI/12);
-
-  //Event keyboard
-    if (tirEnCours) {
-      bullet.position.z += 0.8;
-      if (bullet.position.z > 25) {
-        DesactiveTir();
-      }
-    }
-
-
+  soucoupe.position.x += 0.2;
+  soucoupe.rotateZ(Math.PI/14);
 
 
   renderer.render(scene, camera);  // rendu de la scène
-//  loop.last = loop.now;
+
+  loop.last = loop.now;
 
   requestAnimationFrame(gameLoop); // relance la boucle du jeu
 
@@ -188,8 +185,19 @@ function gameLoop() {
 }
 
 function update(step) {
-  const angleIncr = Math.PI * 2 * step / 5 ; // une rotation complète en 5 secondes
-  cube.rotateY(angleIncr);
+  const move = 2 * step;
+
+  //Mouvements des Aliens  :
+    if (Math.abs(aliens.position.x) >=9) {
+      aliens.position.z-=1;
+      moveDir = !moveDir;
+    }
+    if (moveDir) {
+      aliens.position.x +=move;
+    } else {
+      aliens.position.x -=move;
+    }
+  //Mouvements de la soucoupe :
 }
 
 function resize() {
