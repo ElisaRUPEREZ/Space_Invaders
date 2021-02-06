@@ -103,7 +103,7 @@ function init() {
 
 
   for (var i = 1; i <= 10 ; i++) {
-     var alien = new THREE.Mesh( geometryA, new THREE.MeshBasicMaterial({color: 0x0f04cf, shininess: 80}), );
+     var alien = new THREE.Mesh( geometryA, new THREE.MeshBasicMaterial({color: 0x0f04cf}), );
       alien.position.x = (3.5 * i) + xOffset;
       alien.position.y = 1.5;
      alien.position.z = 4;
@@ -111,7 +111,7 @@ function init() {
    }
 
     for (var i = 1; i <= 10 ; i++) {
-           var alien = new THREE.Mesh( geometryA, new THREE.MeshBasicMaterial({color: 0xcd5c5c, shininess: 80}), );
+           var alien = new THREE.Mesh( geometryA, new THREE.MeshBasicMaterial({color: 0xcd5c5c}), );
             alien.position.x = (3.5 * i) + xOffset;
             alien.position.y = 1.5;
             alien.position.z = 8;
@@ -123,6 +123,7 @@ function init() {
     sphere = new THREE.Mesh( geometryS, materialS, );
 
     sphere.position.set(0, 2, -5);
+
     scene.add( sphere );
 
 
@@ -149,7 +150,6 @@ function gameLoop() {
   }*/
 
   //Déplacement des aliens
-
 
 
 
