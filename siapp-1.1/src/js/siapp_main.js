@@ -3,24 +3,31 @@
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
 let vaisseau;
-let sphere;
+let bullet;
+let soucoupe;
 let aliens;
+let tirEnCours = false;
 
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
 
-function keyPressed(e){
-  console.log("event key    !");
+let SpacePressed = false;
+
+function keyPressed(e) {
+  console.log("event key !");
   switch(e.key) {
     case 'ArrowLeft':
-          vaisseau.position.x += 0.4;
+       vaisseau.position.x += 0.4;
           //console.log("coord : " + vaisseau.position.x);
         break;
     case 'ArrowRight':
           vaisseau.position.x -= 0.4;
         break;
     case ' ':
+          if (!tirEnCours) {
+            ActiveTir();
+          }
           console.log("tirer un missile");
     break;
 
@@ -58,6 +65,10 @@ function init() {
   camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
   camera.position.set(0, 50, 0);
 
+  const light = new THREE.DirectionalLight(0xFFFFFF, 1);
+  light.position.set(-15, 15,-25);
+  scene.add(light);
+
   controls = new THREE.TrackballControls(camera, container);
   controls.target = new THREE.Vector3(0, 0, 0.75);
   controls.panSpeed = 0.4;
@@ -84,47 +95,48 @@ function init() {
 
   vaisseau.position.set(0, 1.5, -20);
   scene.add( vaisseau );
+// Balle 1 à la fois disparait lorsque elle atteint le bout du plateau ou touche sa cible
+  const geometryS = new THREE.SphereGeometry(0.5);
+  const materialS = new THREE.MeshNormalMaterial( );
+  bullet = new THREE.Mesh( geometryS, materialS, );
+  bullet.visible = false;
+  scene.add( bullet );
 
   aliens = new THREE.Group();
   scene.add(aliens);
 
   const geometryA = new THREE.BoxGeometry(2,2,2);
   const materialA = new THREE.MeshBasicMaterial();
-  var xOffset = -20;
+  var xOffset = -17;
 
     for (var i = 1; i <= 10 ; i++) {
-        var alien = new THREE.Mesh( geometryA, new THREE.MeshBasicMaterial({color: 0x34c924}), );
-        alien.position.x = (3.5 * i) + xOffset;
+        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
+        alien.position.x = (3 * i) + xOffset;
         alien.position.y = 1.5;
         alien.position.z = 0;
         aliens.add( alien );
      }
 
-
-
   for (var i = 1; i <= 10 ; i++) {
-     var alien = new THREE.Mesh( geometryA, new THREE.MeshBasicMaterial({color: 0x0f04cf}), );
-      alien.position.x = (3.5 * i) + xOffset;
+     var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
+      alien.position.x = (3 * i) + xOffset;
       alien.position.y = 1.5;
      alien.position.z = 4;
      aliens.add( alien );
    }
 
     for (var i = 1; i <= 10 ; i++) {
-           var alien = new THREE.Mesh( geometryA, new THREE.MeshBasicMaterial({color: 0xcd5c5c}), );
-            alien.position.x = (3.5 * i) + xOffset;
+           var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
+            alien.position.x = (3 * i) + xOffset;
             alien.position.y = 1.5;
             alien.position.z = 8;
            aliens.add( alien );
     }
-
-    const geometryS = new THREE.SphereGeometry(0.5);
-    const materialS = new THREE.MeshNormalMaterial( );
-    sphere = new THREE.Mesh( geometryS, materialS, );
-
-    sphere.position.set(0, 2, -5);
-
-    scene.add( sphere );
+    soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
+    soucoupe.position.set(-30, 1, 20);
+    soucoupe.visible = false;
+    soucoupe.rotateX(Math.PI/2);
+    scene.add( soucoupe );
 
 
   const fps  = 60;
@@ -148,8 +160,20 @@ function gameLoop() {
     loop.dt = loop.dt - loop.slowStep;
     update(loop.step); // déplace les objets d'une fraction de seconde
   }*/
+  /// Déplacement des Aliens  :
 
-  //Déplacement des aliens
+/// Apparition de la soucoupe volante de temps en temps
+  soucoupe.visible = true;
+  soucoupe.position.x += 0.3;
+  soucoupe.rotateZ(Math.PI/12);
+
+  //Event keyboard
+    if (tirEnCours) {
+      bullet.position.z += 0.8;
+      if (bullet.position.z > 25) {
+        DesactiveTir();
+      }
+    }
 
 
 
@@ -178,4 +202,20 @@ function resize() {
 
 function timestamp() {
   return window.performance.now();
+}
+/***
+  function active le tir (balle visible et placée à l'endroit du vaisseau)
+  function arrete la balle (rend invisible et arrete le déplacement)
+*/
+
+function ActiveTir() {
+  tirEnCours = true;
+  bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
+  bullet.visible = true;
+}
+
+function DesactiveTir() {
+  tirEnCours = false;
+  bullet.position.set(0, 1, -30);
+  bullet.visible = false;
 }
