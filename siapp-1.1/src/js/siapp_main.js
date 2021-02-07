@@ -2,6 +2,7 @@
 
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
+let cameraMode = 0;
 let vaisseau;
 let bullet;
 let soucoupe;
@@ -17,20 +18,23 @@ window.addEventListener('keydown', keyPressed);
 var keyboard = new THREEx.KeyboardState();
 
 function keyPressed(e) {
-  console.log("event key !");
   switch(e.key) {
     case '0':
-          camera.position.set(0, 50, 0);
+          cameraMode = 0;
+          camera.position.set(0, 40, 0);
     break;
 
     case '1':
-          camera.position.set(0, 15, -30);
+        cameraMode = 1;
     break;
     case 'i':
           console.log("invincible");
     break;
     case 'k':
           console.log("kill all");
+    break;
+    case 'h':
+          console.log("Affiche les raccourcis claviers");
     break;
   }
   e.preventDefault();
@@ -48,9 +52,9 @@ function init() {
   h = container.clientHeight;
   scene = new THREE.Scene();
 
-// Caméra vue de DESSUS :
+// Caméra
   camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
-  camera.position.set(0, 50, 0);
+  camera.position.set(0, 40, 0);
 
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
   light.position.set(-15, 15,-25);
@@ -71,6 +75,7 @@ function init() {
   stats.domElement.style.position	= 'absolute';
   stats.domElement.style.bottom	= '0px';
   document.body.appendChild( stats.domElement );
+
  // GridHelper
   const gridHelper = new THREE.GridHelper(50, 50);
   scene.add(gridHelper);
@@ -79,9 +84,9 @@ function init() {
   const geometry = new THREE.BoxGeometry(4,2,2);
   const material = new THREE.MeshNormalMaterial( );
   vaisseau = new THREE.Mesh( geometry, material, );
-
   vaisseau.position.set(0, 1, -22);
   scene.add( vaisseau );
+
 // Balle 1 à la fois disparait lorsque elle atteint le bout du plateau ou touche sa cible
   const geometryS = new THREE.SphereGeometry(0.5);
   const materialS = new THREE.MeshNormalMaterial( );
@@ -119,7 +124,7 @@ function init() {
         alien.position.z = 8;
         aliens.add( alien );
     }
-
+    //soucoupe volante
     soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
     soucoupe.position.set(-30, 1, 20);
     soucoupe.visible = false;
@@ -128,7 +133,7 @@ function init() {
 
     //TODO: Création des 4 boucliers :
     const geometryWield = new THREE.PlaneGeometry( 6, 4 );
-    const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide} );
+    const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide, transparent: true, opacity: 0.8} );
     const plane = new THREE.Mesh( geometryWield , materialWield  );
     plane.position.set(15, 1, -20);
     scene.add( plane );
@@ -153,7 +158,11 @@ function gameLoop() {
     loop.dt = loop.dt - loop.slowStep;
     update(loop.step); // déplace les objets d'une fraction de seconde
   }
-
+//Déplacement caméra selon le vaisseau
+if (cameraMode == 1) {
+  camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
+  camera.position.set(vaisseau.position.x, 10, vaisseau.position.z-10);
+}
 //Déplacements du vaisseau
   if ( keyboard.pressed("left") )
     vaisseau.position.x += 0.2;
