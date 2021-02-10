@@ -10,10 +10,27 @@ let aliens;
 let tirEnCours = false;
 let moveDir = true; /// sens de déplacement des aliens
 let ApparitionSoucoupe = false;
-
+let collidableMeshList = [];
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
+
+function collision() {
+
+    var originPoint = bullet.position.clone();
+    for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
+        var ray = new THREE.Raycaster( bullet.position, bullet.geometry.vertices[vertexIndex], 0, 0.8 );
+        var collisionResults = ray.intersectObjects( collidableMeshList);
+        if ( collisionResults.length > 0)  { //id ou uuid ????
+          // console.log(collisionResults[0].object.id);
+           console.log(collisionResults[0].object.id);
+           var object = scene.getObjectById( collisionResults[0].object.id, true );
+           object.position.y = 8;
+           object.visible= false;
+           DesactiveTir();
+        }
+    }
+}
 
 var keyboard = new THREEx.KeyboardState();
 
@@ -91,7 +108,8 @@ function init() {
   const geometryS = new THREE.SphereGeometry(0.5);
   const materialS = new THREE.MeshNormalMaterial( );
   bullet = new THREE.Mesh( geometryS, materialS, );
-  bullet.visible = false;
+  //bullet.visible = false;
+  bullet.position.set(0,1,-22);
   scene.add( bullet );
 
   aliens = new THREE.Group();
@@ -107,6 +125,7 @@ for (var k = 0; k <= 1; k++) {
       alien.position.y = 1;
       alien.position.z = 4*k;
       aliens.add( alien );
+      collidableMeshList.push(alien);
    }
 }
 
@@ -117,6 +136,7 @@ for (var k = 0; k <= 1; k++) {
       alien.position.y = 1;
       alien.position.z = 8 +(4*k); // 8 et 12
       aliens.add( alien );
+      collidableMeshList.push(alien);
    }
 }
 
@@ -126,6 +146,7 @@ for (var k = 0; k <= 1; k++) {
         alien.position.y = 1;
         alien.position.z = 16;
         aliens.add( alien );
+        collidableMeshList.push(alien);
     }
     //soucoupe volante
     soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
@@ -133,6 +154,7 @@ for (var k = 0; k <= 1; k++) {
     soucoupe.visible = false;
     soucoupe.rotateX(Math.PI/2);
     scene.add( soucoupe );
+    collidableMeshList.push(soucoupe);
 
     //TODO: Création des 4 boucliers :
     const geometryWield = new THREE.PlaneGeometry( 6, 4 );
@@ -140,10 +162,7 @@ for (var k = 0; k <= 1; k++) {
     const plane = new THREE.Mesh( geometryWield , materialWield  );
     plane.position.set(15, 1, -20);
     scene.add( plane );
-
-    //RAYCAST
-    raycaster = new THREE.Raycaster();
-
+  ///  collidableMeshList.push(plane);
 
     const fps  = 60;
     const slow = 1; // slow motion! 1: normal speed, 2: half speed...
@@ -182,6 +201,7 @@ if (cameraMode == 1) {
   }
 
   if (tirEnCours) {
+    collision();
     bullet.position.z += 0.8;
     if (bullet.position.z > 25) {
       DesactiveTir();
@@ -229,6 +249,9 @@ function update(step) {
       ApparitionSoucoupe = false;
     }
 
+    if (!tirEnCours) {
+      bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
+    }
 }
 
 function resize() {
@@ -250,11 +273,11 @@ function timestamp() {
 function ActiveTir() {
   tirEnCours = true;
   bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
-  bullet.visible = true;
+//  bullet.visible = true;
 }
 
 function DesactiveTir() {
   tirEnCours = false;
-  bullet.position.set(0, 1, -30);
-  bullet.visible = false;
+  bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
+//  bullet.visible = false;
 }
