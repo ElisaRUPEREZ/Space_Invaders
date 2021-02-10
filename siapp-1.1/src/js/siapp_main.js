@@ -100,33 +100,36 @@ function init() {
   const geometryA = new THREE.BoxGeometry(2,2,2);
   const materialA = new THREE.MeshBasicMaterial();
   var xOffset = -17;
-
+for (var k = 0; k <= 1; k++) {
   for (var i = 1; i <= 10 ; i++) {
       var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
       alien.position.x = (3 * i) + xOffset;
       alien.position.y = 1;
-      alien.position.z = 0;
+      alien.position.z = 4*k;
       aliens.add( alien );
    }
+}
 
+for (var k = 0; k <= 1; k++) {
   for (var i = 1; i <= 10 ; i++) {
       var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
       alien.position.x = (3 * i) + xOffset;
       alien.position.y = 1;
-      alien.position.z = 4;
+      alien.position.z = 8 +(4*k); // 8 et 12
       aliens.add( alien );
    }
+}
 
     for (var i = 1; i <= 10 ; i++) {
         var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
         alien.position.x = (3 * i) + xOffset;
         alien.position.y = 1;
-        alien.position.z = 8;
+        alien.position.z = 16;
         aliens.add( alien );
     }
     //soucoupe volante
     soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
-    soucoupe.position.set(-30, 1, 20);
+    soucoupe.position.set(-30, 1, 22);
     soucoupe.visible = false;
     soucoupe.rotateX(Math.PI/2);
     scene.add( soucoupe );
@@ -137,6 +140,10 @@ function init() {
     const plane = new THREE.Mesh( geometryWield , materialWield  );
     plane.position.set(15, 1, -20);
     scene.add( plane );
+
+    //RAYCAST
+    raycaster = new THREE.Raycaster();
+
 
     const fps  = 60;
     const slow = 1; // slow motion! 1: normal speed, 2: half speed...
@@ -183,7 +190,6 @@ if (cameraMode == 1) {
 
   //TODO : Mettre un intervalle de temps
     if (Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
-      console.log("OK !!!");
       ApparitionSoucoupe = true;
       soucoupe.visible = true;
       soucoupe.position.x = -30;
