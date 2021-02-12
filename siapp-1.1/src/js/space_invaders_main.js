@@ -12,7 +12,7 @@ let moveDir = true; /// sens de déplacement des aliens
 let ApparitionSoucoupe = false;
 let collidableMeshList = []; // liste objet pouvant être touchés par le joueur
 let collidableMeshPlayerList = []; //liste objets pouvant être touchés par les aliens
-
+let bulletAlTab = [];
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
@@ -30,8 +30,9 @@ function collision() {
              switch (object.userData[0]) {
                case "alien":
                  calculPoints(object.userData[1]);
-                 object.position.y = -8;
-                 object.visible= false;
+                 deleteAlien(object);
+                 //object.position.y = -8;
+                 //object.visible= false;
                  break;
                case "soucoupe":
                  calculPoints(object.userData[1]);
@@ -63,6 +64,7 @@ function keyPressed(e) {
     case 'i':
           console.log("invincible"); //attaques aliens sans aucun effets
           //enlever le vaisseau de la liste des collisions par les aliens liste
+          // + Les aliens ne bougent plus !!!!!
     break;
     case 'k':
           console.log("kill all");
@@ -124,27 +126,28 @@ function init() {
 
   createWield();
 
-    const fps  = 60;
-    const slow = 1; // slow motion! 1: normal speed, 2: half speed...
-    loop.dt       = 0,
-    loop.now      = timestamp();
-    loop.last     = loop.now;
-    loop.fps      = fps;
-    loop.step     = 1/loop.fps;
-    loop.slow     = slow;
-    loop.slowStep = loop.slow * loop.step;
+  const fps  = 60;
+  const slow = 1; // slow motion! 1: normal speed, 2: half speed...
+  loop.dt       = 0,
+  loop.now      = timestamp();
+  loop.last     = loop.now;
+  loop.fps      = fps;
+  loop.step     = 1/loop.fps;
+  loop.slow     = slow;
+  loop.slowStep = loop.slow * loop.step;
 
+  console.log(aliens.children);
 }
-function gameLoop() {
 
-  // gestion de l'incrément du temps
+function gameLoop() {
+    // gestion de l'incrément du temps
   loop.now = timestamp();
   loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
   while(loop.dt > loop.slowStep) {
     loop.dt = loop.dt - loop.slowStep;
     update(loop.step); // déplace les objets d'une fraction de seconde
   }
-  
+
 //Déplacement caméra selon le vaisseau
 if (cameraMode == 1) {
   camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
@@ -152,9 +155,9 @@ if (cameraMode == 1) {
 }
 
 //Déplacements du vaisseau
-  if ( keyboard.pressed("left") )
+  if (keyboard.pressed("left") && vaisseau.position.x<25)
     vaisseau.position.x += 0.2;
-  if ( keyboard.pressed("right") )
+  if ( keyboard.pressed("right") && vaisseau.position.x>-25)
     vaisseau.position.x -= 0.2;
   if ( keyboard.pressed("space") ){
       if (!tirEnCours) {
@@ -178,7 +181,10 @@ if (cameraMode == 1) {
     }
 
 // DEFINI ALIEN QUI Tire
-
+    TirAlien(); ///
+    if (bulletAlTab.length >0) {
+      MoveTirAlien();
+    }
 
   renderer.render(scene, camera);  // rendu de la scène
 
