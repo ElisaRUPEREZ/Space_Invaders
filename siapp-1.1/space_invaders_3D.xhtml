@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>SIApp</title>
+		<title>Space Invaders 3D</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 		<link href="./css/siapp.css" rel="stylesheet" type="text/css" />
@@ -22,7 +22,6 @@
 	 -->
 
 	<div id="siapp"><!-- La 3D insérée ici --></div>
-
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.js"></script>
 
@@ -32,9 +31,12 @@
 
 	<!-- Par exemple pour TrackballControls : https://github.com/mrdoob/three.js/tree/dev/examples/js/controls -->
 	<script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>
-	<script src="src/lib/THREEx.KeyboardState.js"></script>
+	<script src="src/lib/THREEx.KeyboardState.js"></script> <!-- facilite la reconnaissance des touches-->
 
 	<!-- Code personnel -->
-	<script src="./src/js/siapp_main.js"></script>
+	<script src="./src/js/space_invaders_main.js"></script>
+	<script src="./src/js/alien.js"></script>
+	<script src="./src/js/player.js"></script>
+	<script src="./src/js/points.js"></script>
 </body>
 </html>

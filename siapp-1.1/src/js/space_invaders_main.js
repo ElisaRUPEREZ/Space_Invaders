@@ -10,7 +10,9 @@ let aliens;
 let tirEnCours = false;
 let moveDir = true; /// sens de déplacement des aliens
 let ApparitionSoucoupe = false;
-let collidableMeshList = [];
+let collidableMeshList = []; // liste objet pouvant être touchés par le joueur
+let collidableMeshPlayerList = []; //liste objets pouvant être touchés par les aliens
+
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
@@ -20,14 +22,28 @@ function collision() {
     var originPoint = bullet.position.clone();
     for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
         var ray = new THREE.Raycaster( bullet.position, bullet.geometry.vertices[vertexIndex], 0, 0.8 );
+
         var collisionResults = ray.intersectObjects( collidableMeshList);
         if ( collisionResults.length > 0)  { //id ou uuid ????
-          // console.log(collisionResults[0].object.id);
-           console.log(collisionResults[0].object.id);
-           var object = scene.getObjectById( collisionResults[0].object.id, true );
-           object.position.y = 8;
-           object.visible= false;
-           DesactiveTir();
+           var object = scene.getObjectById( collisionResults[0].object.id);
+           if (object != undefined) {
+             switch (object.userData[0]) {
+               case "alien":
+                 calculPoints(object.userData[1]);
+                 object.position.y = -8;
+                 object.visible= false;
+                 break;
+               case "soucoupe":
+                 calculPoints(object.userData[1]);
+                 object.visible= false;
+                 break;
+               case "bouclier":
+                 calculPVbouclier(object);
+                 break;
+             }
+             DesactiveTir();
+           }
+
         }
     }
 }
@@ -45,10 +61,13 @@ function keyPressed(e) {
         cameraMode = 1;
     break;
     case 'i':
-          console.log("invincible");
+          console.log("invincible"); //attaques aliens sans aucun effets
+          //enlever le vaisseau de la liste des collisions par les aliens liste
     break;
     case 'k':
           console.log("kill all");
+          scene.remove(aliens);
+          scene.remove(soucoupe);
     break;
     case 'h':
           console.log("Affiche les raccourcis claviers");
@@ -97,72 +116,13 @@ function init() {
   const gridHelper = new THREE.GridHelper(50, 50);
   scene.add(gridHelper);
 
-  // add some geometries
-  const geometry = new THREE.BoxGeometry(4,2,2);
-  const material = new THREE.MeshNormalMaterial( );
-  vaisseau = new THREE.Mesh( geometry, material, );
-  vaisseau.position.set(0, 1, -22);
-  scene.add( vaisseau );
+  createVaisseau();
 
-// Balle 1 à la fois disparait lorsque elle atteint le bout du plateau ou touche sa cible
-  const geometryS = new THREE.SphereGeometry(0.5);
-  const materialS = new THREE.MeshNormalMaterial( );
-  bullet = new THREE.Mesh( geometryS, materialS, );
-  //bullet.visible = false;
-  bullet.position.set(0,1,-22);
-  scene.add( bullet );
+  createBullet();
 
-  aliens = new THREE.Group();
-  scene.add(aliens);
+  createAliens();
 
-  const geometryA = new THREE.BoxGeometry(2,2,2);
-  const materialA = new THREE.MeshBasicMaterial();
-  var xOffset = -17;
-for (var k = 0; k <= 1; k++) {
-  for (var i = 1; i <= 10 ; i++) {
-      var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
-      alien.position.x = (3 * i) + xOffset;
-      alien.position.y = 1;
-      alien.position.z = 4*k;
-      aliens.add( alien );
-      collidableMeshList.push(alien);
-   }
-}
-
-for (var k = 0; k <= 1; k++) {
-  for (var i = 1; i <= 10 ; i++) {
-      var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
-      alien.position.x = (3 * i) + xOffset;
-      alien.position.y = 1;
-      alien.position.z = 8 +(4*k); // 8 et 12
-      aliens.add( alien );
-      collidableMeshList.push(alien);
-   }
-}
-
-    for (var i = 1; i <= 10 ; i++) {
-        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
-        alien.position.x = (3 * i) + xOffset;
-        alien.position.y = 1;
-        alien.position.z = 16;
-        aliens.add( alien );
-        collidableMeshList.push(alien);
-    }
-    //soucoupe volante
-    soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
-    soucoupe.position.set(-30, 1, 22);
-    soucoupe.visible = false;
-    soucoupe.rotateX(Math.PI/2);
-    scene.add( soucoupe );
-    collidableMeshList.push(soucoupe);
-
-    //TODO: Création des 4 boucliers :
-    const geometryWield = new THREE.PlaneGeometry( 6, 4 );
-    const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide, transparent: true, opacity: 0.8} );
-    const plane = new THREE.Mesh( geometryWield , materialWield  );
-    plane.position.set(15, 1, -20);
-    scene.add( plane );
-  ///  collidableMeshList.push(plane);
+  createWield();
 
     const fps  = 60;
     const slow = 1; // slow motion! 1: normal speed, 2: half speed...
@@ -184,11 +144,13 @@ function gameLoop() {
     loop.dt = loop.dt - loop.slowStep;
     update(loop.step); // déplace les objets d'une fraction de seconde
   }
+  
 //Déplacement caméra selon le vaisseau
 if (cameraMode == 1) {
   camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
   camera.position.set(vaisseau.position.x, 10, vaisseau.position.z-10);
 }
+
 //Déplacements du vaisseau
   if ( keyboard.pressed("left") )
     vaisseau.position.x += 0.2;
@@ -215,6 +177,8 @@ if (cameraMode == 1) {
       soucoupe.position.x = -30;
     }
 
+// DEFINI ALIEN QUI Tire
+
 
   renderer.render(scene, camera);  // rendu de la scène
 
@@ -224,6 +188,7 @@ if (cameraMode == 1) {
 
   controls.update();
   stats.update();
+
 }
 
 function update(step) {
@@ -252,6 +217,7 @@ function update(step) {
     if (!tirEnCours) {
       bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
     }
+
 }
 
 function resize() {
@@ -264,20 +230,4 @@ function resize() {
 
 function timestamp() {
   return window.performance.now();
-}
-/***
-  function active le tir (balle visible et placée à l'endroit du vaisseau)
-  function arrete la balle (rend invisible et arrete le déplacement)
-*/
-
-function ActiveTir() {
-  tirEnCours = true;
-  bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
-//  bullet.visible = true;
-}
-
-function DesactiveTir() {
-  tirEnCours = false;
-  bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
-//  bullet.visible = false;
 }
