@@ -3,22 +3,57 @@
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
 let cameraMode = 0;
+//objects :
 let vaisseau;
 let bullet;
 let soucoupe;
 let aliens;
+
+let vaissBoucliers;
+//booleans :
 let tirEnCours = false;
 let moveDir = true; /// sens de déplacement des aliens
 let ApparitionSoucoupe = false;
+//tabObjects
 let collidableMeshList = []; // liste objet pouvant être touchés par le joueur
-let collidableMeshPlayerList = []; //liste objets pouvant être touchés par les aliens
-let bulletAlTab = [];
+let bulletAlTabObject = [];
+let TabObstacles = [];
+
 window.addEventListener('load', go);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
 
-function collision() {
+function testCollision(BouclierVaisseau) { // TODO : collision des projectiles enemis sur bouclier et vaisseau: raycaster sur projectile, test dans le tableau qui contient 4 boucliers + vaisseau
 
+  var originPoint = BouclierVaisseau.position.clone();
+  for (var vertexIndex = 0; vertexIndex < BouclierVaisseau.geometry.vertices.length; vertexIndex++)
+    {
+    var localVertex = BouclierVaisseau.geometry.vertices[vertexIndex].clone();
+    var globalVertex = localVertex.applyMatrix4( BouclierVaisseau.matrix );
+    var directionVector = globalVertex.sub( BouclierVaisseau.position );
+
+    var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize());
+    var collisionResults = ray.intersectObjects( bulletAlTabObject );
+    if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() )
+      var res = scene.getObjectById( collisionResults[0].object.id);
+      if (res!=undefined) {
+          switch (BouclierVaisseau.userData[0]) {
+            case "bouclier":
+                deleteBullet(res); // Plutot les ajouter dans un tableau à supprimer puis supprimer des 2 tableaux
+                calculPVbouclier(BouclierVaisseau);
+              break;
+            case "vaisseau":
+                deleteBullet(res);
+                calculPVvaisseau(BouclierVaisseau);
+              break;
+          }
+      }
+
+    }
+
+}
+
+function collision() { // collision du tir du joueur sur les aliens, soucoupe, boucliers
     var originPoint = bullet.position.clone();
     for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
         var ray = new THREE.Raycaster( bullet.position, bullet.geometry.vertices[vertexIndex], 0, 0.8 );
@@ -31,8 +66,6 @@ function collision() {
                case "alien":
                  calculPoints(object.userData[1]);
                  deleteAlien(object);
-                 //object.position.y = -8;
-                 //object.visible= false;
                  break;
                case "soucoupe":
                  calculPoints(object.userData[1]);
@@ -40,6 +73,9 @@ function collision() {
                  break;
                case "bouclier":
                  calculPVbouclier(object);
+                 break;
+               case "bulletAlien":
+                 deleteBullet(object);
                  break;
              }
              DesactiveTir();
@@ -118,6 +154,10 @@ function init() {
   const gridHelper = new THREE.GridHelper(50, 50);
   scene.add(gridHelper);
 
+  vaissBoucliers = new THREE.Group();
+  scene.add(vaissBoucliers);
+
+
   createVaisseau();
 
   createBullet();
@@ -126,6 +166,23 @@ function init() {
 
   createWield();
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+  const loader = new THREE.FontLoader();
+
+loader.load( './src/medias/fonts/Imprint_MT_Shadow_Regular.json', function ( font ) {
+
+	const geometry = new THREE.TextGeometry( 'Hello three.js!', {
+		font: font,
+		size: 80,
+		height: 5
+	} );
+} );
+*/
+//////////////////////////////////////////////////////////////////////////////////
   const fps  = 60;
   const slow = 1; // slow motion! 1: normal speed, 2: half speed...
   loop.dt       = 0,
@@ -135,8 +192,6 @@ function init() {
   loop.step     = 1/loop.fps;
   loop.slow     = slow;
   loop.slowStep = loop.slow * loop.step;
-
-  console.log(aliens.children);
 }
 
 function gameLoop() {
@@ -182,10 +237,14 @@ if (cameraMode == 1) {
 
 // DEFINI ALIEN QUI Tire
     TirAlien(); ///
-    if (bulletAlTab.length >0) {
+    if (bulletAlTabObject.length >0 && bulletAlTabObject!=undefined) {
       MoveTirAlien();
     }
-
+    for (var i = 0; i < vaissBoucliers.children.length; i++) { //Ne pas oublier de retirer les objets supprimés
+      if (vaissBoucliers.children[i] != undefined) {
+        testCollision(vaissBoucliers.children[i]);
+      }
+    } // UNE FOIS UTILISATION FINIE = COPIER LE TAB vaissBoucliers.children DANS TabObstacles
   renderer.render(scene, camera);  // rendu de la scène
 
   loop.last = loop.now;
@@ -200,7 +259,7 @@ if (cameraMode == 1) {
 function update(step) {
   const move = 2 * step;
 
-  //Mouvements des Aliens  :
+  //Mouvements des Aliens  : // // TODO: Modifier quand il n'y a plus beaucoup d'aliens
     if (Math.abs(aliens.position.x) >=9) {
       aliens.position.z-=1;
       moveDir = !moveDir;

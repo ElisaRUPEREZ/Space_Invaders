@@ -2,10 +2,10 @@
 *   1) On choisit un alien au hasard --> aliens.children
           - l'alien de doit pas être dans la liste des aliens qui tirent en ce moment
           - sinon on l'ajoute au tableau (juste l'uuid ou id)
-*   2) On créer une balle
+*   2) On crée une balle
           - tableau pour les tir enemis pour faire avancer seulement les balles tirées
 *   3) Déplacement de la balle
-*   4) Test des collisions
+*   4) Test des collisions // TODO:
     5) Supprimer la balle
         - on supprime la balle et l'alien dans les tableaux respectifs
 */
@@ -17,54 +17,50 @@
 //collision des projectiles : 4 boucliers le vaisseau et la balle tirée
 //userData ajout de l'id de la bullet associée
 function createBulletAlien(alienID) {
-  const geometryBA = new THREE.OctahedronGeometry(0.4);
+  const geometryBA = new THREE.OctahedronGeometry(0.6);
   const materialBA = new THREE.MeshBasicMaterial({color: 0x000000});
 
-  bulletAl = new THREE.Mesh( geometryBA, materialBA );
+  let bulletAl = new THREE.Mesh( geometryBA, materialBA );
 
   var al = scene.getObjectById(alienID);
   bulletAl.position.set(al.position.x,al.position.y,al.position.z);
 
-  bulletAl.userData = ["bulletAlien", alienID];
+  bulletAl.userData = ["bulletAlien"];
 
   aliens.add( bulletAl );
-  bulletAlTab.push(bulletAl.id);
-  collidableMeshList.push(bulletAl);
+  collidableMeshList.push(bulletAl); // ok
+  bulletAlTabObject.push(bulletAl);
 }
 
 function TirAlien() {
   var n = Math.round(Math.random()*4000);
   if ((aliens.children[n]!=undefined) && (aliens.children[n].userData[0]=="alien")) {
-    console.log("TROUVE " + aliens.children[n].id);
     createBulletAlien(aliens.children[n].id);
   }
-//
 }
 
 function MoveTirAlien() {
-
-  //  bulletAlien.position.z -= 0.8;
-    for (var i = 0; i < bulletAlTab.length; i++) {
-    /*  if (bulletAlien[i].children.position.z <-20) {
-        deleteBullet(bulletAlien[i].children);
-      }*/
-      scene.getObjectById(bulletAlTab[i]).position.z -= 0.3;
+    for (var i = 0; i < bulletAlTabObject.length; i++) {
+      if (bulletAlTabObject[i]!=undefined) {
+        if (bulletAlTabObject[i].position.z <-30) {
+          deleteBullet(bulletAlTabObject[i]);
+        } else {
+          bulletAlTabObject[i].position.z -= 0.2;
+        }
+      }
     }
 }
 
 function deleteBullet(object) {
-  bulletAlien.remove(object);
+//  var removedItem = bulletAlTab.splice(bulletAlTab.indexOf(object.id), 1);
+//  var removedItem2 = bulletAlObject.splice(bulletAlObject.indexOf(object.id), 1);
+  aliens.remove(object);
   object.geometry.dispose();
   object.material.dispose();
   object = undefined;
-//  object.userData[1] check if in the tab
 }
 
 function createAliens() {
-  bulletAlien = new THREE.Group();
-  scene.add(bulletAlien);
-
-
   aliens = new THREE.Group();
   scene.add(aliens);
 
@@ -81,7 +77,6 @@ function createAliens() {
             alien.userData = ["alien", 10];
             aliens.add( alien );
             collidableMeshList.push(alien);
-    //        createBulletAlien(alien.id);
          }
       }
 
