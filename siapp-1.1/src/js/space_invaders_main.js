@@ -24,10 +24,10 @@ window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
 
 function testCollision(BouclierVaisseau) { // TODO : collision des projectiles enemis sur bouclier et vaisseau: raycaster sur projectile, test dans le tableau qui contient 4 boucliers + vaisseau
-
+  var res; var vertexIndex = 0;
   var originPoint = BouclierVaisseau.position.clone();
-  for (var vertexIndex = 0; vertexIndex < BouclierVaisseau.geometry.vertices.length; vertexIndex++)
-    {
+  var touche = false;
+  while ((vertexIndex < BouclierVaisseau.geometry.vertices.length)&&(touche==false)) {
     var localVertex = BouclierVaisseau.geometry.vertices[vertexIndex].clone();
     var globalVertex = localVertex.applyMatrix4( BouclierVaisseau.matrix );
     var directionVector = globalVertex.sub( BouclierVaisseau.position );
@@ -35,9 +35,15 @@ function testCollision(BouclierVaisseau) { // TODO : collision des projectiles e
     var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize());
     var collisionResults = ray.intersectObjects( bulletAlTabObject );
     if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() )
-      var res = scene.getObjectById( collisionResults[0].object.id);
-      if (res!=undefined) {
-          switch (BouclierVaisseau.userData[0]) {
+      res = scene.getObjectById( collisionResults[0].object.id);
+        if (res!=undefined) {
+          touche = true;
+        }
+    vertexIndex++;
+    }
+
+    if (touche) {
+      switch (BouclierVaisseau.userData[0]) {
             case "bouclier":
                 deleteBullet(res); // Plutot les ajouter dans un tableau à supprimer puis supprimer des 2 tableaux
                 calculPVbouclier(BouclierVaisseau);
@@ -47,12 +53,15 @@ function testCollision(BouclierVaisseau) { // TODO : collision des projectiles e
                 calculPVvaisseau(BouclierVaisseau);
               break;
           }
-      }
-
     }
+}
+/*
+ {
 
 }
 
+
+*/
 function collision() { // collision du tir du joueur sur les aliens, soucoupe, boucliers
     var originPoint = bullet.position.clone();
     for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
