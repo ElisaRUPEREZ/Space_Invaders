@@ -199,7 +199,7 @@ function update(step) {
     // DEFINI ALIEN QUI Tire
         TirAlien(); ///
         if (bulletAlTabObject.length >0 && bulletAlTabObject!=undefined) {
-          MoveTirAlien();
+          MoveTirAlien(moveDir, move);
         }
         for (var i = 0; i < vaissBoucliers.children.length; i++) { //Ne pas oublier de retirer les objets supprimés
           if (vaissBoucliers.children[i] != undefined) {

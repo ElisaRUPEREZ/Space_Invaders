@@ -21,14 +21,19 @@ function TirAlien() {
   }
 }
 
-function MoveTirAlien() {
+function MoveTirAlien(moveDir, move) {
     for (var i = 0; i < bulletAlTabObject.length; i++) {
       if (bulletAlTabObject[i]!=undefined) {
-        if (bulletAlTabObject[i].position.z <-30) {
+      /*  if (bulletAlTabObject[i].position.z <-30) {
           deleteBullet(bulletAlTabObject[i]);
-        } else {
+        } else {*/
           bulletAlTabObject[i].position.z -= 0.2;
-        }
+          if (moveDir) {
+            bulletAlTabObject[i].position.x -=move;
+          } else {
+            bulletAlTabObject[i].position.x +=move;
+          }
+        //}
       }
     }
 }
