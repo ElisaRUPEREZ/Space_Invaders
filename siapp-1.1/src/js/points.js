@@ -1,5 +1,4 @@
 let points =0;
-let nbAliens = aliens.children.length;
 let niveau = 1;
 
 /*let stats = {

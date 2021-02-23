@@ -99,4 +99,40 @@ function deleteAlien(object) {
   object.geometry.dispose();
   object.material.dispose();
   object = undefined;
+  if (aliens.children.length==0) {
+    console.log("PLUS D'ALIENS !!!!!!!!");
+  }
+}
+
+function CollisionBulletAlien(BouclierVaisseau) { // TODO : collision des projectiles enemis sur bouclier et vaisseau: raycaster sur projectile, test dans le tableau qui contient 4 boucliers + vaisseau
+  var res; var vertexIndex = 0;
+  var originPoint = BouclierVaisseau.position.clone();
+  var touche = false;
+  while ((vertexIndex < BouclierVaisseau.geometry.vertices.length)&&(touche==false)) {
+    var localVertex = BouclierVaisseau.geometry.vertices[vertexIndex].clone();
+    var globalVertex = localVertex.applyMatrix4( BouclierVaisseau.matrix );
+    var directionVector = globalVertex.sub( BouclierVaisseau.position );
+
+    var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize());
+    var collisionResults = ray.intersectObjects( bulletAlTabObject );
+    if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() )
+      res = scene.getObjectById( collisionResults[0].object.id);
+        if (res!=undefined) {
+          touche = true;
+        }
+    vertexIndex++;
+    }
+
+    if (touche) {
+      switch (BouclierVaisseau.userData[0]) {
+            case "bouclier":
+                deleteBullet(res); // Plutot les ajouter dans un tableau à supprimer puis supprimer des 2 tableaux
+                calculPVbouclier(BouclierVaisseau);
+              break;
+            case "vaisseau":
+                deleteBullet(res);
+                calculPVvaisseau(BouclierVaisseau);
+              break;
+          }
+    }
 }
