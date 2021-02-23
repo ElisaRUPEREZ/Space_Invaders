@@ -1,12 +1,19 @@
 let points =0;
-let nbAliensTue;
-//let pv boucliers = [];
+let nbAliens = aliens.children.length;
+let niveau = 1;
+
+/*let stats = {
+    niveaux : 1, 2, 3,
+    vitesseAlien: 0.2, 0.4, 0.6,
+    PVvaisseau: 5, 4, 3
+    ProbaTirAlien: 4000, 2000, 1000
+}
+*/
 
 function calculPoints(pts) {
   points+=pts;
-  console.log("Points = " + points);
   // Partie Affichage :
-
+  document.getElementById("ScoreDiv").innerHTML=`<h1>Score <br />` + points + `</h1>`;
 }
 
 function removeObject(object) {
@@ -18,7 +25,6 @@ function removeObject(object) {
 
 function calculPVbouclier(object) {
   object.userData[1] -=1;
-  console.log("Bouclier PV : " + object.userData[1]);
   if (object.userData[1] == 0) {
   //  removeObject(object);
     vaissBoucliers.remove(object);
@@ -28,10 +34,45 @@ function calculPVbouclier(object) {
   }
 }
 
-function GameSuccess() {
+function GameSuccess() { // si tts les alien ont été tué ???
   //passer niv suivant
 }
 
-function GameOver() {
+function GameOver() { //si pv vaisseau ==0 ou alien touche le vaisseau ou alien touche la ligne de "terre"
   //recommencer le niveau
+}
+
+function createDisplayScore() {
+  var loader = new THREE.FontLoader();
+loader.load( '/src/medias/fonts/Imprint_MT_Shadow_Regular.json', function ( font ) {
+
+  var textGeometry = new THREE.TextGeometry( "Score :", {
+
+    font: font,
+
+    size: 4,
+    height: 2,
+  /*  curveSegments: 6,
+
+    bevelThickness: 1,
+    bevelSize: 1,
+    bevelEnabled: true
+*/
+  });
+
+  var textMaterial = new THREE.MeshPhongMaterial(
+    { color: 0xa3800f, specular: 0xffffff }
+  );
+
+  var mesh = new THREE.Mesh( textGeometry, textMaterial );
+  mesh.quaternion.copy(camera.quaternion);
+//  mesh.rotateX(Math.PI/2);
+//  mesh.rotateY(Math.PI);
+//  mesh.rotateZ(90);
+  scene.add( mesh );
+
+});
+
+
+
 }

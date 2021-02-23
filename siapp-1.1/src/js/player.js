@@ -33,7 +33,7 @@ function createBullet() {
     const geometryS = new THREE.SphereGeometry(0.4);
     const materialS = new THREE.MeshNormalMaterial( );
     bullet = new THREE.Mesh( geometryS, materialS, );
-    bullet.position.set(0,1,-22);
+    bullet.position.set(0,1,-22+5);
     scene.add( bullet );
     bullet.userData = ["bullet"];
 }
@@ -46,13 +46,11 @@ function createBullet() {
 function ActiveTir() {
   tirEnCours = true;
   bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
-//  bullet.visible = true;
 }
 
 function DesactiveTir() {
   tirEnCours = false;
   bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
-//  bullet.visible = false;
 }
 
 function calculPVvaisseau(object) {

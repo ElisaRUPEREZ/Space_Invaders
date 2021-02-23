@@ -1,22 +1,4 @@
-/*  PROCEDURE TIR DES ENEMIS
-*   1) On choisit un alien au hasard --> aliens.children
-          - l'alien de doit pas être dans la liste des aliens qui tirent en ce moment
-          - sinon on l'ajoute au tableau (juste l'uuid ou id)
-*   2) On crée une balle
-          - tableau pour les tir enemis pour faire avancer seulement les balles tirées
-*   3) Déplacement de la balle
-*   4) Test des collisions // TODO:
-    5) Supprimer la balle
-        - on supprime la balle et l'alien dans les tableaux respectifs
-*/
-
-
-//tableau d'alien qui tir
-// groupe de tir enemis --> on fait avancer tout le groupe et on peut chercher un tir en particulier AlBul.children
-//1 projectile par alien
-//collision des projectiles : 4 boucliers le vaisseau et la balle tirée
-//userData ajout de l'id de la bullet associée
-function createBulletAlien(alienID) {
+function createBulletAlien(alienID) { /// TODO: alternative au projectile dans le groupe aliens
   const geometryBA = new THREE.OctahedronGeometry(0.6);
   const materialBA = new THREE.MeshBasicMaterial({color: 0x000000});
 

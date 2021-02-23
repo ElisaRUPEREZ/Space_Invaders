@@ -55,13 +55,8 @@ function testCollision(BouclierVaisseau) { // TODO : collision des projectiles e
           }
     }
 }
-/*
- {
 
-}
-
-
-*/
+//Peut être améliorer la fonction comme celle au dessuss
 function collision() { // collision du tir du joueur sur les aliens, soucoupe, boucliers
     var originPoint = bullet.position.clone();
     for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
@@ -175,8 +170,7 @@ function init() {
 
   createWield();
 
-
-
+//createDisplayScore();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -231,7 +225,7 @@ if (cameraMode == 1) {
 
   if (tirEnCours) {
     collision();
-    bullet.position.z += 0.8;
+    bullet.position.z += 0.6;
     if (bullet.position.z > 25) {
       DesactiveTir();
     }
