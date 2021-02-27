@@ -9,10 +9,12 @@ let niveau = 1;
 }
 */
 
+
 function calculPoints(pts) {
   points+=pts;
+  let pointStr = "" + points;
   // Partie Affichage :
-  document.getElementById("ScoreDiv").innerHTML=`<h1>Score <br />` + points + `</h1>`;
+  document.getElementById("ScoreDiv").innerHTML=`<h1>Score <br />` + pointStr.padStart(3, '0') + `</h1>`;
 }
 
 function removeObject(object) {
@@ -39,6 +41,8 @@ function GameSuccess() { // si tts les alien ont été tué ???
 
 function GameOver() { //si pv vaisseau ==0 ou alien touche le vaisseau ou alien touche la ligne de "terre"
   //recommencer le niveau
+
+  //menu qui s'affiche recommencer le niveau ou revenir à l'écran titre
 }
 
 function createDisplayScore() {
@@ -71,7 +75,6 @@ loader.load( '/src/medias/fonts/Imprint_MT_Shadow_Regular.json', function ( font
   scene.add( mesh );
 
 });
-
 
 
 }

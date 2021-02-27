@@ -20,22 +20,25 @@ function TirAlien() {
     createBulletAlien(aliens.children[n].id);
   }
 }
+function testPositionBulletAlien() {
+  for (var i = 0; i < bulletAlTabObject.length; i++) {
+      if ((bulletAlTabObject[i]!=undefined)&&(bulletAlTabObject[i].position.z <-30)) {
+        deleteBullet(bulletAlTabObject[i]);
+      }
+  }
+}
 
 function MoveTirAlien(moveDir, move) {
     for (var i = 0; i < bulletAlTabObject.length; i++) {
       if (bulletAlTabObject[i]!=undefined) {
-      /*  if (bulletAlTabObject[i].position.z <-30) {
-          deleteBullet(bulletAlTabObject[i]);
-        } else {*/
           bulletAlTabObject[i].position.z -= 0.2;
           if (moveDir) {
             bulletAlTabObject[i].position.x -=move;
           } else {
             bulletAlTabObject[i].position.x +=move;
           }
-        //}
+        }
       }
-    }
 }
 
 function deleteBullet(object) {

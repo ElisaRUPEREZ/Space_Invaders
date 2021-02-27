@@ -8,9 +8,8 @@ function createWield() {
     plane.position.set(15 + (i*14) - 35, 1, -17);
     plane.userData = ["bouclier", 10];
     vaissBoucliers.add( plane );
-
     collidableMeshList.push(plane);
-    TabObstacles.push(plane);
+
   }
 
 }
@@ -24,7 +23,7 @@ function createVaisseau() {
     vaisseau.position.set(0, 1, -22);
     vaissBoucliers.add( vaisseau );
     vaisseau.userData = ["vaisseau", 3];
-    TabObstacles.push(vaisseau);
+    vaisseauID = vaisseau.id;
 }
 
 
@@ -63,32 +62,42 @@ function calculPVvaisseau(object) {
 //Peut être améliorer la fonction comme celle au dessuss
 function collision() { // collision du tir du joueur sur les aliens, soucoupe, boucliers
     var originPoint = bullet.position.clone();
-    for (var vertexIndex = 0; vertexIndex < bullet.geometry.vertices.length; vertexIndex++) {
-        var ray = new THREE.Raycaster( bullet.position, bullet.geometry.vertices[vertexIndex], 0, 0.8 );
+    var object; var vertexIndex = 0;
+    var touche = false;
+    while ((vertexIndex < bullet.geometry.vertices.length)&&(touche==false)) {
 
+      var localVertex = bullet.geometry.vertices[vertexIndex].clone();
+      var globalVertex = localVertex.applyMatrix4( bullet.matrix );
+      var directionVector = globalVertex.sub( bullet.position );
+
+        var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize());
         var collisionResults = ray.intersectObjects( collidableMeshList);
-        if ( collisionResults.length > 0)  { //id ou uuid ????
-           var object = scene.getObjectById( collisionResults[0].object.id);
-           if (object != undefined) {
-             switch (object.userData[0]) {
-               case "alien":
-                 calculPoints(object.userData[1]);
-                 deleteAlien(object);
-                 break;
-               case "soucoupe":
-                 calculPoints(object.userData[1]);
-                 object.visible= false;
-                 break;
-               case "bouclier":
-                 calculPVbouclier(object);
-                 break;
-               case "bulletAlien":
-                 deleteBullet(object);
-                 break;
-             }
-             DesactiveTir();
+        if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length())  { //id ou uuid ????
+          object = scene.getObjectById( collisionResults[0].object.id);
+           if (object != undefined && object.userData[0]!=undefined) {
+             touche = true;
            }
-
         }
+      vertexIndex++;
+    }
+
+    if (touche) {
+      switch (object.userData[0]) {
+        case "alien":
+          calculPoints(object.userData[1]);
+          deleteAlien(object);
+          break;
+        case "soucoupe":
+          calculPoints(object.userData[1]);
+          object.visible= false;
+          break;
+        case "bouclier":
+          calculPVbouclier(object);
+          break;
+        case "bulletAlien":
+          deleteBullet(object);
+          break;
+      }
+      DesactiveTir();
     }
 }
