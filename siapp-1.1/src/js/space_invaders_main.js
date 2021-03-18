@@ -55,20 +55,12 @@ function keyPressed(e) {
     break;
     case 'h':
       let styleDiv = document.getElementById('helpMenu').style.display;
-      if (styleDiv =="none") {
-        document.getElementById('helpMenu').style.display= "block";
+      if (styleDiv =="block") {
+        document.getElementById('helpMenu').style.display= "none";
       }
       else {
-        document.getElementById('helpMenu').style.display= "none";
+        document.getElementById('helpMenu').style.display= "block";
       }
-      /*  if (pause) {
-        pause = false;
-        document.getElementById('helpMenu').style.display= "none";
-        gameLoop();
-        } else {
-            pause = true;
-              document.getElementById('helpMenu').style.display= "block";
-    }*/
     break;
     case 'Escape':
         if (pause) {
