@@ -1,0 +1,19 @@
+html, body, #siapp, #mainMenu, #helpMenu{
+  background: lightgrey;
+}
+
+
+#ScoreDiv { /*pour texte couleur blanc et contour noir*/
+  color: black;
+}
+
+
+#mainMenu {
+  background-color: white;
+  color: black;
+}
+
+#helpMenu {
+  background-color: white;
+  color: black;
+}

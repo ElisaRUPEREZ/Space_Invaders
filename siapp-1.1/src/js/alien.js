@@ -92,6 +92,7 @@ function createAliens() {
             collidableMeshList.push(alien);
         }
 
+
     //soucoupe volante
     soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
     soucoupe.position.set(-30, 1, 22);
@@ -109,6 +110,8 @@ function deleteAlien(object) {
   object = undefined;
   if (aliens.children.length==0) {
     console.log("PLUS D'ALIENS !!!!!!!!");
+    GameSuccess();
+
   }
 }
 
@@ -139,8 +142,17 @@ function CollisionBulletAlien(BouclierVaisseau) { // TODO : collision des projec
               break;
             case "vaisseau":
                 deleteBullet(res);
-                calculPVvaisseau(BouclierVaisseau);
+                if (!invincible) {
+                    calculPVvaisseau(BouclierVaisseau);
+                }
               break;
           }
     }
+}
+
+
+function testPositionGroupAlien() {
+  if (boxAliens.y>1) {
+    GameOver();
+  }
 }

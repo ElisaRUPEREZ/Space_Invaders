@@ -23,7 +23,10 @@ function createVaisseau() {
     vaisseau.position.set(0, 1, -22);
     vaissBoucliers.add( vaisseau );
     vaisseau.userData = ["vaisseau", 3];
-    vaisseauID = vaisseau.id;
+
+    for (var i = 1; i <=3; i++) {
+        document.getElementById('VieDiv').innerHTML += '<img class="vieIMG" id="vie'+i+'" src="src/medias/pictures/vie.png" />';
+      }
 }
 
 
@@ -53,9 +56,10 @@ function DesactiveTir() {
 }
 
 function calculPVvaisseau(object) {
+  document.getElementById('vie' + object.userData[1]).style.display = "none";
   object.userData[1] -=1;
   if (object.userData[1] == 0) {
-    console.log("GAME OVER");
+    GameOver();
   }
 }
 

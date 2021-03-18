@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 		<link href="./css/siapp.css" rel="stylesheet" type="text/css" />
+		<link href="./css/siapp-light.css" rel="stylesheet" type="text/css" />
 	</head>
 <body>
 <!--
@@ -20,24 +21,43 @@
 	http://localhost:8000
 
 	 -->
-	<div id="mainMenu"> <h1>Space Invaders</h1><br /> <button onclick="go()">Cliquez ici pour commencer le jeu</button></div>
-	<div id="helpMenu">
+	<div class="superpose" id="mainMenu">
+		<h1>Space Invaders</h1><br />
+		<button onclick="go()">Cliquez ici pour commencer le jeu</button>
+		<h2>Les enemis</h2>
+		<ul>
+			<li>... : 10pts</li>
+			<li>... : 20pts</li>
+			<li>... : 30pts</li>
+			<li>... : ??pts</li>
+		</ul>
+	</div>
+
+	<div class="superpose" id="helpMenu">
 		<h1>Commandes clavier : </h1>
 		<ul>
 			<li>0 : camera vue du dessus</li>
 			<li>1 : camera 1ere pers</li>
 			<li>h : affiche ce menu d'aide</li>
-			<li>flèches gauche/droite  : déplaceemnt du vaissea</li>
+			<li>flèches gauche/droite  : déplacement du vaisseau</li>
 			<li>espace : tirer sur un enemis</li>
 		</ul>
-		<h1>Gestion du son/musique </h1>
-			Play/Pause stop        Réglage Volume -  +
-			Effets sonores        Réglage Volume  - + 
 	</div>
-	<div id="ScoreDiv"><h1>Score <br />000</h1></div>
+	<div class="superpose" id="ScoreDiv">
+		<h1>Score : 000</h1>
+	</div>
+
+
+	<div class="superpose" id="VieDiv"></div>
+	<div class="superpose" id="OptionDiv">
+		<button type="button" name="LightDarkMode" onclick="toggleTheme()">
+			<img id="iconSunMoon" src="src/medias/pictures/moon-solid.svg" alt="..." height="30px" width="30px"/>
+		</button>
+		<br />
+		Gestion Son/musique ici
+	</div>
+
 	<div id="siapp"><!-- La 3D insérée ici --></div>
-
-
 
 
 
@@ -57,5 +77,6 @@
 	<script src="./src/js/alien.js"></script>
 	<script src="./src/js/player.js"></script>
 	<script src="./src/js/points.js"></script>
+	<script src="./src/js/game.js"></script>
 </body>
 </html>

@@ -1,5 +1,17 @@
-let points =0;
-let niveau = 1;
+function toggleTheme() {
+    console.log("change theme");
+    var theme = document.getElementsByTagName('link')[1];
+
+
+    if (theme.getAttribute('href') == './css/siapp-light.css') {
+        theme.setAttribute('href', './css/siapp-dark.css');
+          document.getElementById('iconSunMoon').src = "src/medias/pictures/sun-solid.svg";
+    } else {
+        theme.setAttribute('href', './css/siapp-light.css');
+        //moon icon
+        document.getElementById('iconSunMoon').src = "src/medias/pictures/moon-solid.svg";
+    }
+}
 
 /*let stats = {
     niveaux : 1, 2, 3,
@@ -8,13 +20,11 @@ let niveau = 1;
     ProbaTirAlien: 4000, 2000, 1000
 }
 */
-
-
 function calculPoints(pts) {
   points+=pts;
   let pointStr = "" + points;
   // Partie Affichage :
-  document.getElementById("ScoreDiv").innerHTML=`<h1>Score <br />` + pointStr.padStart(3, '0') + `</h1>`;
+  document.getElementById("ScoreDiv").innerHTML=`<h1>Score : ` + pointStr.padStart(3, '0') + `</h1>`;
 }
 
 function removeObject(object) {
@@ -36,45 +46,39 @@ function calculPVbouclier(object) {
 }
 
 function GameSuccess() { // si tts les alien ont été tué ???
-  //passer niv suivant
+
+  if ( confirm( "Félicitation ! Vous avez tué tous les aliens, cliquez sur Confirmer pour passer au niveau suivant et Annuler pour revenir au menu principal" ) ) {
+    console.log("passe au niv suivant");
+    startLevel(2);
+} else {
+  //window.location.reload();
+}
 }
 
 function GameOver() { //si pv vaisseau ==0 ou alien touche le vaisseau ou alien touche la ligne de "terre"
   //recommencer le niveau
 
   //menu qui s'affiche recommencer le niveau ou revenir à l'écran titre
+  console.log("GAME OVER");
+//  createDisplayScore();
 }
 
 function createDisplayScore() {
-  var loader = new THREE.FontLoader();
-loader.load( '/src/medias/fonts/Imprint_MT_Shadow_Regular.json', function ( font ) {
+  const loader = new THREE.FontLoader();
 
-  var textGeometry = new THREE.TextGeometry( "Score :", {
+  loader.load( 'src/medias/fonts/I_Still_Know_Regular.json', function ( font ) {
 
-    font: font,
-
-    size: 4,
-    height: 2,
-  /*  curveSegments: 6,
-
-    bevelThickness: 1,
-    bevelSize: 1,
-    bevelEnabled: true
-*/
-  });
-
-  var textMaterial = new THREE.MeshPhongMaterial(
-    { color: 0xa3800f, specular: 0xffffff }
-  );
-
-  var mesh = new THREE.Mesh( textGeometry, textMaterial );
-  mesh.quaternion.copy(camera.quaternion);
-//  mesh.rotateX(Math.PI/2);
-//  mesh.rotateY(Math.PI);
-//  mesh.rotateZ(90);
-  scene.add( mesh );
-
-});
-
+  	const geometry = new THREE.TextGeometry( 'Hello three.js!', {
+  		font: font,
+  		size: 80,
+  		height: 5,
+  		curveSegments: 12,
+  		bevelEnabled: true,
+  		bevelThickness: 10,
+  		bevelSize: 8,
+  		bevelOffset: 0,
+  		bevelSegments: 5
+  	} );
+  } );
 
 }
