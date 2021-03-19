@@ -1,5 +1,11 @@
+let scoreJeu = {
+  scoreniv1 :0,
+  scoreniv2 :0,
+  scoreniv3 :0,
+  scoretotal :0
+};
+
 function changeCSSTheme() {
-    console.log("change theme");
     var theme = document.getElementsByTagName('link')[1];
 
 
@@ -11,6 +17,17 @@ function changeCSSTheme() {
         //moon icon
         document.getElementById('iconSunMoon').src = "src/medias/pictures/moon-solid.svg";
     }
+}
+
+function MusicButton() {
+  music.playbackRate+=0.1;
+  if (music.isPlaying) {
+      music.stop();
+      document.getElementById('iconMusic').src = "src/medias/pictures/play-solid.svg";
+  } else {
+      music.play();
+      document.getElementById('iconMusic').src = "src/medias/pictures/stop-solid.svg";
+  }
 }
 
 function calculPoints(pts) {
@@ -43,8 +60,10 @@ function GameOver() { //si pv vaisseau ==0 ou alien touche le vaisseau ou alien 
 
   //menu qui s'affiche recommencer le niveau ou revenir à l'écran titre
   console.log("GAME OVER");
+
   if ( confirm( "Game Over recommencer le niveau ou revenir au menu principal" ) ) {
-    window.location.reload();
+  //  window.location.reload();
+    document.getElementById('mainMenu').style.display = "block";
 }
 }
 

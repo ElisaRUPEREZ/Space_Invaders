@@ -26,10 +26,10 @@
 		<button onclick="go()">Cliquez ici pour commencer le jeu</button>
 		<h2>Les enemis</h2>
 		<ul>
-			<li>... : 10pts</li>
-			<li>... : 20pts</li>
-			<li>... : 30pts</li>
-			<li>... : ??pts</li>
+			<li>... : 100pts</li>
+			<li>... : 200pts</li>
+			<li>... : 300pts</li>
+			<li>... : ???pts</li>
 		</ul>
 	</div>
 
@@ -50,12 +50,17 @@
 
 	<div class="superpose" id="VieDiv"></div>
 	<div class="superpose" id="OptionDiv">
-		<h1>Niveau 1</h1>
+		<h1></h1>
+		<h2>Affichage : </h2>
 		<button type="button" name="LightDarkMode" onclick="changeCSSTheme()">
 			<img id="iconSunMoon" src="src/medias/pictures/moon-solid.svg" alt="..." height="30px" width="30px"/>
 		</button>
 		<br />
-		Gestion Son/musique ici
+		<h2>Musique : </h2>
+			<button type="button" name="MusicButton" onclick="MusicButton()">
+				<img id="iconMusic" src="src/medias/pictures/stop-solid.svg" alt="..." height="30px" width="30px"/>
+			</button>
+		<h2>Son : </h2>
 	</div>
 
 	<div id="siapp"><!-- La 3D insérée ici --></div>

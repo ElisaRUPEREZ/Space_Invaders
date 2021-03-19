@@ -1,5 +1,5 @@
 "uses strict";
-
+let music;
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
 let cameraMode = 0;
@@ -26,7 +26,7 @@ let invincible = false;
 let points =0;
 let niveau = 1;
 
-//window.addEventListener('load', go);
+window.addEventListener('load', init);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
 
@@ -73,10 +73,50 @@ function keyPressed(e) {
   }
   e.preventDefault();
 }
+function init() {
+  container = document.querySelector('#siapp');
+  w = container.clientWidth;
+  h = container.clientHeight;
+  scene = new THREE.Scene();
+
+// Caméra
+  camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
+  camera.position.set(0, 40, 0);
+
+
+  controls = new THREE.TrackballControls(camera, container);
+  controls.target = new THREE.Vector3(0, 0, 0.75);
+  controls.panSpeed = 0.4;
+
+  // create an AudioListener and add it to the camera
+  const listener = new THREE.AudioListener();
+  camera.add( listener );
+
+  // create a global audio source
+  music = new THREE.Audio( listener );
+
+  // load a sound and set it as the Audio object's buffer
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load( '/src/medias/sounds/destiny.mp3', function( buffer ) {
+  	music.setBuffer( buffer );
+  	music.setLoop( true );
+  	music.setVolume( 0.4 );
+  });
+
+  scene.add(music);
+
+  const renderConfig = {antialias: true, alpha: true};
+  renderer = new THREE.WebGLRenderer(renderConfig);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(w, h);
+  container.appendChild(renderer.domElement);
+
+}
 
 function go() {
   console.log("Go!");
   document.getElementById('mainMenu').style.display = "none";
+  music.play();
   startLevel(1);
 }
 

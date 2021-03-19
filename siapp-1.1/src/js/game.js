@@ -1,9 +1,7 @@
 function startLevel(level) {
   niveau =level;
   document.getElementById('OptionDiv').getElementsByTagName('h1')[0].innerHTML = 'Niveau '+niveau;
-  if (level==1) {
-    init();
-  } else {
+  if (scene.children != null) {
     clearGame();
   }
 
@@ -30,28 +28,7 @@ function clearGame() {
 
 }
 
-function init() {
-  container = document.querySelector('#siapp');
-  w = container.clientWidth;
-  h = container.clientHeight;
-  scene = new THREE.Scene();
 
-// Caméra
-  camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
-  camera.position.set(0, 40, 0);
-
-
-  controls = new THREE.TrackballControls(camera, container);
-  controls.target = new THREE.Vector3(0, 0, 0.75);
-  controls.panSpeed = 0.4;
-
-  const renderConfig = {antialias: true, alpha: true};
-  renderer = new THREE.WebGLRenderer(renderConfig);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(w, h);
-  container.appendChild(renderer.domElement);
-
-}
 
 function addObjectToscene() {
 
@@ -141,7 +118,7 @@ function update(step) {
     if (boxAliens.max.z <= 0) {
       GameOver();
     }
-    
+
     if (!tirEnCours) {
       bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
     }

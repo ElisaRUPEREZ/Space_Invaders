@@ -117,7 +117,7 @@ function MoveTirAlien(moveDir, move) {
       }
 }
 
-function CollisionBulletAlien(BouclierVaisseau) { // TODO : collision des projectiles enemis sur bouclier et vaisseau: raycaster sur projectile, test dans le tableau qui contient 4 boucliers + vaisseau
+function CollisionBulletAlien(BouclierVaisseau) {
   var res; var vertexIndex = 0;
   var originPoint = BouclierVaisseau.position.clone();
   var touche = false;
