@@ -78,10 +78,7 @@ function go() {
   console.log("Go!");
   document.getElementById('mainMenu').style.display = "none";
   startLevel(1);
-//  gameLoop();
-
 }
-
 
 
 function resize() {

@@ -1,5 +1,6 @@
+/*---------------------------- CREATION DES DIFFERENTS OBJETS------------------------------------------------------------------------------------------------*/
+
 function createWield() {
-  //TODO: Création des 4 boucliers :
   const geometryWield = new THREE.PlaneGeometry( 6, 4 , 10, 10);
   const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide, transparent: true, opacity: 0.8} );
 
@@ -9,14 +10,12 @@ function createWield() {
     plane.userData = ["bouclier", 10];
     vaissBoucliers.add( plane );
     collidableMeshList.push(plane);
-
   }
 
 }
 
 
 function createVaisseau() {
-    // add some geometries
     const geometry = new THREE.BoxGeometry(4,2,2);
     const material = new THREE.MeshNormalMaterial( );
     vaisseau = new THREE.Mesh( geometry, material, );
@@ -29,9 +28,7 @@ function createVaisseau() {
       }
 }
 
-
 function createBullet() {
-  // Balle 1 à la fois disparait lorsque elle atteint le bout du plateau ou touche sa cible
     const geometryS = new THREE.SphereGeometry(0.4);
     const materialS = new THREE.MeshNormalMaterial( );
     bullet = new THREE.Mesh( geometryS, materialS, );
@@ -40,11 +37,7 @@ function createBullet() {
     bullet.userData = ["bullet"];
 }
 
-/***
-  function active le tir (balle visible et placée à l'endroit du vaisseau)
-  function arrete la balle (rend invisible et arrete le déplacement)
-*/
-
+/*-----------------------------------ACTION----------------------------------------------------------------*/
 function ActiveTir() {
   tirEnCours = true;
   bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
@@ -63,8 +56,18 @@ function calculPVvaisseau(object) {
   }
 }
 
-//Peut être améliorer la fonction comme celle au dessuss
-function collision() { // collision du tir du joueur sur les aliens, soucoupe, boucliers
+function calculPVbouclier(object) {
+  object.userData[1] -=1;
+  if (object.userData[1] == 0) {
+  //  removeObject(object);
+    vaissBoucliers.remove(object);
+    object.geometry.dispose();
+    object.material.dispose();
+    object = undefined;
+  }
+}
+
+function collisionPlayerBullet() { // collision du tir du joueur sur les aliens, soucoupe, boucliers
     var originPoint = bullet.position.clone();
     var object; var vertexIndex = 0;
     var touche = false;
@@ -105,3 +108,4 @@ function collision() { // collision du tir du joueur sur les aliens, soucoupe, b
       DesactiveTir();
     }
 }
+/*-------------------------------------------------- FONCTIONS UPDATE -----------------------------------------------------------------*/

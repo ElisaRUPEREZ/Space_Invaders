@@ -1,16 +1,59 @@
 function startLevel(level) {
-  if (level>1) {
-    scene.clear();
+  niveau =level;
+  document.getElementById('OptionDiv').getElementsByTagName('h1')[0].innerHTML = 'Niveau '+niveau;
+  if (level==1) {
+    init();
+  } else {
+    clearGame();
   }
-  init();
+
   addObjectToscene();
   gameLoop();
 }
 
-function addObjectToscene() {
+function clearGame() {
+  scene.clear();
+  document.getElementById('VieDiv').innerHTML = '';
+  points = 0;
+  document.getElementById("ScoreDiv").innerHTML='<h1>Score : 000</h1>';
 
-  points =0;
-  niveau = 1;
+  tirEnCours = false;
+  moveDir = true; /// sens de déplacement des aliens
+  ApparitionSoucoupe = false;
+    //tabObjects
+  collidableMeshList = []; // liste objet pouvant être touchés par le joueur
+  bulletAlTabObject = [];
+
+  pause = false;
+
+  invincible = false;
+
+}
+
+function init() {
+  container = document.querySelector('#siapp');
+  w = container.clientWidth;
+  h = container.clientHeight;
+  scene = new THREE.Scene();
+
+// Caméra
+  camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
+  camera.position.set(0, 40, 0);
+
+
+  controls = new THREE.TrackballControls(camera, container);
+  controls.target = new THREE.Vector3(0, 0, 0.75);
+  controls.panSpeed = 0.4;
+
+  const renderConfig = {antialias: true, alpha: true};
+  renderer = new THREE.WebGLRenderer(renderConfig);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(w, h);
+  container.appendChild(renderer.domElement);
+
+}
+
+function addObjectToscene() {
 
   vaissBoucliers = new THREE.Group();
   scene.add(vaissBoucliers);
@@ -25,6 +68,19 @@ function addObjectToscene() {
   createWield();
 
 
+  const light = new THREE.DirectionalLight(0xFFFFFF, 1);
+  light.position.set(-15, 15,-25);
+  scene.add(light);
+
+    // add Stats.js - https://github.com/mrdoob/stats.js
+  stats = new Stats();
+  stats.domElement.style.position	= 'absolute';
+  stats.domElement.style.bottom	= '0px';
+  document.body.appendChild( stats.domElement );
+
+ // GridHelper
+  const gridHelper = new THREE.GridHelper(50, 50);
+  scene.add(gridHelper);
 
   const fps  = 60;
   const slow = 1; // slow motion! 1: normal speed, 2: half speed...
@@ -37,58 +93,22 @@ function addObjectToscene() {
   loop.slowStep = loop.slow * loop.step;
 }
 
-function init() {
-  container = document.querySelector('#siapp');
-  w = container.clientWidth;
-  h = container.clientHeight;
-  scene = new THREE.Scene();
-
-// Caméra
-  camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
-  camera.position.set(0, 40, 0);
-
-  const light = new THREE.DirectionalLight(0xFFFFFF, 1);
-  light.position.set(-15, 15,-25);
-  scene.add(light);
-
-  controls = new THREE.TrackballControls(camera, container);
-  controls.target = new THREE.Vector3(0, 0, 0.75);
-  controls.panSpeed = 0.4;
-
-  const renderConfig = {antialias: true, alpha: true};
-  renderer = new THREE.WebGLRenderer(renderConfig);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(w, h);
-  container.appendChild(renderer.domElement);
-
-  // add Stats.js - https://github.com/mrdoob/stats.js
-  stats = new Stats();
-  stats.domElement.style.position	= 'absolute';
-  stats.domElement.style.bottom	= '0px';
-  document.body.appendChild( stats.domElement );
-
- // GridHelper
-  const gridHelper = new THREE.GridHelper(50, 50);
-  scene.add(gridHelper);
-
-}
-
 function gameLoop() {
 
   if (!pause) {
     // gestion de l'incrément du temps
-  loop.now = timestamp();
-  loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
-  while(loop.dt > loop.slowStep) {
-    loop.dt = loop.dt - loop.slowStep;
-    update(loop.step); // déplace les objets d'une fraction de seconde
-  }
+    loop.now = timestamp();
+    loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
+    while(loop.dt > loop.slowStep) {
+      loop.dt = loop.dt - loop.slowStep;
+      update(loop.step); // déplace les objets d'une fraction de seconde
+    }
 
-  //Déplacement caméra selon le vaisseau
-  if (cameraMode == 1) {
-    camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
-    camera.position.set(vaisseau.position.x, 10, vaisseau.position.z-10);
-  }
+    //Déplacement caméra selon le vaisseau
+    if (cameraMode == 1) {
+      camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
+      camera.position.set(vaisseau.position.x, 10, vaisseau.position.z-10);
+    }
 
 
     renderer.render(scene, camera);  // rendu de la scène
@@ -98,7 +118,7 @@ function gameLoop() {
     controls.update();
     stats.update();
 
-}
+  }
 }
 
 function update(step) {
@@ -121,6 +141,7 @@ function update(step) {
     if (boxAliens.max.z <= 0) {
       GameOver();
     }
+    
     if (!tirEnCours) {
       bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
     }
@@ -137,7 +158,7 @@ function update(step) {
       }
 
       if (tirEnCours) {
-        collision();
+        collisionPlayerBullet();
         bullet.position.z += 0.6;
         if (bullet.position.z > 25) {
           DesactiveTir();
@@ -165,7 +186,6 @@ function update(step) {
         TirAlien(); ///
         if (bulletAlTabObject.length >0 && bulletAlTabObject!=undefined) {
           MoveTirAlien(moveDir, move);
-
           testPositionBulletAlien();
         }
           for (var i = 0; i < vaissBoucliers.children.length; i++) { //Ne pas oublier de retirer les objets supprimés
