@@ -20,13 +20,26 @@ function changeCSSTheme() {
 }
 
 function MusicButton() {
-  music.playbackRate+=0.1;
+  //                 music.playbackRate+=0.1;
   if (music.isPlaying) {
       music.stop();
       document.getElementById('iconMusic').src = "src/medias/pictures/play-solid.svg";
   } else {
       music.play();
       document.getElementById('iconMusic').src = "src/medias/pictures/stop-solid.svg";
+  }
+}
+
+function EffectButton() {
+
+  if (soundLaser.getVolume()>0) {
+      soundLaser.setVolume(0);
+      soundDeathAlien.setVolume(0);
+      document.getElementById('iconVolume').src = "src/medias/pictures/volume-mute-solid.svg";
+  } else {
+      soundLaser.setVolume(0.5);
+        soundDeathAlien.setVolume(0.5);
+      document.getElementById('iconVolume').src = "src/medias/pictures/volume-up-solid.svg";
   }
 }
 

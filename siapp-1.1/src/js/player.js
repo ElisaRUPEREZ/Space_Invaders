@@ -40,11 +40,13 @@ function createBullet() {
 /*-----------------------------------ACTION----------------------------------------------------------------*/
 function ActiveTir() {
   tirEnCours = true;
+  soundLaser.play();
   bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
 }
 
 function DesactiveTir() {
   tirEnCours = false;
+  soundLaser.stop();
   bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
 }
 
@@ -91,6 +93,7 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
     if (touche) {
       switch (object.userData[0]) {
         case "alien":
+          soundDeathAlien.play();
           calculPoints(object.userData[1]);
           deleteAlien(object);
           break;
@@ -109,3 +112,25 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
     }
 }
 /*-------------------------------------------------- FONCTIONS UPDATE -----------------------------------------------------------------*/
+function updateVaisseauAndBullet() {
+  //Déplacements du vaisseau
+    if (keyboard.pressed("left") && vaisseau.position.x<25)
+      vaisseau.position.x += 0.2;
+    if ( keyboard.pressed("right") && vaisseau.position.x>-25)
+      vaisseau.position.x -= 0.2;
+    if ( keyboard.pressed("space") ){
+        if (!tirEnCours) {
+          ActiveTir();
+        }
+    }
+
+    if (tirEnCours) {
+      collisionPlayerBullet();
+      bullet.position.z += 0.6;
+      if (bullet.position.z > 25) {
+        DesactiveTir();
+      }
+    } else {
+        bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
+    }
+}

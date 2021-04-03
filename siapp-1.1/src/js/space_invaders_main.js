@@ -1,5 +1,5 @@
 "uses strict";
-let music;
+let music, soundLaser, soundDeathAlien;
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
 let cameraMode = 0;
@@ -105,6 +105,32 @@ function init() {
 
   scene.add(music);
 
+
+  // create a global audio source
+  soundLaser = new THREE.Audio( listener );
+
+  // load a sound and set it as the Audio object's buffer
+  const soundLoader = new THREE.AudioLoader();
+  soundLoader.load( '/src/medias/sounds/laser_sound.mp3', function( buffer ) {
+  	soundLaser.setBuffer( buffer );
+  	soundLaser.setLoop( false );
+  	soundLaser.setVolume( 0.4 );
+  });
+
+  scene.add(soundLaser);
+
+  soundDeathAlien = new THREE.Audio( listener );
+
+  // load a sound and set it as the Audio object's buffer
+  const soundAlienLoader = new THREE.AudioLoader();
+  soundLoader.load( '/src/medias/sounds/alienDeath.mp3', function( buffer ) {
+  	soundDeathAlien.setBuffer( buffer );
+  	soundDeathAlien.setLoop( false );
+  	soundDeathAlien.setVolume( 0.4 );
+  });
+
+  scene.add(soundDeathAlien);
+
   const renderConfig = {antialias: true, alpha: true};
   renderer = new THREE.WebGLRenderer(renderConfig);
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -119,7 +145,6 @@ function go() {
   music.play();
   startLevel(1);
 }
-
 
 function resize() {
   w = container.clientWidth;

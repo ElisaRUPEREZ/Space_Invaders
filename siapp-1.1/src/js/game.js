@@ -72,7 +72,7 @@ function addObjectToscene() {
 
 function gameLoop() {
 
-  if (!pause) {
+  //if (!pause) {
     // gestion de l'incrément du temps
     loop.now = timestamp();
     loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
@@ -95,52 +95,15 @@ function gameLoop() {
     controls.update();
     stats.update();
 
-  }
+  //}
 }
 
 function update(step) {
   const move = 2 * step;
 
-  boxAliens = new THREE.Box3().setFromObject(aliens); // Encapsule le groupe d'aliens dans une box
-  //Mouvements des Aliens  :
-    if (boxAliens.max.x>=24 || boxAliens.min.x<=-24) {
-      if (!invincible) {
-        aliens.position.z-=1;
-      }
-      moveDir = !moveDir;
-    }
-    if (moveDir) {
-      aliens.position.x +=move;
-    } else {
-      aliens.position.x -=move;
-    }
+    MoveAliens(move);
 
-    if (boxAliens.max.z <= 0) {
-      GameOver();
-    }
-
-    if (!tirEnCours) {
-      bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
-    }
-
-    //Déplacements du vaisseau
-      if (keyboard.pressed("left") && vaisseau.position.x<25)
-        vaisseau.position.x += 0.2;
-      if ( keyboard.pressed("right") && vaisseau.position.x>-25)
-        vaisseau.position.x -= 0.2;
-      if ( keyboard.pressed("space") ){
-          if (!tirEnCours) {
-            ActiveTir();
-          }
-      }
-
-      if (tirEnCours) {
-        collisionPlayerBullet();
-        bullet.position.z += 0.6;
-        if (bullet.position.z > 25) {
-          DesactiveTir();
-        }
-      }
+    updateVaisseauAndBullet();
 
       //TODO : Mettre un intervalle de temps
         if (Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
@@ -149,26 +112,8 @@ function update(step) {
           soucoupe.position.x = -30;
         }
 
-      /// Apparition de la soucoupe volante de temps en temps ex toutes les 8 secondes
-      if (soucoupe.position.x <30 && ApparitionSoucoupe) {
-        soucoupe.position.x += 6*move;
-        soucoupe.rotateZ(Math.PI/14);
-      } else {
-        soucoupe.visible = false;
-        ApparitionSoucoupe = false;
-      }
-
-
-    // DEFINI ALIEN QUI Tire
+        updateSoucoupe(move);
         TirAlien(); ///
-        if (bulletAlTabObject.length >0 && bulletAlTabObject!=undefined) {
-          MoveTirAlien(moveDir, move);
-          testPositionBulletAlien();
-        }
-          for (var i = 0; i < vaissBoucliers.children.length; i++) { //Ne pas oublier de retirer les objets supprimés
-            if (vaissBoucliers.children[i] != undefined) {
-              CollisionBulletAlien(vaissBoucliers.children[i]);
-            }
-          }
+        updateTirAlien(move);
 
 }

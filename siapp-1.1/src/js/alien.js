@@ -78,6 +78,7 @@ function deleteBullet(object) {
 }
 
 function deleteAlien(object) {
+  soundDeathAlien.play();
   aliens.remove(object);
   object.geometry.dispose();
   object.material.dispose();
@@ -115,6 +116,49 @@ function MoveTirAlien(moveDir, move) {
           }
         }
       }
+}
+
+function MoveAliens(move) {
+  boxAliens = new THREE.Box3().setFromObject(aliens); // Encapsule le groupe d'aliens dans une box
+  //Mouvements des Aliens  :
+    if (boxAliens.max.x>=24 || boxAliens.min.x<=-24) {
+      if (!invincible) {
+        aliens.position.z-=1;
+      }
+      moveDir = !moveDir;
+    }
+    if (moveDir) {
+      aliens.position.x +=move;
+    } else {
+      aliens.position.x -=move;
+    }
+
+    if (boxAliens.max.z <= 0) {
+      GameOver();
+    }
+}
+
+function updateTirAlien(move) {
+  if (bulletAlTabObject.length >0 && bulletAlTabObject!=undefined) {
+    MoveTirAlien(moveDir, move);
+    testPositionBulletAlien();
+  }
+
+  for (var i = 0; i < vaissBoucliers.children.length; i++) { //Ne pas oublier de retirer les objets supprimés
+    if (vaissBoucliers.children[i] != undefined) {
+      CollisionBulletAlien(vaissBoucliers.children[i]);
+    }
+  }
+}
+
+function updateSoucoupe(move) {
+  if (soucoupe.position.x <30 && ApparitionSoucoupe) {
+    soucoupe.position.x += 6*move;
+    soucoupe.rotateZ(Math.PI/14);
+  } else {
+    soucoupe.visible = false;
+    ApparitionSoucoupe = false;
+  }
 }
 
 function CollisionBulletAlien(BouclierVaisseau) {
