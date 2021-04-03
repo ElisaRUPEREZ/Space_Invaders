@@ -97,7 +97,7 @@ function init() {
 
   // load a sound and set it as the Audio object's buffer
   const audioLoader = new THREE.AudioLoader();
-  audioLoader.load( '/src/medias/sounds/destiny.mp3', function( buffer ) {
+  audioLoader.load( '/src/medias/sounds/background_music.mp3', function( buffer ) {
   	music.setBuffer( buffer );
   	music.setLoop( true );
   	music.setVolume( 0.4 );
