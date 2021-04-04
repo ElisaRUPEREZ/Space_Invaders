@@ -1,4 +1,6 @@
 function startLevel(level) {
+  
+  document.getElementById("OptionDiv").style.display = "block";
   document.getElementById("ModalGameSuccess").style.display = "none";
   document.getElementById("ModalGameOver").style.display = "none";
   niveau =level;
