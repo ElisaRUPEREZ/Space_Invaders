@@ -90,8 +90,8 @@ function gameLoop() {
       camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
       camera.position.set(vaisseau.position.x, 10, vaisseau.position.z-10);
     }
-
-
+    
+    
     renderer.render(scene, camera);  // rendu de la scène
     loop.last = loop.now;
     requestAnimationFrame(gameLoop); // relance la boucle du jeu

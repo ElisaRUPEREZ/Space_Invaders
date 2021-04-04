@@ -17,3 +17,20 @@ body {
 #helpMenu {
   background: rgba(0,0,0,0.4);
 }
+
+.modal-content {
+  background-color: #202020;
+  border-color: #888;
+}
+
+/* The Close Button */
+.modalButton {
+  color: white;
+  border-color: white;
+}
+
+.modalButton:hover,
+.modalButton:focus {
+  color: white;
+  background-color: grey;
+}

@@ -84,7 +84,6 @@ function deleteAlien(object) {
   object.material.dispose();
   object = undefined;
   if (aliens.children.length==0) {
-    console.log("PLUS D'ALIENS !!!!!!!!");
     GameSuccess();
 
   }
@@ -134,7 +133,9 @@ function MoveAliens(move) {
     }
 
     if (boxAliens.max.z <= 0) {
-      GameOver();
+      if (aliens.children.length>0) {
+        GameOver();
+      }
     }
 }
 

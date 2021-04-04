@@ -50,7 +50,7 @@ function keyPressed(e) {
     case 'k':
           console.log("kill all");
           scene.remove(aliens);
-          scene.remove(soucoupe);
+          scene.remove(soucoupe);       
           GameSuccess();
     break;
     case 'h':
