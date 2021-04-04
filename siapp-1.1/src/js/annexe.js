@@ -59,25 +59,19 @@ function calculPoints(pts) {
 */
 
 function GameSuccess() { // si tts les alien ont été tué ???
-
-  if ( confirm( "Félicitation ! Vous avez tué tous les aliens, cliquez sur Confirmer pour passer au niveau suivant et Annuler pour revenir au menu principal" ) ) {
-    console.log("passe au niv suivant");
-    startLevel(niveau+1);
-} else {
-  //window.location.reload();
-}
+  niveau++;
+  document.getElementById("ModalGameSuccess").style.display = "block";
 }
 
 function GameOver() { //si pv vaisseau ==0 ou alien touche le vaisseau ou alien touche la ligne de "terre"
-  //recommencer le niveau
-
-  //menu qui s'affiche recommencer le niveau ou revenir à l'écran titre
-  console.log("GAME OVER");
-
-  if ( confirm( "Game Over recommencer le niveau ou revenir au menu principal" ) ) {
-  //  window.location.reload();
+  pause = true;
+  document.getElementById("ModalGameOver").style.display = "block";
+  let btn = document.getElementById("buttonGameOver");
+  btn.onclick = function() {
     document.getElementById('mainMenu').style.display = "block";
-}
+    document.getElementById("ModalGameOver").style.display = "none";
+  }
+
 }
 
 function createDisplay() {

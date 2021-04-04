@@ -1,4 +1,6 @@
 function startLevel(level) {
+  document.getElementById("ModalGameSuccess").style.display = "none";
+  document.getElementById("ModalGameOver").style.display = "none";
   niveau =level;
   document.getElementById('OptionDiv').getElementsByTagName('h1')[0].innerHTML = 'Niveau '+niveau;
   if (scene.children != null) {
@@ -72,7 +74,7 @@ function addObjectToscene() {
 
 function gameLoop() {
 
-  //if (!pause) {
+  if (!pause) {
     // gestion de l'incrément du temps
     loop.now = timestamp();
     loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
@@ -95,7 +97,7 @@ function gameLoop() {
     controls.update();
     stats.update();
 
-  //}
+  }
 }
 
 function update(step) {
