@@ -60,7 +60,13 @@ function calculPoints(pts) {
 
 function GameSuccess() { // si tts les alien ont été tué ???
   niveau++;
-  document.getElementById("ModalGameSuccess").style.display = "block";
+  console.log("niveau : " + niveau);
+  if (niveau > 3) {
+    console.log("BRAVO VOUS AVEZ FINIS LE JEU");
+  } else {
+    document.getElementById("ModalGameSuccess").style.display = "block";
+  }
+  
 }
 
 function GameOver() { //si pv vaisseau ==0 ou alien touche le vaisseau ou alien touche la ligne de "terre"

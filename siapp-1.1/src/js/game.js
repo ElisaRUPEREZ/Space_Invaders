@@ -8,7 +8,6 @@ function startLevel(level) {
   if (scene.children != null) {
     clearGame();
   }
-
   addObjectToscene();
   gameLoop();
 }
@@ -39,12 +38,14 @@ function addObjectToscene() {
   vaissBoucliers = new THREE.Group();
   scene.add(vaissBoucliers);
 
-
   createVaisseau();
-
   createBullet();
-
-  createAliens();
+  createSoucoupe()
+  //if (niveau == 2 ) {
+    createAliens2();
+  //} else {
+   // createAliens();
+  //}
 
   createWield();
 
@@ -75,7 +76,6 @@ function addObjectToscene() {
 }
 
 function gameLoop() {
-
   if (!pause) {
     // gestion de l'incrément du temps
     loop.now = timestamp();
@@ -103,7 +103,7 @@ function gameLoop() {
 }
 
 function update(step) {
-  const move = 2 * step;
+  const move = 2.5 * step;
 
     MoveAliens(move);
 
