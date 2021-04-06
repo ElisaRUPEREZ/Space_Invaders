@@ -41,11 +41,18 @@ function addObjectToscene() {
   createVaisseau();
   createBullet();
   createSoucoupe()
-  //if (niveau == 2 ) {
-    createAliens2();
-  //} else {
-   // createAliens();
-  //}
+
+  switch (niveau) {
+    case 1:
+      createAliens();
+      break;
+    case 2 :
+      createAliensCircle();
+      break;
+    case 3 :
+      createAliensWave();
+      break;
+  }
 
   createWield();
 

@@ -120,8 +120,9 @@ function MoveTirAlien(moveDir, move) {
 
 function MoveAliens(move) {
   boxAliens = new THREE.Box3().setFromObject(aliens); // Encapsule le groupe d'aliens dans une box
+  //console.log("BOX xmax = " + boxAliens.max.x + "\nxmin =  " + boxAliens.min.x);
   //Mouvements des Aliens  :
-    if (boxAliens.max.x>=24 || boxAliens.min.x<=-24) {
+    if (boxAliens.max.x>=30 || boxAliens.min.x<=-30) {
       if (!invincible) {
         aliens.position.z-=1;
       }
@@ -199,15 +200,13 @@ function CollisionBulletAlien(BouclierVaisseau) {
 }
 
 
-function createAliens2() {
+function createAliensCircle() {
   console.log("radius 10  ");
   aliens = new THREE.Group();
   scene.add(aliens);
 
   const geometryA = new THREE.BoxGeometry(2,2,2);
-  const materialA = new THREE.MeshBasicMaterial();
 
-      var xOffset = -17;
       let radius = 13;
    //for (var k = 0; k <= 1; k++) {
         for (var i = 0; i <= 20 ; i++) {
@@ -238,28 +237,56 @@ function createAliens2() {
         aliens.add( alien );
         collidableMeshList.push(alien);
      }
+}
+
+function createAliensWave() {
+  aliens = new THREE.Group();
+  scene.add(aliens);
+
+  const geometryA = new THREE.BoxGeometry(2,2,2);
+  
+  for (var k = 0; k <= 1; k++) {
+    for (var i = 0; i < 10 ; i++) {
+      var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
+      alien.position.x = 3.2*i;
+      alien.position.y = 1;
+      if (k==0) {
+        alien.position.z = -Math.sin(i) + k*6 -4;
+      } else {
+        alien.position.z = Math.sin(i) + k*6 -4;
+      }
+      
+      alien.userData = ["alien", 100];
+
+      aliens.add( alien );
+      collidableMeshList.push(alien);
+   }
+}
+  for (var k = 0; k <= 1; k++) {
+      for (var i = 0; i < 10 ; i++) {
+        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
+        alien.position.x = 3.2*i;
+        alien.position.y = 1;
+        if (k==0) {
+          alien.position.z = -Math.sin(i) + 10+k*6;
+        } else {
+          alien.position.z = Math.sin(i) + 10+k*6;
+        }
+        
+        alien.userData = ["alien", 200];
+
+        aliens.add( alien );
+        collidableMeshList.push(alien);
+      }
+   }
        
-   //   }
-
-    /*  for (var k = 0; k <= 1; k++) {
-        for (var i = 1; i <= 10 ; i++) {
-            var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
-            alien.position.x = Math.sin((3 * i) + xOffset);
-            alien.position.y = 1;
-            alien.position.z = 8+Math.cos(4*k); // 8 et 12
-            alien.userData = ["alien", 200];
-            aliens.add( alien );
-            collidableMeshList.push(alien);
-         }
-      }/*
-
-     /*   for (var i = 1; i <= 10 ; i++) {
-            var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
-            alien.position.x = Math.sin((3 * i) + xOffset);
-            alien.position.y = 1;
-            alien.position.z = Math.cos(16);
-            alien.userData = ["alien", 300];
-            aliens.add( alien );
-            collidableMeshList.push(alien);
-        }*/
+       for (var i = 0; i < 10 ; i++) {
+        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
+        alien.position.x = 14.5+Math.cos(i*Math.PI/5)*2.5;
+        alien.position.y = 1;
+        alien.position.z = 6+Math.sin(i*Math.PI/5)*2.5;
+        alien.userData = ["alien", 300];
+        aliens.add( alien );
+        collidableMeshList.push(alien);
+     }
 }
