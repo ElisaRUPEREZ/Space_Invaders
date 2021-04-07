@@ -4,8 +4,6 @@ function createAliens() {
   scene.add(aliens);
 
   const geometryA = new THREE.BoxGeometry(2,2,2);
-  const materialA = new THREE.MeshBasicMaterial();
-
       var xOffset = -17;
       for (var k = 0; k <= 1; k++) {
         for (var i = 1; i <= 10 ; i++) {
@@ -41,6 +39,98 @@ function createAliens() {
             collidableMeshList.push(alien);
         }
 }
+
+function createAliensCircle() {
+  console.log("radius 10  ");
+  aliens = new THREE.Group();
+  scene.add(aliens);
+
+  const geometryA = new THREE.BoxGeometry(2,2,2);
+
+      let radius = 13;
+   //for (var k = 0; k <= 1; k++) {
+        for (var i = 0; i <= 20 ; i++) {
+            var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
+            alien.position.x = Math.cos(i*Math.PI/10)*radius;
+            alien.position.y = 1;
+            alien.position.z = Math.sin(i*Math.PI/10)*radius+4;
+            alien.userData = ["alien", 100];
+            aliens.add( alien );
+            collidableMeshList.push(alien);
+         }
+
+         for (var i = 0; i <= 20 ; i++) {
+          var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
+          alien.position.x = Math.cos(i*Math.PI/10)*(radius-4);
+          alien.position.y = 1;
+          alien.position.z = Math.sin(i*Math.PI/10)*(radius-4)+4;
+          alien.userData = ["alien", 200];
+          aliens.add( alien );
+          collidableMeshList.push(alien);
+       }
+       for (var i = 0; i <= 10 ; i++) {
+        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
+        alien.position.x = Math.cos(i*Math.PI/5)*(radius-8);
+        alien.position.y = 1;
+        alien.position.z = Math.sin(i*Math.PI/5)*(radius-8)+4;
+        alien.userData = ["alien", 300];
+        aliens.add( alien );
+        collidableMeshList.push(alien);
+     }
+}
+
+function createAliensWave() {
+  aliens = new THREE.Group();
+  scene.add(aliens);
+
+  const geometryA = new THREE.BoxGeometry(2,2,2);
+  
+  for (var k = 0; k <= 1; k++) {
+    for (var i = 0; i < 10 ; i++) {
+      var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
+      alien.position.x = 3.2*i;
+      alien.position.y = 1;
+      if (k==0) {
+        alien.position.z = -Math.sin(i) + k*6 -4;
+      } else {
+        alien.position.z = Math.sin(i) + k*6 -4;
+      }
+      
+      alien.userData = ["alien", 100];
+
+      aliens.add( alien );
+      collidableMeshList.push(alien);
+   }
+}
+  for (var k = 0; k <= 1; k++) {
+      for (var i = 0; i < 10 ; i++) {
+        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
+        alien.position.x = 3.2*i;
+        alien.position.y = 1;
+        if (k==0) {
+          alien.position.z = -Math.sin(i) + 10+k*6;
+        } else {
+          alien.position.z = Math.sin(i) + 10+k*6;
+        }
+        
+        alien.userData = ["alien", 200];
+
+        aliens.add( alien );
+        collidableMeshList.push(alien);
+      }
+   }
+       
+       for (var i = 0; i < 10 ; i++) {
+        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
+        alien.position.x = 14.5+Math.cos(i*Math.PI/5)*2.5;
+        alien.position.y = 1;
+        alien.position.z = 6+Math.sin(i*Math.PI/5)*2.5;
+        alien.userData = ["alien", 300];
+        aliens.add( alien );
+        collidableMeshList.push(alien);
+     }
+}
+
 function createSoucoupe() {
       //soucoupe volante
       soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
@@ -199,94 +289,3 @@ function CollisionBulletAlien(BouclierVaisseau) {
     }
 }
 
-
-function createAliensCircle() {
-  console.log("radius 10  ");
-  aliens = new THREE.Group();
-  scene.add(aliens);
-
-  const geometryA = new THREE.BoxGeometry(2,2,2);
-
-      let radius = 13;
-   //for (var k = 0; k <= 1; k++) {
-        for (var i = 0; i <= 20 ; i++) {
-            var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
-            alien.position.x = Math.cos(i*Math.PI/10)*radius;
-            alien.position.y = 1;
-            alien.position.z = Math.sin(i*Math.PI/10)*radius+4;
-            alien.userData = ["alien", 100];
-            aliens.add( alien );
-            collidableMeshList.push(alien);
-         }
-
-         for (var i = 0; i <= 20 ; i++) {
-          var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
-          alien.position.x = Math.cos(i*Math.PI/10)*(radius-4);
-          alien.position.y = 1;
-          alien.position.z = Math.sin(i*Math.PI/10)*(radius-4)+4;
-          alien.userData = ["alien", 200];
-          aliens.add( alien );
-          collidableMeshList.push(alien);
-       }
-       for (var i = 0; i <= 10 ; i++) {
-        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
-        alien.position.x = Math.cos(i*Math.PI/5)*(radius-8);
-        alien.position.y = 1;
-        alien.position.z = Math.sin(i*Math.PI/5)*(radius-8)+4;
-        alien.userData = ["alien", 300];
-        aliens.add( alien );
-        collidableMeshList.push(alien);
-     }
-}
-
-function createAliensWave() {
-  aliens = new THREE.Group();
-  scene.add(aliens);
-
-  const geometryA = new THREE.BoxGeometry(2,2,2);
-  
-  for (var k = 0; k <= 1; k++) {
-    for (var i = 0; i < 10 ; i++) {
-      var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
-      alien.position.x = 3.2*i;
-      alien.position.y = 1;
-      if (k==0) {
-        alien.position.z = -Math.sin(i) + k*6 -4;
-      } else {
-        alien.position.z = Math.sin(i) + k*6 -4;
-      }
-      
-      alien.userData = ["alien", 100];
-
-      aliens.add( alien );
-      collidableMeshList.push(alien);
-   }
-}
-  for (var k = 0; k <= 1; k++) {
-      for (var i = 0; i < 10 ; i++) {
-        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
-        alien.position.x = 3.2*i;
-        alien.position.y = 1;
-        if (k==0) {
-          alien.position.z = -Math.sin(i) + 10+k*6;
-        } else {
-          alien.position.z = Math.sin(i) + 10+k*6;
-        }
-        
-        alien.userData = ["alien", 200];
-
-        aliens.add( alien );
-        collidableMeshList.push(alien);
-      }
-   }
-       
-       for (var i = 0; i < 10 ; i++) {
-        var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
-        alien.position.x = 14.5+Math.cos(i*Math.PI/5)*2.5;
-        alien.position.y = 1;
-        alien.position.z = 6+Math.sin(i*Math.PI/5)*2.5;
-        alien.userData = ["alien", 300];
-        aliens.add( alien );
-        collidableMeshList.push(alien);
-     }
-}

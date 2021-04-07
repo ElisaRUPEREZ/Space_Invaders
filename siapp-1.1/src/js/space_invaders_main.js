@@ -18,7 +18,6 @@ let ApparitionSoucoupe = false;
 let collidableMeshList = []; // liste objet pouvant être touchés par le joueur
 let bulletAlTabObject = [];
 
-let helper;
 let pause = false;
 
 let invincible = false;
