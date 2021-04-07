@@ -1,10 +1,10 @@
 function startLevel(level) {
   
-  document.getElementById("OptionDiv").style.display = "block";
   document.getElementById("ModalGameSuccess").style.display = "none";
   document.getElementById("ModalGameOver").style.display = "none";
   niveau =level;
   document.getElementById('OptionDiv').getElementsByTagName('h1')[0].innerHTML = 'Niveau '+niveau;
+  document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "visible";
   if (scene.children != null) {
     clearGame();
   }
@@ -68,7 +68,7 @@ function addObjectToscene() {
   document.body.appendChild( stats.domElement );
 
  // GridHelper
-  const gridHelper = new THREE.GridHelper(50, 50);
+  const gridHelper = new THREE.GridHelper(60, 30);
   scene.add(gridHelper);
 
   const fps  = 60;
@@ -97,7 +97,6 @@ function gameLoop() {
       camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
       camera.position.set(vaisseau.position.x, 10, vaisseau.position.z-10);
     }
-    
     
     renderer.render(scene, camera);  // rendu de la scène
     loop.last = loop.now;

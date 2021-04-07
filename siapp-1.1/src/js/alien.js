@@ -49,7 +49,7 @@ function createAliensCircle() {
 
       let radius = 13;
    //for (var k = 0; k <= 1; k++) {
-        for (var i = 0; i <= 20 ; i++) {
+        for (var i = 0; i < 20 ; i++) {
             var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
             alien.position.x = Math.cos(i*Math.PI/10)*radius;
             alien.position.y = 1;
@@ -59,7 +59,7 @@ function createAliensCircle() {
             collidableMeshList.push(alien);
          }
 
-         for (var i = 0; i <= 20 ; i++) {
+         for (var i = 0; i < 20 ; i++) {
           var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
           alien.position.x = Math.cos(i*Math.PI/10)*(radius-4);
           alien.position.y = 1;
@@ -68,7 +68,7 @@ function createAliensCircle() {
           aliens.add( alien );
           collidableMeshList.push(alien);
        }
-       for (var i = 0; i <= 10 ; i++) {
+       for (var i = 0; i < 10 ; i++) {
         var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
         alien.position.x = Math.cos(i*Math.PI/5)*(radius-8);
         alien.position.y = 1;

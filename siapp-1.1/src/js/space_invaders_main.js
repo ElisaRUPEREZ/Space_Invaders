@@ -72,6 +72,8 @@ function keyPressed(e) {
   e.preventDefault();
 }
 function init() {
+  document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
+
   container = document.querySelector('#siapp');
   w = container.clientWidth;
   h = container.clientHeight;

@@ -75,6 +75,7 @@ function GameOver() { //si pv vaisseau ==0 ou alien touche le vaisseau ou alien 
   let btn = document.getElementById("buttonGameOver");
   btn.onclick = function() {
     document.getElementById('mainMenu').style.display = "block";
+    document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
     document.getElementById("ModalGameOver").style.display = "none";
   }
 
