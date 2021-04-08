@@ -132,14 +132,41 @@ function createAliensWave() {
 }
 
 function createSoucoupe() {
+      var loader2 = new THREE.GLTFLoader();
+  loader2.crossOrigin = true;
+  loader2.load( 'src/medias/models/ufo/scene.gltf', function ( data ) {
+  
+    
+      var object = data.scene;
+       object.position.set(-30, 0, 22);
+    //   object.visible = false;
+       object.userData = ["soucoupe", 500];
+  //     object.rotation.set(Math.PI / -2, 0, 0);
+  
+  //     TweenLite.from( object.rotation, 1.3, {
+  //       y: Math.PI * 2,
+  //       ease: 'Power3.easeOut'
+  //     });
+      scene.add( object );
+      soucoupe = scene.getObjectById(object.id);
+  console.log(soucoupe);
+
+
+      //
+      //collidableMeshList.push(soucoupe);
+
+    //, onProgress, onError );
+  });
+
+
       //soucoupe volante
-      soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
+    /*  soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
       soucoupe.position.set(-30, 1, 22);
       soucoupe.visible = false;
       soucoupe.rotateX(Math.PI/2);
       soucoupe.userData = ["soucoupe", 500];
       scene.add( soucoupe );
-      collidableMeshList.push(soucoupe);
+      collidableMeshList.push(soucoupe);*/
 }
 
 function createBulletAlien(alienID) { /// TODO: alternative au projectile dans le groupe aliens
@@ -245,13 +272,18 @@ function updateTirAlien(move) {
 }
 
 function updateSoucoupe(move) {
-  if (soucoupe.position.x <30 && ApparitionSoucoupe) {
-    soucoupe.position.x += 6*move;
-    soucoupe.rotateZ(Math.PI/14);
+  if (soucoupe==undefined) {
+    console.log("soucoupe undefined");
   } else {
-    soucoupe.visible = false;
-    ApparitionSoucoupe = false;
+    if (soucoupe.position.x <30 && ApparitionSoucoupe) {
+      soucoupe.position.x += 6*move;
+      soucoupe.rotateY(Math.PI/14);
+    } else {
+      soucoupe.visible = false;
+      ApparitionSoucoupe = false;
+    }
   }
+
 }
 
 function CollisionBulletAlien(BouclierVaisseau) {

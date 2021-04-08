@@ -1,4 +1,5 @@
 "uses strict";
+
 let music, soundLaser, soundDeathAlien;
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
@@ -71,6 +72,7 @@ function keyPressed(e) {
   }
   e.preventDefault();
 }
+
 function init() {
   document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
 
@@ -131,6 +133,16 @@ function init() {
   });
 
   scene.add(soundDeathAlien);
+
+  
+
+
+
+
+
+
+
+
 
   const renderConfig = {antialias: true, alpha: true};
   renderer = new THREE.WebGLRenderer(renderConfig);
