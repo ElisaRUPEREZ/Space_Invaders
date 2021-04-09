@@ -1,3 +1,4 @@
+let soucoupeBox;
 /*--------------------------------------------------CREATION DES OBJETS---------------------------------------------------------------------------*/
 function createAliens() {
   aliens = new THREE.Group();
@@ -132,15 +133,22 @@ function createAliensWave() {
 }
 
 function createSoucoupe() {
-      var loader2 = new THREE.GLTFLoader();
+  soucoupeBox = new THREE.Mesh( new THREE.TorusGeometry( 3, 1.8, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878,opacity: 0,transparent: true} ) );
+  soucoupeBox.position.set(-40, 1.5, 22);
+  soucoupeBox.rotateX(Math.PI/2);
+  soucoupeBox.userData = ["soucoupe", 500];
+  scene.add(soucoupeBox);
+  collidableMeshList.push(soucoupeBox);
+
+
+  var loader2 = new THREE.GLTFLoader();
   loader2.crossOrigin = true;
   loader2.load( 'src/medias/models/ufo/scene.gltf', function ( data ) {
   
     
       var object = data.scene;
-       object.position.set(-30, 0, 22);
-    //   object.visible = false;
-       object.userData = ["soucoupe", 500];
+       object.position.set(soucoupeBox.position.x, -1, soucoupeBox.position.z); //-30, 0, 22
+      
   //     object.rotation.set(Math.PI / -2, 0, 0);
   
   //     TweenLite.from( object.rotation, 1.3, {
@@ -148,12 +156,11 @@ function createSoucoupe() {
   //       ease: 'Power3.easeOut'
   //     });
       scene.add( object );
+      
       soucoupe = scene.getObjectById(object.id);
-  console.log(soucoupe);
+      soucoupeBox.attach(object);
+      object.visible = true;
 
-
-      //
-      //collidableMeshList.push(soucoupe);
 
     //, onProgress, onError );
   });
@@ -272,12 +279,11 @@ function updateTirAlien(move) {
 }
 
 function updateSoucoupe(move) {
-  if (soucoupe==undefined) {
-    console.log("soucoupe undefined");
-  } else {
-    if (soucoupe.position.x <30 && ApparitionSoucoupe) {
-      soucoupe.position.x += 6*move;
-      soucoupe.rotateY(Math.PI/14);
+  if (soucoupe!=undefined) {
+    if (soucoupeBox.position.x <40 && ApparitionSoucoupe) {
+      //soucoupe.position.x += 5*move;
+      soucoupeBox.position.x += 5*move;
+      soucoupe.rotateY(Math.PI/20);
     } else {
       soucoupe.visible = false;
       ApparitionSoucoupe = false;

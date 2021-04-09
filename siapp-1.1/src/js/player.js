@@ -99,7 +99,7 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
           break;
         case "soucoupe":
           calculPoints(object.userData[1]);
-          object.visible= false;
+          soucoupe.visible= false;
           break;
         case "bouclier":
           calculPVbouclier(object);

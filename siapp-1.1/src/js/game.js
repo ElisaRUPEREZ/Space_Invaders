@@ -117,9 +117,11 @@ function update(step) {
 
       //TODO : Mettre un intervalle de temps
         if (Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
+          console.log("SOUCOUPE EN VUE");
           ApparitionSoucoupe = true;
           soucoupe.visible = true;
-          soucoupe.position.x = -30;
+         // soucoupe.position.x = -35; //-30
+          soucoupeBox.position.x = -40;
         }
 
         updateSoucoupe(move);
