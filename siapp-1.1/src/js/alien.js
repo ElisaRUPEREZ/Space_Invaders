@@ -145,35 +145,16 @@ function createSoucoupe() {
   loader2.crossOrigin = true;
   loader2.load( 'src/medias/models/ufo/scene.gltf', function ( data ) {
   
-    
-      var object = data.scene;
-       object.position.set(soucoupeBox.position.x, -1, soucoupeBox.position.z); //-30, 0, 22
+    var object = data.scene;
+    object.position.set(soucoupeBox.position.x, -1, soucoupeBox.position.z); //-30, 0, 22
+    scene.add( object );
       
-  //     object.rotation.set(Math.PI / -2, 0, 0);
-  
-  //     TweenLite.from( object.rotation, 1.3, {
-  //       y: Math.PI * 2,
-  //       ease: 'Power3.easeOut'
-  //     });
-      scene.add( object );
-      
-      soucoupe = scene.getObjectById(object.id);
-      soucoupeBox.attach(object);
-      object.visible = true;
-
+    soucoupe = scene.getObjectById(object.id);
+    soucoupeBox.attach(object);
+    object.visible = true;
 
     //, onProgress, onError );
   });
-
-
-      //soucoupe volante
-    /*  soucoupe = new THREE.Mesh( new THREE.TorusGeometry( 2, 1.5, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878 } ) );
-      soucoupe.position.set(-30, 1, 22);
-      soucoupe.visible = false;
-      soucoupe.rotateX(Math.PI/2);
-      soucoupe.userData = ["soucoupe", 500];
-      scene.add( soucoupe );
-      collidableMeshList.push(soucoupe);*/
 }
 
 function createBulletAlien(alienID) { /// TODO: alternative au projectile dans le groupe aliens
@@ -327,3 +308,20 @@ function CollisionBulletAlien(BouclierVaisseau) {
     }
 }
 
+function testAlien(colorA) {
+
+  var loader2 = new THREE.GLTFLoader();
+  loader2.crossOrigin = true;
+  loader2.load( 'src/medias/models/mad_octopus/scene.gltf', function ( data ) {
+  
+    var object = data.scene;
+    object.position.set(10, 2, -20); //-30, 0, 22
+    var mat = new THREE.MeshToonMaterial({color: colorA});
+    object.traverse((o) => {
+      if (o.isMesh) o.material = mat;
+    })
+    object.rotateY(180);
+    scene.add( object );
+    //, onProgress, onError );
+  });
+}

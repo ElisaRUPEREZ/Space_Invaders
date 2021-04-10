@@ -9,6 +9,8 @@ function startLevel(level) {
     clearGame();
   }
   addObjectToscene();
+  testAlien(0x34c924);
+  /* Vérifier objects sont chargés puis*/
   gameLoop();
 }
 
@@ -116,7 +118,7 @@ function update(step) {
     updateVaisseauAndBullet();
 
       //TODO : Mettre un intervalle de temps
-        if (Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
+        if (soucoupe!=undefined && Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
           console.log("SOUCOUPE EN VUE");
           ApparitionSoucoupe = true;
           soucoupe.visible = true;
