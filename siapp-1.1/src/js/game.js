@@ -9,7 +9,7 @@ function startLevel(level) {
     clearGame();
   }
   addObjectToscene();
-  testAlien(0x34c924);
+  //testAlien(0x34c924);
   /* Vérifier objects sont chargés puis*/
   gameLoop();
 }
@@ -18,7 +18,7 @@ function clearGame() {
   scene.clear();
   document.getElementById('VieDiv').innerHTML = '';
   points = 0;
-  document.getElementById("ScoreDiv").innerHTML='<h1>Score : 000</h1>';
+  document.getElementById("ScoreDiv").innerHTML='<h1>Score : 0000</h1>';
 
   tirEnCours = false;
   moveDir = true; /// sens de déplacement des aliens

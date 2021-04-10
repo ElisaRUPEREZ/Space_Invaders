@@ -4,40 +4,46 @@ function createAliens() {
   aliens = new THREE.Group();
   scene.add(aliens);
 
-  const geometryA = new THREE.BoxGeometry(2,2,2);
+  const geometryA = new THREE.BoxGeometry(2.5,4.5,2.5, 5, 5, 5);
+  const materialA = new THREE.MeshNormalMaterial({wireframe: true, opacity: 0,transparent: true});
+
       var xOffset = -17;
       for (var k = 0; k <= 1; k++) {
         for (var i = 1; i <= 10 ; i++) {
-            var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x34c924}), );
-            alien.position.x = (3 * i) + xOffset;
+            var alien = new THREE.Mesh( geometryA, materialA);
+            alien.position.x = (4 * i) + xOffset;
             alien.position.y = 1;
-            alien.position.z = 4*k;
+            alien.position.z = 4.5*k;
             alien.userData = ["alien", 100];
             aliens.add( alien );
             collidableMeshList.push(alien);
+            testAlien(0x34c924, alien);
          }
       }
 
       for (var k = 0; k <= 1; k++) {
         for (var i = 1; i <= 10 ; i++) {
-            var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0x0f04cf}), );
-            alien.position.x = (3 * i) + xOffset;
+            var alien = new THREE.Mesh( geometryA, materialA);
+            alien.position.x = (4 * i) + xOffset;
             alien.position.y = 1;
-            alien.position.z = 8 +(4*k); // 8 et 12
+            alien.position.z = 8.5 +(4.5*k); // 8 et 12
             alien.userData = ["alien", 200];
             aliens.add( alien );
             collidableMeshList.push(alien);
+            testAlien(0x0f04cf, alien);
          }
       }
 
         for (var i = 1; i <= 10 ; i++) {
-            var alien = new THREE.Mesh( geometryA, new THREE.MeshPhongMaterial({color: 0xcd5c5c}), );
-            alien.position.x = (3 * i) + xOffset;
-            alien.position.y = 1;
-            alien.position.z = 16;
+            var alien = new THREE.Mesh( geometryA, materialA);
+            alien.position.x = (4 * i) + xOffset;
+            alien.position.y = 1.5;
+            alien.position.z = 9+(4.5*k);
             alien.userData = ["alien", 300];
             aliens.add( alien );
             collidableMeshList.push(alien);
+            testAlien(0xcd5c5c, alien);
+
         }
 }
 
@@ -185,6 +191,7 @@ function deleteBullet(object) {
 
 function deleteAlien(object) {
   soundDeathAlien.play();
+  object.clear();
   aliens.remove(object);
   object.geometry.dispose();
   object.material.dispose();
@@ -308,20 +315,22 @@ function CollisionBulletAlien(BouclierVaisseau) {
     }
 }
 
-function testAlien(colorA) {
-
+function testAlien(colorA, alien) {
+  var object;
   var loader2 = new THREE.GLTFLoader();
   loader2.crossOrigin = true;
-  loader2.load( 'src/medias/models/mad_octopus/scene.gltf', function ( data ) {
+  loader2.load( 'src/medias/models/mad_octopus/test.gltf', function ( data ) {
   
-    var object = data.scene;
-    object.position.set(10, 2, -20); //-30, 0, 22
-    var mat = new THREE.MeshToonMaterial({color: colorA});
+    object = data.scene;
+    object.position.set(alien.position.x+3.8, 2.5, alien.position.z); //-30, 0, 22
+    var mat = new THREE.MeshPhongMaterial({color: colorA});
     object.traverse((o) => {
       if (o.isMesh) o.material = mat;
     })
-    object.rotateY(180);
+    object.rotateY(Math.PI);
     scene.add( object );
+    alien.attach(object);
     //, onProgress, onError );
   });
+  return object;
 }
