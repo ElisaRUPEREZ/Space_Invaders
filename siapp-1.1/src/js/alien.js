@@ -8,39 +8,39 @@ function createAliens() {
   aliens = new THREE.Group();
   scene.add(aliens);
 
-      var xOffset = -17;
+      var xOffset = -28;
       for (var k = 0; k <= 1; k++) {
         for (var i = 1; i <= 10 ; i++) {
-          loadAlien(0x34c924, (4 * i)+xOffset, 1, 4.5*k, 100);            
+          loadAlien(0x34c924,xOffset + (4 * i), 1, 4.5*k, 100);            
          }
       }
 
       for (var k = 0; k <= 1; k++) {
         for (var i = 1; i <= 10 ; i++) {
-          loadAlien(0x0f04cf, (4 * i)+xOffset, 1, 8.5 +(4.5*k), 200);            
+          loadAlien(0x0f04cf,xOffset + (4 * i), 1, 8.5 +(4.5*k), 200);            
          }
       }
 
         for (var i = 1; i <= 10 ; i++) {
-            loadAlien(0xcd5c5c, (4 * i)+xOffset, 1, 9+(4.5*k), 300);
+            loadAlien(0xcd5c5c,xOffset+ (4 * i), 1, 9+(4.5*k), 300);
         }
 }
 
 function createAliensCircle() {
   aliens = new THREE.Group();
   scene.add(aliens);
-
+    let Offsetx = -15;
       let radius = 13;
         for (var i = 0; i < 20 ; i++) {
-          loadAlien(0x34c924, Math.cos(i*Math.PI/10)*radius, 1, Math.sin(i*Math.PI/10)*radius+4, 100);             
+          loadAlien(0x34c924, Offsetx + Math.cos(i*Math.PI/10)*radius, 1, Math.sin(i*Math.PI/10)*radius+4, 100);             
          }
 
          for (var i = 0; i < 20 ; i++) {
-          loadAlien(0x0f04cf, Math.cos(i*Math.PI/10)*(radius-4), 1, Math.sin(i*Math.PI/10)*(radius-4)+4, 200); 
+          loadAlien(0x0f04cf, Offsetx + Math.cos(i*Math.PI/10)*(radius-4), 1, Math.sin(i*Math.PI/10)*(radius-4)+4, 200); 
        }
 
        for (var i = 0; i < 10 ; i++) {
-        loadAlien(0xcd5c5c, Math.cos(i*Math.PI/5)*(radius-8), 1, Math.sin(i*Math.PI/5)*(radius-8)+4, 300);                     
+        loadAlien(0xcd5c5c, Offsetx + Math.cos(i*Math.PI/5)*(radius-8), 1, Math.sin(i*Math.PI/5)*(radius-8)+4, 300);                     
      }
 }
 
@@ -91,12 +91,12 @@ function loadAlien(colorA, x, y, z, points) {
       if (o.isMesh) o.material = mat;
     })
     object.rotateY(Math.PI);
-    object.position.set(x, y, z);
+    object.position.set(x, 2, z);
 
 
     var alien = new THREE.Mesh( geometryA, materialA);
     alien.userData = ["alien", points];
-    alien.position.set(object.position.x, object.position.y, object.position.z);
+    alien.position.set(object.position.x, y, object.position.z);
     alien.attach(object);
     aliens.add( alien );
     collidableMeshList.push(alien);
