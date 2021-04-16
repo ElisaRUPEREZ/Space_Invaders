@@ -1,3 +1,20 @@
+const manager = new THREE.LoadingManager()
+
+manager.onLoad = function ( ) {
+    console.log( "Loading complete!");
+    gameLoop();
+}
+
+
+manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+    console.log(`Items loaded: ${itemsLoaded}/${itemsTotal}`)
+}
+
+manager.onError = function ( url ) {
+    console.log( 'There was an error loading ' + url )
+}
+
+
 function startLevel(level) {
   
   document.getElementById("ModalGameSuccess").style.display = "none";
@@ -11,7 +28,7 @@ function startLevel(level) {
   addObjectToscene();
   //testAlien(0x34c924);
   /* Vérifier objects sont chargés puis*/
-  gameLoop();
+ // gameLoop();
 }
 
 function clearGame() {
@@ -36,6 +53,7 @@ function clearGame() {
 
 
 function addObjectToscene() {
+
 
   vaissBoucliers = new THREE.Group();
   scene.add(vaissBoucliers);
@@ -91,6 +109,7 @@ function gameLoop() {
     loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
     while(loop.dt > loop.slowStep) {
       loop.dt = loop.dt - loop.slowStep;
+      /* Attendre que les Aliens soient chargés :*/
       update(loop.step); // déplace les objets d'une fraction de seconde
     }
 
@@ -114,6 +133,8 @@ function update(step) {
   const move = 2.5 * step;
 
     MoveAliens(move);
+    TirAlien(); ///
+    updateTirAlien(move);
 
     updateVaisseauAndBullet();
 
@@ -127,7 +148,6 @@ function update(step) {
         }
 
         updateSoucoupe(move);
-        TirAlien(); ///
-        updateTirAlien(move);
+      
 
 }
