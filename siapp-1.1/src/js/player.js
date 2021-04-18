@@ -16,12 +16,28 @@ function createWield() {
 
 
 function createVaisseau() {
-    const geometry = new THREE.BoxGeometry(4,2,2);
-    const material = new THREE.MeshNormalMaterial( );
-    vaisseau = new THREE.Mesh( geometry, material, );
-    vaisseau.position.set(0, 1, -22);
-    vaissBoucliers.add( vaisseau );
-    vaisseau.userData = ["vaisseau", 3];
+    
+
+    var loader = new THREE.GLTFLoader(manager);
+    loader.crossOrigin = true;
+    loader.load( 'src/medias/models/spaceship/spaceship2.gltf', function ( data ) {
+    
+      var object = data.scene;
+
+      const geometry = new THREE.BoxGeometry(8,4,8, 6, 6, 6);
+      const material = new THREE.MeshNormalMaterial({opacity: 0.5,transparent: true});
+      vaisseau = new THREE.Mesh( geometry, material, );
+      vaisseau.position.set(0, 0, -24);
+      vaisseau.userData = ["vaisseau", 3];
+      
+
+      object.position.set(vaisseau.position.x, 0 , vaisseau.position.z); //-30, 0, 22
+      vaisseau.attach(object);
+      vaissBoucliers.add( vaisseau );
+  
+      //, onProgress, onError );
+    });
+
 
     for (var i = 1; i <=3; i++) {
         document.getElementById('VieDiv').innerHTML += '<img class="vieIMG" id="vie'+i+'" src="src/medias/pictures/vie.png" />';
@@ -114,9 +130,9 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
 /*-------------------------------------------------- FONCTIONS UPDATE -----------------------------------------------------------------*/
 function updateVaisseauAndBullet() {
   //Déplacements du vaisseau
-    if (keyboard.pressed("left") && vaisseau.position.x<25)
+    if (keyboard.pressed("left") && vaisseau.position.x<35)
       vaisseau.position.x += 0.2;
-    if ( keyboard.pressed("right") && vaisseau.position.x>-25)
+    if ( keyboard.pressed("right") && vaisseau.position.x>-35)
       vaisseau.position.x -= 0.2;
     if ( keyboard.pressed("space") ){
         if (!tirEnCours) {
@@ -127,7 +143,7 @@ function updateVaisseauAndBullet() {
     if (tirEnCours) {
       collisionPlayerBullet();
       bullet.position.z += 0.6;
-      if (bullet.position.z > 25) {
+      if (bullet.position.z > 30) {
         DesactiveTir();
       }
     } else {

@@ -48,7 +48,8 @@ function createAliensWave() {
   aliens = new THREE.Group();
   scene.add(aliens);
   let Offsetx = -10;
-  
+  let Offsetz = 3;
+
   for (var k = 0; k <= 1; k++) {
     for (var i = 0; i < 10 ; i++) {
       let valZ;
@@ -57,7 +58,7 @@ function createAliensWave() {
       } else {
         valZ = Math.sin(i) + k*6 -4;
       }
-      loadAlien(0x34c924, Offsetx +3.2*i, 1, valZ, 100);
+      loadAlien(0x34c924, Offsetx +3.2*i, 1, valZ + Offsetz, 100);
    }
 }
   for (var k = 0; k <= 1; k++) {
@@ -68,12 +69,12 @@ function createAliensWave() {
         } else {
           valZ = Math.sin(i) + 10+k*6;
         }
-        loadAlien(0x0f04cf, Offsetx + 3.2*i, 1, valZ, 200);
+        loadAlien(0x0f04cf, Offsetx + 3.2*i, 1, valZ + Offsetz, 200);
       }
    }
        
        for (var i = 0; i < 10 ; i++) {
-        loadAlien(0xcd5c5c, Offsetx + 14.5+Math.cos(i*Math.PI/5)*2.5, 1, 6+Math.sin(i*Math.PI/5)*2.5, 300);        
+        loadAlien(0xcd5c5c, Offsetx + 14.5+Math.cos(i*Math.PI/5)*2.5, 1, 6+Math.sin(i*Math.PI/5)*2.5 + Offsetz, 300);        
      }
 }
 
@@ -102,10 +103,6 @@ function loadAlien(colorA, x, y, z, points) {
     collidableMeshList.push(alien);
 
 
-
-
-  //  scene.add( object );
-   // alien.attach(object);
    // , onProgress, onError );
   });
   return object;

@@ -88,7 +88,7 @@ function addObjectToscene() {
   document.body.appendChild( stats.domElement );
 
  // GridHelper
-  const gridHelper = new THREE.GridHelper(60, 30);
+  const gridHelper = new THREE.GridHelper(70, 25);
   scene.add(gridHelper);
 
   const fps  = 60;
@@ -121,6 +121,7 @@ function gameLoop() {
     
     renderer.render(scene, camera);  // rendu de la scène
     loop.last = loop.now;
+
     requestAnimationFrame(gameLoop); // relance la boucle du jeu
 
     controls.update();
@@ -143,7 +144,6 @@ function update(step) {
           console.log("SOUCOUPE EN VUE");
           ApparitionSoucoupe = true;
           soucoupe.visible = true;
-         // soucoupe.position.x = -35; //-30
           soucoupeBox.position.x = -40;
         }
 
