@@ -147,7 +147,7 @@ function update(step) {
           soucoupeBox.position.x = -40;
         }
 
-        updateSoucoupe(move);
+      updateSoucoupe(move);
       
 
 }

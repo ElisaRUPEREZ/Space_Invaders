@@ -197,6 +197,11 @@ function MoveTirAlien(moveDir, move) {
           } else {
             bulletAlTabObject[i].position.x +=move;
           }
+          // TODO: Gérer les collisions ici !!!
+
+          if ((bulletAlTabObject[i]!=undefined)&&(bulletAlTabObject[i].position.z <-35)) {
+            deleteBullet(bulletAlTabObject[i]);
+          }
         }
       }
 }
@@ -231,14 +236,14 @@ function MoveAliens(move) {
 function updateTirAlien(move) {
   if (bulletAlTabObject.length >0 && bulletAlTabObject!=undefined) {
     MoveTirAlien(moveDir, move);
-    testPositionBulletAlien();
+ //   testPositionBulletAlien();
   }
 
-  for (var i = 0; i < vaissBoucliers.children.length; i++) { //Ne pas oublier de retirer les objets supprimés
+/*  for (var i = 0; i < vaissBoucliers.children.length; i++) { //Ne pas oublier de retirer les objets supprimés
     if (vaissBoucliers.children[i] != undefined) {
       CollisionBulletAlien(vaissBoucliers.children[i]);
     }
-  }
+  }*/
 }
 
 function updateSoucoupe(move) {

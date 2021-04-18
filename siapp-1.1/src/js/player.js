@@ -1,23 +1,37 @@
 /*---------------------------- CREATION DES DIFFERENTS OBJETS------------------------------------------------------------------------------------------------*/
 
 function createWield() {
-  const geometryWield = new THREE.PlaneGeometry( 6, 4 , 10, 10);
+  const geometryWield = new THREE.BoxGeometry( 5, 8 , 0.5, 7, 7, 2);
+  const geometryWieldLat = new THREE.BoxGeometry( 3.5, 8 , 0.5, 7, 7, 2);
   const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide, transparent: true, opacity: 0.8} );
 
   for (var i = 0; i < 4; i++) {
-    const plane = new THREE.Mesh( geometryWield , materialWield  );
-    plane.position.set(15 + (i*14) - 35, 1, -17);
-    plane.userData = ["bouclier", 10];
-    vaissBoucliers.add( plane );
-    collidableMeshList.push(plane);
+    let planeC = new THREE.Mesh( geometryWield , materialWield  );
+    planeC.position.set((i*17) - 25, 1, -17);
+    planeC.userData = ["bouclier", 10];
+    vaissBoucliers.add( planeC );
+    collidableMeshList.push(planeC);
+
+    let planeL = new THREE.Mesh( geometryWieldLat , materialWield  );
+    planeL.position.set(4+ planeC.position.x, 1, -18.5);
+    planeL.userData = ["bouclier", 10];
+    planeL.rotateY(5*Math.PI/4);
+    vaissBoucliers.add( planeL );
+    collidableMeshList.push(planeL);
+
+    let planeR = new THREE.Mesh( geometryWieldLat , materialWield  );
+    planeR.position.set(planeC.position.x -4, 1, -18.5);
+    planeR.userData = ["bouclier", 10];
+    planeR.rotateY(-Math.PI/4);
+    vaissBoucliers.add( planeR );
+    collidableMeshList.push(planeR);
   }
 
 }
 
 
 function createVaisseau() {
-    
-
+  
     var loader = new THREE.GLTFLoader(manager);
     loader.crossOrigin = true;
     loader.load( 'src/medias/models/spaceship/spaceship.gltf', function ( data ) {
@@ -27,7 +41,7 @@ function createVaisseau() {
       const geometry = new THREE.BoxGeometry(5,4,8, 6, 6, 6);
       const material = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
       vaisseau = new THREE.Mesh( geometry, material, );
-      vaisseau.position.set(0, 0, -24);
+      vaisseau.position.set(0, 0, -25);
       vaisseau.userData = ["vaisseau", 3];
       
 
