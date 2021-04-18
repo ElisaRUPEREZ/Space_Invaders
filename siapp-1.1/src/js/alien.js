@@ -2,7 +2,7 @@ let soucoupeBox;
 let tabAlienLoading = [];
 /*--------------------------------------------------CREATION DES OBJETS---------------------------------------------------------------------------*/
 const geometryA = new THREE.BoxGeometry(2.9,4.5,2.9, 6, 6, 6);
-const materialA = new THREE.MeshNormalMaterial({opacity: 0.5,transparent: true});
+const materialA = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
 
 function createAliens() {
   aliens = new THREE.Group();

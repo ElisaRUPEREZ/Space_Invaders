@@ -20,12 +20,12 @@ function createVaisseau() {
 
     var loader = new THREE.GLTFLoader(manager);
     loader.crossOrigin = true;
-    loader.load( 'src/medias/models/spaceship/spaceship2.gltf', function ( data ) {
+    loader.load( 'src/medias/models/spaceship/spaceship.gltf', function ( data ) {
     
       var object = data.scene;
 
-      const geometry = new THREE.BoxGeometry(8,4,8, 6, 6, 6);
-      const material = new THREE.MeshNormalMaterial({opacity: 0.5,transparent: true});
+      const geometry = new THREE.BoxGeometry(5,4,8, 6, 6, 6);
+      const material = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
       vaisseau = new THREE.Mesh( geometry, material, );
       vaisseau.position.set(0, 0, -24);
       vaisseau.userData = ["vaisseau", 3];
