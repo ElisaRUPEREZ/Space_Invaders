@@ -1,8 +1,8 @@
 /*---------------------------- CREATION DES DIFFERENTS OBJETS------------------------------------------------------------------------------------------------*/
 
 function createWield() {
-  const geometryWield = new THREE.PlaneGeometry( 5, 8 , 1, 1);
-  const geometryWieldLat = new THREE.PlaneGeometry( 3.5, 8 , 1, 1);
+  const geometryWield = new THREE.PlaneGeometry( 5, 8 , 6, 4);
+  const geometryWieldLat = new THREE.PlaneGeometry( 3.5, 8 , 6, 4);
   const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide, transparent: true, opacity: 0.8} );
 
   for (var i = 0; i < 4; i++) {
@@ -51,7 +51,7 @@ function createVaisseau() {
     
       var object = data.scene;
 
-      const geometry = new THREE.BoxGeometry(5,4,8, 6, 6, 2);
+      const geometry = new THREE.BoxGeometry(5,4,8, 6, 4, 2);
       const material = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
       vaisseau = new THREE.Mesh( geometry, material, );
       vaisseau.position.set(0, 0, -28);
@@ -106,7 +106,6 @@ function calculPVvaisseau(object) {
 }
 
 function calculPVbouclier(object) {
-  console.log("calcul pv bouclier" + object.userData[1]);
   object.userData[1] -=1;
   if (object.userData[1] == 0) {
   //  removeObject(object);
