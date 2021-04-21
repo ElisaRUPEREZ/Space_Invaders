@@ -2,7 +2,7 @@ const manager = new THREE.LoadingManager()
 
 manager.onLoad = function ( ) {
     console.log( "Loading complete!");
-    gameLoop();
+    StartGame();
 }
 
 
@@ -16,7 +16,7 @@ manager.onError = function ( url ) {
 
 
 function startLevel(level) {
-  
+  console.log("nouvelle version ahahahah");
   document.getElementById("ModalGameSuccess").style.display = "none";
   document.getElementById("ModalGameOver").style.display = "none";
   niveau =level;
@@ -37,13 +37,20 @@ function clearGame() {
   points = 0;
   document.getElementById("ScoreDiv").innerHTML='<h1>Score : 0000</h1>';
 
+  vaisseau = null;
+  bullet= null;
+  soucoupe= null;
+  aliens= null;
+  boxAliens= null;
+  vaissBoucliers= null; // group
+
   tirEnCours = false;
   moveDir = true; /// sens de déplacement des aliens
   ApparitionSoucoupe = false;
     //tabObjects
   collidableMeshList = []; // liste objet pouvant être touchés par le joueur
   bulletAlTabObject = [];
-
+  tabMeshVaissBou =[];
   pause = false;
 
   invincible = false;
@@ -56,8 +63,8 @@ function addObjectToscene() {
 
 
   vaissBoucliers = new THREE.Group();
-  scene.add(vaissBoucliers);
-
+  
+  createWield();
   createVaisseau();
   createBullet();
   createSoucoupe()
@@ -74,9 +81,9 @@ function addObjectToscene() {
       break;
   }
 
-  createWield();
+  
 
-
+  scene.add(vaissBoucliers);
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
   light.position.set(-15, 15,-25);
   scene.add(light);
@@ -91,6 +98,11 @@ function addObjectToscene() {
   const gridHelper = new THREE.GridHelper(70, 25);
   scene.add(gridHelper);
 
+ 
+}
+
+function StartGame() {
+  console.log("START GAME");
   const fps  = 60;
   const slow = 1; // slow motion! 1: normal speed, 2: half speed...
   loop.dt       = 0,
@@ -100,6 +112,8 @@ function addObjectToscene() {
   loop.step     = 1/loop.fps;
   loop.slow     = slow;
   loop.slowStep = loop.slow * loop.step;
+
+  gameLoop();
 }
 
 function gameLoop() {
@@ -134,17 +148,20 @@ function update(step) {
   const move = 2.5 * step;
 
     MoveAliens(move);
-    TirAlien(); ///
+    TirAlien();
     updateTirAlien(move);
-
     updateVaisseauAndBullet();
+    
+    for (let index = 0; index < tabMeshVaissBou.length; index++) {
+      CollisionBulletAlienOnBV(tabMeshVaissBou[index]);
+    }
 
       //TODO : Mettre un intervalle de temps
         if (soucoupe!=undefined && Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
           console.log("SOUCOUPE EN VUE");
           ApparitionSoucoupe = true;
           soucoupe.visible = true;
-          soucoupeBox.position.x = -40;
+          soucoupeBox.position.x = -45;
         }
 
       updateSoucoupe(move);

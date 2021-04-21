@@ -25,6 +25,9 @@ let invincible = false;
 
 let points =0;
 let niveau = 1;
+let wally;
+
+let tabMeshVaissBou =[];
 
 window.addEventListener('load', init);
 window.addEventListener('resize', resize);
@@ -36,7 +39,7 @@ function keyPressed(e) {
   switch(e.key) {
     case '0':
           cameraMode = 0;
-          camera.position.set(0, 40, 0);
+          camera.position.set(0, 55, 0);
     break;
 
     case '1':
@@ -74,6 +77,7 @@ function keyPressed(e) {
 }
 
 function init() {
+  console.log("test alian");
   document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
 
   container = document.querySelector('#siapp');
@@ -83,7 +87,7 @@ function init() {
 
 // Caméra
   camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
-  camera.position.set(0, 40, 0);
+  camera.position.set(0, 55, 0);
 
 
   controls = new THREE.TrackballControls(camera, container);

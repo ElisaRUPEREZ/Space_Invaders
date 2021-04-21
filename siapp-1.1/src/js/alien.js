@@ -1,5 +1,6 @@
 let soucoupeBox;
 let tabAlienLoading = [];
+
 /*--------------------------------------------------CREATION DES OBJETS---------------------------------------------------------------------------*/
 const geometryA = new THREE.BoxGeometry(2.9,4.5,2.9, 6, 6, 6);
 const materialA = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
@@ -102,11 +103,30 @@ function loadAlien(colorA, x, y, z, points) {
     aliens.add( alien );
     collidableMeshList.push(alien);
 
+    createBulletAlien(alien);
 
    // , onProgress, onError );
   });
   return object;
 }
+
+function createBulletAlien(al) { /// TODO: alternative au projectile dans le groupe aliens
+  const geometryBA = new THREE.OctahedronGeometry(0.6);
+  const materialBA = new THREE.MeshBasicMaterial({color: 0x000000});
+
+  let bulletAl = new THREE.Mesh( geometryBA, materialBA );
+
+  bulletAl.position.set(al.position.x,al.position.y -2,al.position.z);
+
+  bulletAl.userData = ["bulletAlien", false];
+  bulletAl.visible = false;
+
+ // aliens.add( bulletAl );
+  collidableMeshList.push(bulletAl); // ok
+  bulletAlTabObject.push(bulletAl);
+  al.attach(bulletAl);
+}
+
 
 function createSoucoupe() {
   soucoupeBox = new THREE.Mesh( new THREE.TorusGeometry( 3, 1.8, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878,opacity: 0,transparent: true} ) );
@@ -132,23 +152,6 @@ function createSoucoupe() {
     //, onProgress, onError );
   });
 }
-
-function createBulletAlien(alienID) { /// TODO: alternative au projectile dans le groupe aliens
-  const geometryBA = new THREE.OctahedronGeometry(0.6);
-  const materialBA = new THREE.MeshBasicMaterial({color: 0x000000});
-
-  let bulletAl = new THREE.Mesh( geometryBA, materialBA );
-
-  var al = scene.getObjectById(alienID);
-  bulletAl.position.set(al.position.x,al.position.y,al.position.z);
-
-  bulletAl.userData = ["bulletAlien"];
-
-  aliens.add( bulletAl );
-  collidableMeshList.push(bulletAl); // ok
-  bulletAlTabObject.push(bulletAl);
-}
-
 /*--------------------------------------------------DESTRUCTION DES OBJETS -----------------------------------------------------------------*/
 function deleteBullet(object) {
 //  var removedItem = bulletAlTab.splice(bulletAlTab.indexOf(object.id), 1);
@@ -177,28 +180,36 @@ function deleteAlien(object) {
 function TirAlien() {
   var n = Math.round(Math.random()*4000);
   if ((aliens.children[n]!=undefined) && (aliens.children[n].userData[0]=="alien")) {
-    createBulletAlien(aliens.children[n].id);
-  }
-}
-function testPositionBulletAlien() {
-  for (var i = 0; i < bulletAlTabObject.length; i++) {
-      if ((bulletAlTabObject[i]!=undefined)&&(bulletAlTabObject[i].position.z <-30)) {
-        deleteBullet(bulletAlTabObject[i]);
-      }
+    //createBulletAlien(aliens.children[n].id);
+    //console.log("tir alien = "+ aliens.children[n].children[1].userData[1]);
+    aliens.children[n].children[1].userData[1] =true;
+    aliens.children[n].children[1].position.set(0,0,0);
+    aliens.children[n].children[1].visible = true;
+    //console.log("tir alien = "+ aliens.children[n].children[1].userData[1]);
   }
 }
 
+function resetPosBulletAl(bulletAl) {
+  bulletAl.userData[1] = false;
+ // bulletAl.position.set(bulletAl.parent.position.x, bulletAl.parent.position.y, bulletAl.parent.position.z);
+ bulletAl.position.set(0,-2,0);
+ bulletAl.visible = false;
+
+}
+
 function MoveTirAlien(moveDir, move) {
-    for (var i = 0; i < bulletAlTabObject.length; i++) {
-      if (bulletAlTabObject[i]!=undefined) {
-          bulletAlTabObject[i].position.z -= 0.2;
-          if (moveDir) {
-            bulletAlTabObject[i].position.x -=move;
-          } else {
-            bulletAlTabObject[i].position.x +=move;
+      for (var i = 0; i < bulletAlTabObject.length; i++) {
+        if (bulletAlTabObject[i].userData[1]==true) {
+          
+            bulletAlTabObject[i].position.z -= 0.2;
+            if (moveDir) {
+              bulletAlTabObject[i].position.x -=move;
+            } else {
+              bulletAlTabObject[i].position.x +=move;
+            }           
           }
         }
-      }
+
 }
 
 function MoveAliens(move) {
@@ -231,13 +242,6 @@ function MoveAliens(move) {
 function updateTirAlien(move) {
   if (bulletAlTabObject.length >0 && bulletAlTabObject!=undefined) {
     MoveTirAlien(moveDir, move);
-    testPositionBulletAlien();
-  }
-
-  for (var i = 0; i < vaissBoucliers.children.length; i++) { //Ne pas oublier de retirer les objets supprimés
-    if (vaissBoucliers.children[i] != undefined) {
-      CollisionBulletAlien(vaissBoucliers.children[i]);
-    }
   }
 }
 
@@ -255,15 +259,15 @@ function updateSoucoupe(move) {
 
 }
 
-function CollisionBulletAlien(BouclierVaisseau) {
+function CollisionBulletAlienOnBV(BouclierVaisseau) {
   var res; var vertexIndex = 0;
   var originPoint = BouclierVaisseau.position.clone();
   var touche = false;
   while ((vertexIndex < BouclierVaisseau.geometry.vertices.length)&&(touche==false)) {
     var localVertex = BouclierVaisseau.geometry.vertices[vertexIndex].clone();
     var globalVertex = localVertex.applyMatrix4( BouclierVaisseau.matrix );
+  //  var directionVector = globalVertex.sub( BouclierVaisseau.position );
     var directionVector = globalVertex.sub( BouclierVaisseau.position );
-
     var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize());
     var collisionResults = ray.intersectObjects( bulletAlTabObject );
     if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() )
@@ -277,15 +281,18 @@ function CollisionBulletAlien(BouclierVaisseau) {
     if (touche) {
       switch (BouclierVaisseau.userData[0]) {
             case "bouclier":
-                deleteBullet(res); // Plutot les ajouter dans un tableau à supprimer puis supprimer des 2 tableaux
-                calculPVbouclier(BouclierVaisseau);
+             resetPosBulletAl(res);
+             calculPVbouclier(BouclierVaisseau);
               break;
             case "vaisseau":
-                deleteBullet(res);
+             resetPosBulletAl(res);
                 if (!invincible) {
                     calculPVvaisseau(BouclierVaisseau);
                 }
               break;
+            case "wall":
+              resetPosBulletAl(res);
+            break;
           }
     }
 }

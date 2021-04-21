@@ -1,31 +1,44 @@
 /*---------------------------- CREATION DES DIFFERENTS OBJETS------------------------------------------------------------------------------------------------*/
 
 function createWield() {
-  const geometryWield = new THREE.BoxGeometry( 5, 8 , 0.5, 7, 7, 2);
-  const geometryWieldLat = new THREE.BoxGeometry( 3.5, 8 , 0.5, 7, 7, 2);
+  const geometryWield = new THREE.PlaneGeometry( 5, 8 , 1, 1);
+  const geometryWieldLat = new THREE.PlaneGeometry( 3.5, 8 , 1, 1);
   const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide, transparent: true, opacity: 0.8} );
 
   for (var i = 0; i < 4; i++) {
     let planeC = new THREE.Mesh( geometryWield , materialWield  );
     planeC.position.set((i*17) - 25, 1, -17);
     planeC.userData = ["bouclier", 10];
-    vaissBoucliers.add( planeC );
+    
     collidableMeshList.push(planeC);
+    tabMeshVaissBou.push( planeC );
+    scene.add(planeC);
 
     let planeL = new THREE.Mesh( geometryWieldLat , materialWield  );
     planeL.position.set(4+ planeC.position.x, 1, -18.5);
     planeL.userData = ["bouclier", 10];
     planeL.rotateY(5*Math.PI/4);
-    vaissBoucliers.add( planeL );
     collidableMeshList.push(planeL);
+    tabMeshVaissBou.push( planeL );
+    scene.add(planeL);
 
     let planeR = new THREE.Mesh( geometryWieldLat , materialWield  );
     planeR.position.set(planeC.position.x -4, 1, -18.5);
     planeR.userData = ["bouclier", 10];
     planeR.rotateY(-Math.PI/4);
-    vaissBoucliers.add( planeR );
     collidableMeshList.push(planeR);
+    tabMeshVaissBou.push( planeR );
+    scene.add(planeR);
+    
   }
+
+  let wall = new THREE.Mesh(new THREE.PlaneGeometry(80, 5, 1, 1, 1, 1), new THREE.MeshBasicMaterial( {color: 0x70a778, } ));
+  wall.position.set(0, 0, -35);
+  wall.userData = ["wall"];
+  tabMeshVaissBou.push( wall );
+  scene.add(wall);
+  //vaissBoucliers.add( wall );
+  //wally = wall;
 
 }
 
@@ -38,16 +51,20 @@ function createVaisseau() {
     
       var object = data.scene;
 
-      const geometry = new THREE.BoxGeometry(5,4,8, 6, 6, 6);
+      const geometry = new THREE.BoxGeometry(5,4,8, 6, 6, 2);
       const material = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
       vaisseau = new THREE.Mesh( geometry, material, );
-      vaisseau.position.set(0, 0, -25);
+      vaisseau.position.set(0, 0, -28);
       vaisseau.userData = ["vaisseau", 3];
       
 
       object.position.set(vaisseau.position.x, 0 , vaisseau.position.z); //-30, 0, 22
       vaisseau.attach(object);
-      vaissBoucliers.add( vaisseau );
+
+      tabMeshVaissBou.push(vaisseau);
+      scene.add(vaisseau);
+      //vaissBoucliers.add( vaisseau );
+
   
       //, onProgress, onError );
     });
@@ -89,10 +106,11 @@ function calculPVvaisseau(object) {
 }
 
 function calculPVbouclier(object) {
+  console.log("calcul pv bouclier" + object.userData[1]);
   object.userData[1] -=1;
   if (object.userData[1] == 0) {
   //  removeObject(object);
-    vaissBoucliers.remove(object);
+    scene.remove(object);
     object.geometry.dispose();
     object.material.dispose();
     object = undefined;
@@ -135,7 +153,8 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
           calculPVbouclier(object);
           break;
         case "bulletAlien":
-          deleteBullet(object);
+          //deleteBullet(object);
+          resetPosBulletAl(object);
           break;
       }
       DesactiveTir();
