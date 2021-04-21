@@ -1,5 +1,5 @@
 /*---------------------------- CREATION DES DIFFERENTS OBJETS------------------------------------------------------------------------------------------------*/
-
+//TODO: Enlever les bouclier du tableau des collision si suppr
 function createWield() {
   const geometryWield = new THREE.PlaneGeometry( 5, 8 , 6, 4);
   const geometryWieldLat = new THREE.PlaneGeometry( 3.5, 8 , 6, 4);
@@ -12,7 +12,7 @@ function createWield() {
     
     collidableMeshList.push(planeC);
     tabMeshVaissBou.push( planeC );
-    scene.add(planeC);
+    grpVaisseauBoucliers.add(planeC);
 
     let planeL = new THREE.Mesh( geometryWieldLat , materialWield  );
     planeL.position.set(4+ planeC.position.x, 1, -18.5);
@@ -20,7 +20,7 @@ function createWield() {
     planeL.rotateY(5*Math.PI/4);
     collidableMeshList.push(planeL);
     tabMeshVaissBou.push( planeL );
-    scene.add(planeL);
+    grpVaisseauBoucliers.add(planeL);
 
     let planeR = new THREE.Mesh( geometryWieldLat , materialWield  );
     planeR.position.set(planeC.position.x -4, 1, -18.5);
@@ -28,15 +28,15 @@ function createWield() {
     planeR.rotateY(-Math.PI/4);
     collidableMeshList.push(planeR);
     tabMeshVaissBou.push( planeR );
-    scene.add(planeR);
+    grpVaisseauBoucliers.add(planeR);
     
   }
 
-  let wall = new THREE.Mesh(new THREE.PlaneGeometry(80, 5, 1, 1, 1, 1), new THREE.MeshBasicMaterial( {color: 0x70a778, } ));
+  let wall = new THREE.Mesh(new THREE.PlaneGeometry(80, 5, 12,5), new THREE.MeshBasicMaterial( {color: 0x70a778, } ));
   wall.position.set(0, 0, -35);
   wall.userData = ["wall"];
   tabMeshVaissBou.push( wall );
-  scene.add(wall);
+  grpVaisseauBoucliers.add(wall);
   //vaissBoucliers.add( wall );
   //wally = wall;
 
@@ -62,7 +62,7 @@ function createVaisseau() {
       vaisseau.attach(object);
 
       tabMeshVaissBou.push(vaisseau);
-      scene.add(vaisseau);
+      grpVaisseauBoucliers.add(vaisseau);
       //vaissBoucliers.add( vaisseau );
 
   
@@ -109,7 +109,7 @@ function calculPVbouclier(object) {
   object.userData[1] -=1;
   if (object.userData[1] == 0) {
   //  removeObject(object);
-    scene.remove(object);
+  grpVaisseauBoucliers.remove(object);
     object.geometry.dispose();
     object.material.dispose();
     object = undefined;

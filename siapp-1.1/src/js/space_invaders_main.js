@@ -29,6 +29,8 @@ let wally;
 
 let tabMeshVaissBou =[];
 
+let grpVaisseauBoucliers;
+
 window.addEventListener('load', init);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
@@ -45,6 +47,9 @@ function keyPressed(e) {
     case '1':
         cameraMode = 1;
     break;
+    case '2':
+      cameraMode = 2;
+     break;
     case 'i':
           console.log("invincible");
           invincible = !invincible;
@@ -137,15 +142,6 @@ function init() {
   });
 
   scene.add(soundDeathAlien);
-
-  
-
-
-
-
-
-
-
 
 
   const renderConfig = {antialias: true, alpha: true};

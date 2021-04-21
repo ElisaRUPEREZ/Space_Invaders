@@ -63,9 +63,11 @@ function addObjectToscene() {
 
 
   vaissBoucliers = new THREE.Group();
-  
+  grpVaisseauBoucliers = new THREE.Group();
   createWield();
   createVaisseau();
+
+  scene.add(grpVaisseauBoucliers);
   createBullet();
   createSoucoupe()
 
@@ -131,6 +133,11 @@ function gameLoop() {
     if (cameraMode == 1) {
       camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
       camera.position.set(vaisseau.position.x, 10, vaisseau.position.z-10);
+    } else {
+      if (cameraMode == 2) {
+        camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
+        camera.position.set(vaisseau.position.x, 25, vaisseau.position.z-18);
+      }
     }
     
     renderer.render(scene, camera);  // rendu de la scène
@@ -152,8 +159,18 @@ function update(step) {
     updateTirAlien(move);
     updateVaisseauAndBullet();
     
-    for (let index = 0; index < tabMeshVaissBou.length; index++) {
-      CollisionBulletAlienOnBV(tabMeshVaissBou[index]);
+    /*for (let index = 0; index < tabMeshVaissBou.length; index++) {
+      if (tabMeshVaissBou[index] !=undefined) {
+        CollisionBulletAlienOnBV(tabMeshVaissBou[index]);
+      }
+      
+    }*/
+
+    for (let index = 0; index < grpVaisseauBoucliers.children.length; index++) {
+      if (grpVaisseauBoucliers.children[index] !=undefined) {
+        CollisionBulletAlienOnBV(grpVaisseauBoucliers.children[index]);
+      }
+      
     }
 
       //TODO : Mettre un intervalle de temps
@@ -165,6 +182,4 @@ function update(step) {
         }
 
       updateSoucoupe(move);
-      
-
 }

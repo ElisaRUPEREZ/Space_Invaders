@@ -129,8 +129,9 @@ function createBulletAlien(al) { /// TODO: alternative au projectile dans le gro
 
 
 function createSoucoupe() {
+  console.log("decalage soucoupe");
   soucoupeBox = new THREE.Mesh( new THREE.TorusGeometry( 3, 1.8, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878,opacity: 0,transparent: true} ) );
-  soucoupeBox.position.set(-40, 1.5, 22);
+  soucoupeBox.position.set(-40, 1.5, 25);
   soucoupeBox.rotateX(Math.PI/2);
   soucoupeBox.userData = ["soucoupe", 500];
   scene.add(soucoupeBox);
