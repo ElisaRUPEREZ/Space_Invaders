@@ -33,6 +33,12 @@ canvas {
   bottom: 0;
 }
 
+#DivMessage {
+  top: 2em;
+  left: 20em;
+  display: none;
+}
+
 .vieIMG {
   padding: 0.5em;
 }

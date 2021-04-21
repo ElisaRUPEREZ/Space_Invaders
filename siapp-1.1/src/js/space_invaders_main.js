@@ -1,35 +1,36 @@
 "uses strict";
 
-let music, soundLaser, soundDeathAlien;
 let container, w, h, scene, camera, controls, renderer, stats;
 let loop = {};
+let music, soundLaser, soundDeathAlien; //Musique et sons
 let cameraMode = 0;
 //objects :
 let vaisseau;
 let bullet;
 let soucoupe;
+let soucoupeBox;
+//group
 let aliens;
-let boxAliens;
-let vaissBoucliers; // group
+let grpVaisseauBoucliers;
+
+let boxAliens;// Box3
+
 //booleans :
 let tirEnCours = false;
 let moveDir = true; /// sens de déplacement des aliens
 let ApparitionSoucoupe = false;
 //tabObjects
 let collidableMeshList = []; // liste objet pouvant être touchés par le joueur
-let bulletAlTabObject = [];
+let bulletAlTabObject = []; //Contient les missiles enemis
 
 let pause = false;
 
-let invincible = false;
+let invincible = false; //pour mode invincible
 
 let points =0;
 let niveau = 1;
-let wally;
 
-let tabMeshVaissBou =[];
 
-let grpVaisseauBoucliers;
 
 window.addEventListener('load', init);
 window.addEventListener('resize', resize);
@@ -40,26 +41,34 @@ var keyboard = new THREEx.KeyboardState();
 function keyPressed(e) {
   switch(e.key) {
     case '0':
-          cameraMode = 0;
-          camera.position.set(0, 55, 0);
+      cameraMode = 0;
+      camera.position.set(0, 55, 0);
     break;
 
     case '1':
-        cameraMode = 1;
+      cameraMode = 1;
     break;
+
     case '2':
       cameraMode = 2;
      break;
-    case 'i':
-          console.log("invincible");
-          invincible = !invincible;
 
+    case 'i':
+      console.log("invincible : " + invincible);
+      invincible = !invincible;
+      if (invincible) {
+        document.getElementById('DivMessage').style.display = "block";
+      } else {
+        document.getElementById('DivMessage').style.display = "none";
+      }
     break;
+
     case 'k':
-          scene.remove(aliens);
-          scene.remove(soucoupe);       
-          GameSuccess();
+      scene.remove(aliens);
+      scene.remove(soucoupe);       
+      GameSuccess();
     break;
+
     case 'h':
       let styleDiv = document.getElementById('helpMenu').style.display;
       if (styleDiv =="block") {
@@ -69,12 +78,13 @@ function keyPressed(e) {
         document.getElementById('helpMenu').style.display= "block";
       }
     break;
+
     case 'Escape':
-        if (pause) {
+      if (pause) {
         pause = false;
         gameLoop();
-        } else {
-            pause = true;
+      } else {
+        pause = true;
     }
     break;
   }
@@ -82,7 +92,6 @@ function keyPressed(e) {
 }
 
 function init() {
-  console.log("test alian");
   document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
 
   container = document.querySelector('#siapp');
@@ -90,10 +99,9 @@ function init() {
   h = container.clientHeight;
   scene = new THREE.Scene();
 
-// Caméra
+// Camera
   camera = new THREE.PerspectiveCamera(75, w/h, 0.001, 100);
   camera.position.set(0, 55, 0);
-
 
   controls = new THREE.TrackballControls(camera, container);
   controls.target = new THREE.Vector3(0, 0, 0.75);
@@ -115,7 +123,6 @@ function init() {
   });
 
   scene.add(music);
-
 
 
   // create a global audio source

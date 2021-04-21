@@ -1,6 +1,3 @@
-let soucoupeBox;
-let tabAlienLoading = [];
-
 /*--------------------------------------------------CREATION DES OBJETS---------------------------------------------------------------------------*/
 const geometryA = new THREE.BoxGeometry(2.9,4.5,2.9, 6, 6, 6);
 const materialA = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
@@ -9,40 +6,41 @@ function createAliens() {
   aliens = new THREE.Group();
   scene.add(aliens);
 
-      var xOffset = -28;
-      for (var k = 0; k <= 1; k++) {
-        for (var i = 1; i <= 10 ; i++) {
-          loadAlien(0x34c924,xOffset + (4 * i), 1, 4.5*k, 100);            
-         }
-      }
+  var xOffset = -28;
+  for (var k = 0; k <= 1; k++) {
+    for (var i = 1; i <= 10 ; i++) {
+      loadAlien(0x34c924,xOffset + (4 * i), 1, 4.5*k, 100);            
+    }
+  }
 
-      for (var k = 0; k <= 1; k++) {
-        for (var i = 1; i <= 10 ; i++) {
-          loadAlien(0x0f04cf,xOffset + (4 * i), 1, 8.5 +(4.5*k), 200);            
-         }
-      }
+  for (var k = 0; k <= 1; k++) {
+    for (var i = 1; i <= 10 ; i++) {
+      loadAlien(0x0f04cf,xOffset + (4 * i), 1, 8.5 +(4.5*k), 200);            
+    }
+  }
 
-        for (var i = 1; i <= 10 ; i++) {
-            loadAlien(0xcd5c5c,xOffset+ (4 * i), 1, 9+(4.5*k), 300);
-        }
+  for (var i = 1; i <= 10 ; i++) {
+    loadAlien(0xcd5c5c,xOffset+ (4 * i), 1, 9+(4.5*k), 300);
+  }
 }
 
 function createAliensCircle() {
   aliens = new THREE.Group();
   scene.add(aliens);
-    let Offsetx = -15;
-      let radius = 13;
-        for (var i = 0; i < 20 ; i++) {
-          loadAlien(0x34c924, Offsetx + Math.cos(i*Math.PI/10)*radius, 1, Math.sin(i*Math.PI/10)*radius+4, 100);             
-         }
+  let Offsetx = -15;
+  let radius = 13;
 
-         for (var i = 0; i < 20 ; i++) {
-          loadAlien(0x0f04cf, Offsetx + Math.cos(i*Math.PI/10)*(radius-4), 1, Math.sin(i*Math.PI/10)*(radius-4)+4, 200); 
-       }
+  for (var i = 0; i < 20 ; i++) {
+    loadAlien(0x34c924, Offsetx + Math.cos(i*Math.PI/10)*radius, 1, Math.sin(i*Math.PI/10)*radius+4, 100);             
+  }
 
-       for (var i = 0; i < 10 ; i++) {
-        loadAlien(0xcd5c5c, Offsetx + Math.cos(i*Math.PI/5)*(radius-8), 1, Math.sin(i*Math.PI/5)*(radius-8)+4, 300);                     
-     }
+  for (var i = 0; i < 20 ; i++) {
+    loadAlien(0x0f04cf, Offsetx + Math.cos(i*Math.PI/10)*(radius-4), 1, Math.sin(i*Math.PI/10)*(radius-4)+4, 200); 
+  }
+
+  for (var i = 0; i < 10 ; i++) {
+    loadAlien(0xcd5c5c, Offsetx + Math.cos(i*Math.PI/5)*(radius-8), 1, Math.sin(i*Math.PI/5)*(radius-8)+4, 300);                     
+  }
 }
 
 function createAliensWave() {
@@ -60,23 +58,23 @@ function createAliensWave() {
         valZ = Math.sin(i) + k*6 -4;
       }
       loadAlien(0x34c924, Offsetx +3.2*i, 1, valZ + Offsetz, 100);
-   }
-}
+    }
+  }
   for (var k = 0; k <= 1; k++) {
-      for (var i = 0; i < 10 ; i++) {
-        let valZ;
-        if (k==0) {
-          valZ = -Math.sin(i) + 10+k*6;
-        } else {
-          valZ = Math.sin(i) + 10+k*6;
-        }
-        loadAlien(0x0f04cf, Offsetx + 3.2*i, 1, valZ + Offsetz, 200);
+    for (var i = 0; i < 10 ; i++) {
+      let valZ;
+      if (k==0) {
+        valZ = -Math.sin(i) + 10+k*6;
+      } else {
+        valZ = Math.sin(i) + 10+k*6;
       }
-   }
+      loadAlien(0x0f04cf, Offsetx + 3.2*i, 1, valZ + Offsetz, 200);
+    }
+  }
        
-       for (var i = 0; i < 10 ; i++) {
-        loadAlien(0xcd5c5c, Offsetx + 14.5+Math.cos(i*Math.PI/5)*2.5, 1, 6+Math.sin(i*Math.PI/5)*2.5 + Offsetz, 300);        
-     }
+  for (var i = 0; i < 10 ; i++) {
+    loadAlien(0xcd5c5c, Offsetx + 14.5+Math.cos(i*Math.PI/5)*2.5, 1, 6+Math.sin(i*Math.PI/5)*2.5 + Offsetz, 300);        
+  }
 }
 
 function loadAlien(colorA, x, y, z, points) {
@@ -86,12 +84,12 @@ function loadAlien(colorA, x, y, z, points) {
   loader2.load( 'src/medias/models/mad_octopus/alienLowPoly.gltf', function ( data ) {
   
     object = data.scene;
-    //object.position.set(alien.position.x + i, 2.5, alien.position.z); //-30, 0, 22
 
     var mat = new THREE.MeshPhongMaterial({color: colorA});
     object.traverse((o) => {
       if (o.isMesh) o.material = mat;
     })
+
     object.rotateY(Math.PI);
     object.position.set(x, 2, z);
 
@@ -105,31 +103,27 @@ function loadAlien(colorA, x, y, z, points) {
 
     createBulletAlien(alien);
 
-   // , onProgress, onError );
   });
-  return object;
+ // return object;
 }
 
-function createBulletAlien(al) { /// TODO: alternative au projectile dans le groupe aliens
+function createBulletAlien(al) {
   const geometryBA = new THREE.OctahedronGeometry(0.6);
   const materialBA = new THREE.MeshBasicMaterial({color: 0x000000});
 
   let bulletAl = new THREE.Mesh( geometryBA, materialBA );
 
   bulletAl.position.set(al.position.x,al.position.y -2,al.position.z);
-
   bulletAl.userData = ["bulletAlien", false];
   bulletAl.visible = false;
 
- // aliens.add( bulletAl );
-  collidableMeshList.push(bulletAl); // ok
+  collidableMeshList.push(bulletAl); 
   bulletAlTabObject.push(bulletAl);
   al.attach(bulletAl);
 }
 
 
 function createSoucoupe() {
-  console.log("decalage soucoupe");
   soucoupeBox = new THREE.Mesh( new THREE.TorusGeometry( 3, 1.8, 3, 20 ), new THREE.MeshPhongMaterial( { color: 0x787878,opacity: 0,transparent: true} ) );
   soucoupeBox.position.set(-40, 1.5, 25);
   soucoupeBox.rotateX(Math.PI/2);
@@ -155,8 +149,6 @@ function createSoucoupe() {
 }
 /*--------------------------------------------------DESTRUCTION DES OBJETS -----------------------------------------------------------------*/
 function deleteBullet(object) {
-//  var removedItem = bulletAlTab.splice(bulletAlTab.indexOf(object.id), 1);
-//  var removedItem2 = bulletAlObject.splice(bulletAlObject.indexOf(object.id), 1);
   aliens.remove(object);
   object.geometry.dispose();
   object.material.dispose();
@@ -181,63 +173,52 @@ function deleteAlien(object) {
 function TirAlien() {
   var n = Math.round(Math.random()*4000);
   if ((aliens.children[n]!=undefined) && (aliens.children[n].userData[0]=="alien")) {
-    //createBulletAlien(aliens.children[n].id);
-    //console.log("tir alien = "+ aliens.children[n].children[1].userData[1]);
     aliens.children[n].children[1].userData[1] =true;
     aliens.children[n].children[1].position.set(0,0,0);
     aliens.children[n].children[1].visible = true;
-    //console.log("tir alien = "+ aliens.children[n].children[1].userData[1]);
   }
 }
 
 function resetPosBulletAl(bulletAl) {
   bulletAl.userData[1] = false;
- // bulletAl.position.set(bulletAl.parent.position.x, bulletAl.parent.position.y, bulletAl.parent.position.z);
- bulletAl.position.set(0,-2,0);
- bulletAl.visible = false;
-
+  bulletAl.position.set(0,-2,0);
+  bulletAl.visible = false;
 }
 
 function MoveTirAlien(moveDir, move) {
-      for (var i = 0; i < bulletAlTabObject.length; i++) {
-        if (bulletAlTabObject[i].userData[1]==true) {
-          
-            bulletAlTabObject[i].position.z -= 0.2;
-            if (moveDir) {
-              bulletAlTabObject[i].position.x -=move;
-            } else {
-              bulletAlTabObject[i].position.x +=move;
-            }           
-          }
-        }
-
+  for (var i = 0; i < bulletAlTabObject.length; i++) {
+    if (bulletAlTabObject[i].userData[1]==true) {
+      bulletAlTabObject[i].position.z -= 0.2;
+      if (moveDir) {
+        bulletAlTabObject[i].position.x -=move;
+      } else {
+        bulletAlTabObject[i].position.x +=move;
+      }           
+    }
+  }
 }
 
 function MoveAliens(move) {
   boxAliens = new THREE.Box3().setFromObject(aliens); // Encapsule le groupe d'aliens dans une box
-  //console.log("BOX xmax = " + boxAliens.max.x + "\nxmin =  " + boxAliens.min.x);
+
   //Mouvements des Aliens  :
-    if (boxAliens.max.x>=35 || boxAliens.min.x<=-35) {
-      if (!invincible) {
-      //  aliens.position.z-=1;
-          aliens.translateZ(-1);
-      }
-      moveDir = !moveDir;
+  if (boxAliens.max.x>=35 || boxAliens.min.x<=-35) {
+    if (!invincible) {
+      aliens.translateZ(-1);
     }
-    if (moveDir) {
-     // aliens.position.x +=move;
+    moveDir = !moveDir;
+  }
+  if (moveDir) {
         aliens.translateX(move);
-    } else {
-     // aliens.position.x -=move;
-     aliens.translateX(-move);
-
+  } else {
+       aliens.translateX(-move);
+  }
+    //Teste l'emplacement de la Box3 contenant les aliens
+  if (boxAliens.max.z <= 0) {
+    if (aliens.children.length>0) {
+      GameOver();
     }
-
-    if (boxAliens.max.z <= 0) {
-      if (aliens.children.length>0) {
-        GameOver();
-      }
-    }
+  }
 }
 
 function updateTirAlien(move) {
@@ -249,7 +230,6 @@ function updateTirAlien(move) {
 function updateSoucoupe(move) {
   if (soucoupe!=undefined) {
     if (soucoupeBox.position.x <40 && ApparitionSoucoupe) {
-      //soucoupe.position.x += 5*move;
       soucoupeBox.position.x += 5*move;
       soucoupe.rotateY(Math.PI/20);
     } else {
@@ -267,10 +247,11 @@ function CollisionBulletAlienOnBV(BouclierVaisseau) {
   while ((vertexIndex < BouclierVaisseau.geometry.vertices.length)&&(touche==false)) {
     var localVertex = BouclierVaisseau.geometry.vertices[vertexIndex].clone();
     var globalVertex = localVertex.applyMatrix4( BouclierVaisseau.matrix );
-  //  var directionVector = globalVertex.sub( BouclierVaisseau.position );
     var directionVector = globalVertex.sub( BouclierVaisseau.position );
+
     var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize());
     var collisionResults = ray.intersectObjects( bulletAlTabObject );
+
     if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() )
       res = scene.getObjectById( collisionResults[0].object.id);
         if (res!=undefined) {
@@ -278,7 +259,6 @@ function CollisionBulletAlienOnBV(BouclierVaisseau) {
         }
     vertexIndex++;
     }
-
     if (touche) {
       switch (BouclierVaisseau.userData[0]) {
             case "bouclier":

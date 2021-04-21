@@ -1,5 +1,4 @@
 /*---------------------------- CREATION DES DIFFERENTS OBJETS------------------------------------------------------------------------------------------------*/
-//TODO: Enlever les bouclier du tableau des collision si suppr
 function createWield() {
   const geometryWield = new THREE.PlaneGeometry( 5, 8 , 6, 4);
   const geometryWieldLat = new THREE.PlaneGeometry( 3.5, 8 , 6, 4);
@@ -11,7 +10,6 @@ function createWield() {
     planeC.userData = ["bouclier", 10];
     
     collidableMeshList.push(planeC);
-    tabMeshVaissBou.push( planeC );
     grpVaisseauBoucliers.add(planeC);
 
     let planeL = new THREE.Mesh( geometryWieldLat , materialWield  );
@@ -19,7 +17,6 @@ function createWield() {
     planeL.userData = ["bouclier", 10];
     planeL.rotateY(5*Math.PI/4);
     collidableMeshList.push(planeL);
-    tabMeshVaissBou.push( planeL );
     grpVaisseauBoucliers.add(planeL);
 
     let planeR = new THREE.Mesh( geometryWieldLat , materialWield  );
@@ -27,61 +24,48 @@ function createWield() {
     planeR.userData = ["bouclier", 10];
     planeR.rotateY(-Math.PI/4);
     collidableMeshList.push(planeR);
-    tabMeshVaissBou.push( planeR );
     grpVaisseauBoucliers.add(planeR);
     
   }
 
-  let wall = new THREE.Mesh(new THREE.PlaneGeometry(80, 5, 12,5), new THREE.MeshBasicMaterial( {color: 0x70a778, } ));
+  let wall = new THREE.Mesh(new THREE.PlaneGeometry(80, 5, 12,5), new THREE.MeshBasicMaterial( {color: 0x70a778, transparent: true, opacity: 0.8} ));
   wall.position.set(0, 0, -35);
   wall.userData = ["wall"];
-  tabMeshVaissBou.push( wall );
   grpVaisseauBoucliers.add(wall);
-  //vaissBoucliers.add( wall );
-  //wally = wall;
 
 }
 
 
 function createVaisseau() {
   
-    var loader = new THREE.GLTFLoader(manager);
-    loader.crossOrigin = true;
-    loader.load( 'src/medias/models/spaceship/spaceship.gltf', function ( data ) {
-    
-      var object = data.scene;
+  var loader = new THREE.GLTFLoader(manager);
+  loader.crossOrigin = true;
+  loader.load( 'src/medias/models/spaceship/spaceship.gltf', function ( data ) {
+    var object = data.scene;
 
-      const geometry = new THREE.BoxGeometry(5,4,8, 6, 4, 2);
-      const material = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
-      vaisseau = new THREE.Mesh( geometry, material, );
-      vaisseau.position.set(0, 0, -28);
-      vaisseau.userData = ["vaisseau", 3];
-      
+    const geometry = new THREE.BoxGeometry(5,4,8, 6, 4, 2);
+    const material = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
+    vaisseau = new THREE.Mesh( geometry, material, );
+    vaisseau.position.set(0, 0, -28);
+    vaisseau.userData = ["vaisseau", 3];
+    object.position.set(vaisseau.position.x, 0 , vaisseau.position.z); 
+    vaisseau.attach(object);
 
-      object.position.set(vaisseau.position.x, 0 , vaisseau.position.z); //-30, 0, 22
-      vaisseau.attach(object);
+    grpVaisseauBoucliers.add(vaisseau); 
+  });
 
-      tabMeshVaissBou.push(vaisseau);
-      grpVaisseauBoucliers.add(vaisseau);
-      //vaissBoucliers.add( vaisseau );
-
-  
-      //, onProgress, onError );
-    });
-
-
-    for (var i = 1; i <=3; i++) {
-        document.getElementById('VieDiv').innerHTML += '<img class="vieIMG" id="vie'+i+'" src="src/medias/pictures/vie.png" />';
-      }
+  for (var i = 1; i <=3; i++) {
+    document.getElementById('VieDiv').innerHTML += '<img class="vieIMG" id="vie'+i+'" src="src/medias/pictures/vie.png" />';
+  }
 }
 
 function createBullet() {
-    const geometryS = new THREE.SphereGeometry(0.4);
-    const materialS = new THREE.MeshNormalMaterial( );
-    bullet = new THREE.Mesh( geometryS, materialS, );
-    bullet.position.set(0,1,-22+5);
-    scene.add( bullet );
-    bullet.userData = ["bullet"];
+  const geometryS = new THREE.SphereGeometry(0.4);
+  const materialS = new THREE.MeshNormalMaterial( );
+  bullet = new THREE.Mesh( geometryS, materialS, );
+  bullet.position.set(0,1,-22+5);
+  bullet.userData = ["bullet"];
+  scene.add( bullet );
 }
 
 /*-----------------------------------ACTION----------------------------------------------------------------*/
@@ -108,8 +92,7 @@ function calculPVvaisseau(object) {
 function calculPVbouclier(object) {
   object.userData[1] -=1;
   if (object.userData[1] == 0) {
-  //  removeObject(object);
-  grpVaisseauBoucliers.remove(object);
+    grpVaisseauBoucliers.remove(object);
     object.geometry.dispose();
     object.material.dispose();
     object = undefined;
@@ -128,7 +111,7 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
 
         var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize());
         var collisionResults = ray.intersectObjects( collidableMeshList);
-        if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length())  { //id ou uuid ????
+        if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length())  {
           object = scene.getObjectById( collisionResults[0].object.id);
            if (object != undefined && object.userData[0]!=undefined) {
              touche = true;
@@ -152,7 +135,6 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
           calculPVbouclier(object);
           break;
         case "bulletAlien":
-          //deleteBullet(object);
           resetPosBulletAl(object);
           break;
       }
@@ -162,23 +144,23 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
 /*-------------------------------------------------- FONCTIONS UPDATE -----------------------------------------------------------------*/
 function updateVaisseauAndBullet() {
   //Déplacements du vaisseau
-    if (keyboard.pressed("left") && vaisseau.position.x<35)
+  if (keyboard.pressed("left") && vaisseau.position.x<35)
       vaisseau.position.x += 0.2;
-    if ( keyboard.pressed("right") && vaisseau.position.x>-35)
+  if ( keyboard.pressed("right") && vaisseau.position.x>-35)
       vaisseau.position.x -= 0.2;
     if ( keyboard.pressed("space") ){
-        if (!tirEnCours) {
-          ActiveTir();
-        }
+      if (!tirEnCours) {
+        ActiveTir();
+      }
     }
 
-    if (tirEnCours) {
-      collisionPlayerBullet();
-      bullet.position.z += 0.6;
-      if (bullet.position.z > 30) {
-        DesactiveTir();
-      }
-    } else {
-        bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
+  if (tirEnCours) {
+    collisionPlayerBullet();
+    bullet.position.z += 0.6;
+    if (bullet.position.z > 30) {
+      DesactiveTir();
+    }
+  } else {
+      bullet.position.set(vaisseau.position.x, 1, vaisseau.position.z);
     }
 }

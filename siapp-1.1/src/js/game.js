@@ -5,7 +5,6 @@ manager.onLoad = function ( ) {
     StartGame();
 }
 
-
 manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
     console.log(`Items loaded: ${itemsLoaded}/${itemsTotal}`)
 }
@@ -25,10 +24,8 @@ function startLevel(level) {
   if (scene.children != null) {
     clearGame();
   }
+
   addObjectToscene();
-  //testAlien(0x34c924);
-  /* Vérifier objects sont chargés puis*/
- // gameLoop();
 }
 
 function clearGame() {
@@ -50,7 +47,6 @@ function clearGame() {
     //tabObjects
   collidableMeshList = []; // liste objet pouvant être touchés par le joueur
   bulletAlTabObject = [];
-  tabMeshVaissBou =[];
   pause = false;
 
   invincible = false;
@@ -60,7 +56,6 @@ function clearGame() {
 
 
 function addObjectToscene() {
-
 
   vaissBoucliers = new THREE.Group();
   grpVaisseauBoucliers = new THREE.Group();
@@ -84,7 +79,6 @@ function addObjectToscene() {
   }
 
   
-
   scene.add(vaissBoucliers);
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
   light.position.set(-15, 15,-25);
@@ -100,7 +94,6 @@ function addObjectToscene() {
   const gridHelper = new THREE.GridHelper(70, 25);
   scene.add(gridHelper);
 
- 
 }
 
 function StartGame() {
@@ -125,11 +118,10 @@ function gameLoop() {
     loop.dt = loop.dt + Math.min(1, (loop.now - loop.last) / 1000);
     while(loop.dt > loop.slowStep) {
       loop.dt = loop.dt - loop.slowStep;
-      /* Attendre que les Aliens soient chargés :*/
       update(loop.step); // déplace les objets d'une fraction de seconde
     }
 
-    //Déplacement caméra selon le vaisseau
+    //Déplacement caméra qui suit le vaisseau
     if (cameraMode == 1) {
       camera.lookAt( vaisseau.position.x, 0, -vaisseau.position.z );
       camera.position.set(vaisseau.position.x, 10, vaisseau.position.z-10);
@@ -154,32 +146,23 @@ function gameLoop() {
 function update(step) {
   const move = 2.5 * step;
 
-    MoveAliens(move);
-    TirAlien();
-    updateTirAlien(move);
-    updateVaisseauAndBullet();
-    
-    /*for (let index = 0; index < tabMeshVaissBou.length; index++) {
-      if (tabMeshVaissBou[index] !=undefined) {
-        CollisionBulletAlienOnBV(tabMeshVaissBou[index]);
-      }
-      
-    }*/
+  MoveAliens(move);
+  TirAlien();
+  updateTirAlien(move);
+  updateVaisseauAndBullet();
 
-    for (let index = 0; index < grpVaisseauBoucliers.children.length; index++) {
-      if (grpVaisseauBoucliers.children[index] !=undefined) {
-        CollisionBulletAlienOnBV(grpVaisseauBoucliers.children[index]);
-      }
-      
-    }
+  for (let index = 0; index < grpVaisseauBoucliers.children.length; index++) {
+    if (grpVaisseauBoucliers.children[index] !=undefined) {
+      CollisionBulletAlienOnBV(grpVaisseauBoucliers.children[index]);
+    }   
+  }
 
-      //TODO : Mettre un intervalle de temps
-        if (soucoupe!=undefined && Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
-          console.log("SOUCOUPE EN VUE");
-          ApparitionSoucoupe = true;
-          soucoupe.visible = true;
-          soucoupeBox.position.x = -45;
-        }
+  if (soucoupe!=undefined && Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
+    console.log("SOUCOUPE EN VUE");
+    ApparitionSoucoupe = true;
+    soucoupe.visible = true;
+    soucoupeBox.position.x = -45;
+  }
 
-      updateSoucoupe(move);
+  updateSoucoupe(move);
 }
