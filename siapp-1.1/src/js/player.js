@@ -2,7 +2,7 @@
 function createWield() {
   const geometryWield = new THREE.PlaneGeometry( 5, 8 , 6, 4);
   const geometryWieldLat = new THREE.PlaneGeometry( 3.5, 8 , 6, 4);
-  const materialWield  = new THREE.MeshBasicMaterial( {color: 0x787878, side: THREE.DoubleSide, transparent: true, opacity: 0.8} );
+  const materialWield  = new THREE.MeshBasicMaterial( {color: 0xff0000, side: THREE.DoubleSide, transparent: true, opacity: 0.8} );
 
   for (var i = 0; i < 4; i++) {
     let planeC = new THREE.Mesh( geometryWield , materialWield  );
@@ -61,7 +61,7 @@ function createVaisseau() {
 
 function createBullet() {
   const geometryS = new THREE.SphereGeometry(0.4);
-  const materialS = new THREE.MeshNormalMaterial( );
+  const materialS = new THREE.MeshStandardMaterial({color: 0xffffff});
   bullet = new THREE.Mesh( geometryS, materialS, );
   bullet.position.set(0,1,-22+5);
   bullet.userData = ["bullet"];
@@ -145,9 +145,9 @@ function collisionPlayerBullet() { // collision du tir du joueur sur les aliens,
 function updateVaisseauAndBullet() {
   //Déplacements du vaisseau
   if (keyboard.pressed("left") && vaisseau.position.x<35)
-      vaisseau.position.x += 0.2;
+      vaisseau.position.x += 0.3;
   if ( keyboard.pressed("right") && vaisseau.position.x>-35)
-      vaisseau.position.x -= 0.2;
+      vaisseau.position.x -= 0.3;
     if ( keyboard.pressed("space") ){
       if (!tirEnCours) {
         ActiveTir();

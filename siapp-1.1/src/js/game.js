@@ -48,9 +48,6 @@ function clearGame() {
   collidableMeshList = []; // liste objet pouvant être touchés par le joueur
   bulletAlTabObject = [];
   pause = false;
-
-  invincible = false;
-
 }
 
 
