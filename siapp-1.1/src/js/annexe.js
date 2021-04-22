@@ -8,11 +8,11 @@ let scoreJeu = {
 function changeCSSTheme() {
     var theme = document.getElementsByTagName('link')[1];
 
-    if (theme.getAttribute('href') == './css/siapp-light.css') {
-        theme.setAttribute('href', './css/siapp-dark.css');
+    if (theme.getAttribute('href') == './src/css/siapp-light.css') {
+        theme.setAttribute('href', './src/css/siapp-dark.css');
           document.getElementById('iconSunMoon').src = "src/medias/pictures/sun-solid.svg";
     } else {
-        theme.setAttribute('href', './css/siapp-light.css');
+        theme.setAttribute('href', './src/css/siapp-light.css');
         //moon icon
         document.getElementById('iconSunMoon').src = "src/medias/pictures/moon-solid.svg";
     }

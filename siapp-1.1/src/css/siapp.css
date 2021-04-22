@@ -35,8 +35,9 @@ canvas {
 
 #DivMessage {
   top: 1em;
-  left: 15em;
+  left: 12em;
   display: none;
+  font-size: 22px;
 }
 
 .vieIMG {
