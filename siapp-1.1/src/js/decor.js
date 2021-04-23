@@ -1,4 +1,4 @@
-let sun; let orbit;
+let sun; let orbit; let skybox;
 
 function createBackgroundObjects() {
     let geometry = new THREE.SphereGeometry();
@@ -29,6 +29,7 @@ function updateDecor(step) {
 
     sun.rotateY(step*3); //sens antihoraire
     orbit.rotateY(step * 0.4);
+  //  skybox.rotateY(0.001);
   //  sun.rotateZ(step*0.5);
 }
 
@@ -36,14 +37,24 @@ function updateDecor(step) {
 function createBackground() {
     
     let materialArray = [];
-    let texture_ft = new THREE.TextureLoader().load( './src/medias/pictures/SceneBackground/space_ft.png'); //ft
+  /*  let texture_ft = new THREE.TextureLoader().load( './src/medias/pictures/SceneBackground/space_ft.png'); //ft
     let texture_bk = new THREE.TextureLoader().load( './src/medias/pictures/SceneBackground/space_bk.png'); ///bk
     let texture_up = new THREE.TextureLoader().load( './src/medias/pictures/SceneBackground/space_up.png'); //up
     let texture_dn = new THREE.TextureLoader().load( './src/medias/pictures/SceneBackground/space_dn.png'); //dn
     let texture_rt = new THREE.TextureLoader().load( './src/medias/pictures/SceneBackground/space_rt.png'); //rt
     let texture_lf = new THREE.TextureLoader().load( './src/medias/pictures/SceneBackground/space_lf.png'); //lf
+    */
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(
+      './src/medias/pictures/17520.jpg',
+      () => {
+        const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
+        rt.fromEquirectangularTexture(renderer, texture);
+        scene.background = rt.texture;
+      });
+  
       
-    materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
+   /* materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: texture_dn }));
@@ -54,8 +65,9 @@ function createBackground() {
       materialArray[i].side = THREE.BackSide;
        
     let skyboxGeo = new THREE.BoxGeometry( 10000, 10000, 10000);
-    let skybox = new THREE.Mesh( skyboxGeo, materialArray );
-    scene.add( skybox );
+    skybox = new THREE.Mesh( skyboxGeo, materialArray );
+    skybox.rotateY(Math.PI);
+    scene.add( skybox );*/
    /* const loader = new THREE.CubeTextureLoader(manager);
     loader.setPath( './src/medias/pictures/SceneBackground/' );
 
