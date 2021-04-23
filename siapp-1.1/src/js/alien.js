@@ -9,7 +9,7 @@ function createAliens() {
   var xOffset = -28;
   for (var k = 0; k <= 1; k++) {
     for (var i = 1; i <= 10 ; i++) {
-      loadAlien(new THREE.MeshPhongMaterial({color: 0x333333}), xOffset + (4 * i), 1, 4.5*k, 100);    
+      loadAlien(new THREE.MeshPhongMaterial({color: 0x333333, shininess: 40}), xOffset + (4 * i), 1, 4.5*k, 100);    
               
     }
   }
@@ -58,7 +58,7 @@ function createAliensWave() {
       } else {
         valZ = Math.sin(i) + k*6 -4;
       }
-      loadAlien(new THREE.MeshToonMaterial({color: 0x00b386}), Offsetx +3.2*i, 1, valZ + Offsetz, 100);
+      loadAlien(new THREE.MeshPhysicalMaterial({color: 0x00b386}), Offsetx +3.2*i, 1, valZ + Offsetz, 100);
     }
   }
   for (var k = 0; k <= 1; k++) {
@@ -69,7 +69,7 @@ function createAliensWave() {
       } else {
         valZ = Math.sin(i) + 10+k*6;
       }
-      loadAlien(new THREE.MeshToonMaterial({color: 0x006bb3}), Offsetx + 3.2*i, 1, valZ + Offsetz, 200);
+      loadAlien(new THREE.MeshPhysicalMaterial({color: 0x006bb3}), Offsetx + 3.2*i, 1, valZ + Offsetz, 200);
     }
   }
        

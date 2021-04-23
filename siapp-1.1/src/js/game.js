@@ -15,7 +15,6 @@ manager.onError = function ( url ) {
 
 
 function startLevel(level) {
-  console.log("nouvelle version ahahahah");
   document.getElementById("ModalGameSuccess").style.display = "none";
   document.getElementById("ModalGameOver").style.display = "none";
   niveau =level;
@@ -76,9 +75,10 @@ function addObjectToscene() {
   }
 
   
-  scene.add(vaissBoucliers);
-  const light = new THREE.DirectionalLight(0xFFFFFF, 1);
-  light.position.set(-15, 15,-25);
+  /*light = new THREE.DirectionalLight(0xffffff, 0.8);
+  //light.target.position = 160;
+  light.position.set(0, 30,-100);*/
+  let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
   scene.add(light);
 
     // add Stats.js - https://github.com/mrdoob/stats.js
@@ -91,6 +91,8 @@ function addObjectToscene() {
   const gridHelper = new THREE.GridHelper(70, 25);
   scene.add(gridHelper);
 
+  createBackground();
+  createBackgroundObjects();
 }
 
 function StartGame() {
@@ -162,4 +164,7 @@ function update(step) {
   }
 
   updateSoucoupe(move);
+
+
+  updateDecor(step);
 }
