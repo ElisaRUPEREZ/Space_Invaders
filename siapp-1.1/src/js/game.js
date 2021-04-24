@@ -91,7 +91,7 @@ function addObjectToscene() {
   const gridHelper = new THREE.GridHelper(70, 25);
   scene.add(gridHelper);
 
-  createBackground();
+  createBackground('17520.jpg');
   createBackgroundObjects();
 }
 

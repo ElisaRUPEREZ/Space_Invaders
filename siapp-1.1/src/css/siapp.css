@@ -1,7 +1,7 @@
-@font-face {
+/*@font-face {
   font-family: 'Imprisha';
   src: url('src/medias/fonts/IMPRISHA.TTF') format('ttf');
-}
+}*/
 
 html, body, #siapp, #mainMenu, #helpMenu {
   width: 100%;

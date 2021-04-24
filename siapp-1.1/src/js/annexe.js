@@ -10,21 +10,23 @@ function changeCSSTheme() {
 
     if (theme.getAttribute('href') == './src/css/siapp-light.css') {
         theme.setAttribute('href', './src/css/siapp-dark.css');
-          document.getElementById('iconSunMoon').src = "src/medias/pictures/sun-solid.svg";
+          document.getElementById('iconSunMoon').src = "src/medias/images/sun-solid.svg";
+          createBackground('17520.jpg');
     } else {
         theme.setAttribute('href', './src/css/siapp-light.css');
         //moon icon
-        document.getElementById('iconSunMoon').src = "src/medias/pictures/moon-solid.svg";
+        document.getElementById('iconSunMoon').src = "src/medias/images/moon-solid.svg";
+        createBackground('133256.jpg');
     }
 }
 
 function MusicButton() {
   if (music.isPlaying) {
       music.stop();
-      document.getElementById('iconMusic').src = "src/medias/pictures/play-solid.svg";
+      document.getElementById('iconMusic').src = "src/medias/images/play-solid.svg";
   } else {
       music.play();
-      document.getElementById('iconMusic').src = "src/medias/pictures/stop-solid.svg";
+      document.getElementById('iconMusic').src = "src/medias/images/stop-solid.svg";
   }
 }
 
@@ -33,11 +35,11 @@ function EffectButton() {
   if (soundLaser.getVolume()>0) {
       soundLaser.setVolume(0);
       soundDeathAlien.setVolume(0);
-      document.getElementById('iconVolume').src = "src/medias/pictures/volume-mute-solid.svg";
+      document.getElementById('iconVolume').src = "src/medias/images/volume-mute-solid.svg";
   } else {
       soundLaser.setVolume(0.5);
         soundDeathAlien.setVolume(0.5);
-      document.getElementById('iconVolume').src = "src/medias/pictures/volume-up-solid.svg";
+      document.getElementById('iconVolume').src = "src/medias/images/volume-up-solid.svg";
   }
 }
 

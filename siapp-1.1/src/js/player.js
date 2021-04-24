@@ -55,7 +55,7 @@ function createVaisseau() {
   });
 
   for (var i = 1; i <=3; i++) {
-    document.getElementById('VieDiv').innerHTML += '<img class="vieIMG" id="vie'+i+'" src="src/medias/pictures/vie.png" />';
+    document.getElementById('VieDiv').innerHTML += '<img class="vieIMG" id="vie'+i+'" src="src/medias/images/vie.png" />';
   }
 }
 
