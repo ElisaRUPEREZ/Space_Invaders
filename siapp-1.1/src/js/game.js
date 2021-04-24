@@ -2,11 +2,21 @@ const manager = new THREE.LoadingManager()
 
 manager.onLoad = function ( ) {
     console.log( "Loading complete!");
+    document.getElementById("loadingDiv").style.display = "none";
+    let bar = document.getElementById("progressBar");
+    bar.value = 0;
+    bar.max = 0;
     StartGame();
 }
 
 manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
-    console.log(`Items loaded: ${itemsLoaded}/${itemsTotal}`)
+  //Affichage écran
+    
+    console.log(`Items loaded: ${itemsLoaded}/${itemsTotal}`);
+   //document.getElementById("progressBar").innerHTML = `<progress value="${itemsLoaded}" max="${itemsTotal}">%</progress>`;
+    let bar = document.getElementById("progressBar");
+    bar.value = itemsLoaded;
+    bar.max = itemsTotal;
 }
 
 manager.onError = function ( url ) {
@@ -23,7 +33,7 @@ function startLevel(level) {
   if (scene.children != null) {
     clearGame();
   }
-
+  document.getElementById("loadingDiv").style.display = "block";
   addObjectToscene();
 }
 

@@ -34,3 +34,7 @@ body {
   color: white;
   background-color: grey;
 }
+
+#loadingDiv {
+  background-color: black;
+}
