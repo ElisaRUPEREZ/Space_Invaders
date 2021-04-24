@@ -11,12 +11,14 @@ function changeCSSTheme() {
     if (theme.getAttribute('href') == './src/css/siapp-light.css') {
         theme.setAttribute('href', './src/css/siapp-dark.css');
           document.getElementById('iconSunMoon').src = "src/medias/images/sun-solid.svg";
-          createBackground('17520.jpg');
+          scene.background = scenebackground.dark;
+          lightMode = false;
     } else {
         theme.setAttribute('href', './src/css/siapp-light.css');
         //moon icon
         document.getElementById('iconSunMoon').src = "src/medias/images/moon-solid.svg";
-        createBackground('133256.jpg');
+        scene.background = scenebackground.light;
+        lightMode = true;
     }
 }
 

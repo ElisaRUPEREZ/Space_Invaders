@@ -30,7 +30,7 @@ let invincible = false; //pour mode invincible
 let points =0;
 let niveau = 1;
 
-
+let lightMode = true;
 
 window.addEventListener('load', init);
 window.addEventListener('resize', resize);

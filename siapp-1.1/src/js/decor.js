@@ -1,5 +1,5 @@
-let sun; let orbit; let skybox;
-
+let sun; let orbit; 
+let scenebackground = {};
 function createBackgroundObjects() {
     let geometry = new THREE.SphereGeometry();
     let material = new THREE.MeshNormalMaterial({opacity: 1,transparent: true});
@@ -33,15 +33,34 @@ function updateDecor(step) {
 }
 
 
-function createBackground(cheminfichier) {
+function createBackground(cheminfichierlight, cheminfichierdark) {
     
-    const loader = new THREE.TextureLoader();
-    const texture = loader.load(
-      './src/medias/images/SceneBackground/'+ cheminfichier,
+    const loaderlight = new THREE.TextureLoader(manager);
+    const texturelight = loaderlight.load(
+      './src/medias/images/SceneBackground/'+ cheminfichierlight,
       () => {
-        const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
-        rt.fromEquirectangularTexture(renderer, texture);
-        scene.background = rt.texture;
+        const rt = new THREE.WebGLCubeRenderTarget(texturelight.image.height);
+        rt.fromEquirectangularTexture(renderer, texturelight);
+        scenebackground.light = rt.texture;
+        if (lightMode) {
+          scene.background = rt.texture;
+        }
+        
       });
+
+      const loaderdark = new THREE.TextureLoader(manager);
+      const texturedark = loaderdark.load(
+        './src/medias/images/SceneBackground/'+ cheminfichierdark,
+        () => {
+          const rt = new THREE.WebGLCubeRenderTarget(texturedark.image.height);
+          rt.fromEquirectangularTexture(renderer, texturedark);
+          scenebackground.dark = rt.texture;
+          if (!lightMode) {
+            scene.background = rt.texture;
+          }
+        });
+
+       
+
 
 }
