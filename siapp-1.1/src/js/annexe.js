@@ -57,6 +57,8 @@ function GameSuccess() {
   console.log("niveau : " + niveau);
   if (niveau > 3) {
     console.log("BRAVO VOUS AVEZ FINIS LE JEU");
+    var newDiv = document.createElement("div");
+
   } else {
     document.getElementById("ModalGameSuccess").style.display = "block";
   }
