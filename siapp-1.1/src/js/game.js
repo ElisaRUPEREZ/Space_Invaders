@@ -75,21 +75,24 @@ function addObjectToscene() {
   switch (niveau) {
     case 1:
       createAliens();
+      createBackground('7.jpg', '6.jpg');//bleu
       break;
     case 2 :
       createAliensCircle();
+      createBackground('11.jpg', '25.jpg'); //rouge
       break;
     case 3 :
       createAliensWave();
+      createBackground('24.jpg', '20.jpg'); //violet
       break;
   }
 
   
-  /*light = new THREE.DirectionalLight(0xffffff, 0.8);
-  //light.target.position = 160;
-  light.position.set(0, 30,-100);*/
   let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
   scene.add(light);
+
+  createBackgroundObjects();
+
 
     // add Stats.js - https://github.com/mrdoob/stats.js
   stats = new Stats();
@@ -101,8 +104,8 @@ function addObjectToscene() {
   const gridHelper = new THREE.GridHelper(70, 25);
   scene.add(gridHelper);
 
-  createBackground('17520.jpg', '133256.jpg');
-  createBackgroundObjects();
+
+
 }
 
 function StartGame() {
