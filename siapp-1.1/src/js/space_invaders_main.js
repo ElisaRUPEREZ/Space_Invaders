@@ -31,7 +31,7 @@ let points =0;
 let niveau = 1;
 
 let lightMode = true;
-
+let ScoreTab = [];
 window.addEventListener('load', init);
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
@@ -157,12 +157,14 @@ function init() {
   renderer.setSize(w, h);
   container.appendChild(renderer.domElement);
 
+
+  document.getElementById("goButton").disabled = false;
 }
 
 function go() {
   console.log("Go!");
   document.getElementById('mainMenu').style.display = "none";
-  music.play();
+ // music.play();
   startLevel(1);
 }
 

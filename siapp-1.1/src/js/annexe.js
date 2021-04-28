@@ -53,11 +53,34 @@ function calculPoints(pts) {
 }
 
 function GameSuccess() { 
+  ScoreTab[niveau-1]=points;
   niveau++;
   console.log("niveau : " + niveau);
   if (niveau > 3) {
-    console.log("BRAVO VOUS AVEZ FINIS LE JEU");
-    var newDiv = document.createElement("div");
+    
+  document.getElementById('tabScore').innerHTML = `
+    <tr>
+      <th>Niveau 1</th>
+      <th>Niveau 2</th>
+      <th>Niveau 3</th>
+      <th>Score Total</th>
+    </tr>
+    <tr>
+      <td>${ScoreTab[0]}</td>
+      <td>${ScoreTab[1]}</td>
+     <td>${ScoreTab[2]}</td>
+     <td>${ScoreTab[0] + ScoreTab[1] + ScoreTab[2]}</td>
+   </tr>
+`;
+  
+  document.getElementById("ModalSuccessAll3Lvl").style.display = "block";
+
+    let btn = document.getElementById("buttonReturnMainMenu");
+         btn.onclick = function() {
+        document.getElementById('mainMenu').style.display = "block";
+       document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
+        document.getElementById("ModalSuccessAll3Lvl").style.display = "none";
+  }
 
   } else {
     document.getElementById("ModalGameSuccess").style.display = "block";

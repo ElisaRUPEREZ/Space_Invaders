@@ -91,14 +91,14 @@ canvas {
   text-align: center;
   margin: auto;
   padding: 20px;
-  width: 80%;
-  height: 18em;
-  border-width: 1px;
+  width: 70%;
+  height: auto;
+  border-width: 2px;
   border-style: solid;
   border-radius: 25px;
 }
 .modal-content > h2  {
-  margin-top: 4em;
+  margin-top: 1em;
 }
 
 /* The Close Button */
@@ -107,6 +107,7 @@ canvas {
   font-weight: bold;
   background-color: transparent;
   border-color: transparent;
+  margin-top: 1em;
 }
 
 .modalButton:hover,
@@ -136,3 +137,18 @@ canvas {
   height: 5em;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+th, td {
+  padding: 0.6em;
+  font-size: 21px;
+  /*border: 2px solid black;*/
+  text-align: center;
+}
+hr {
+  margin-bottom: 0.5em;
+}

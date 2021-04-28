@@ -135,7 +135,7 @@ function createSoucoupe() {
 
   var loader2 = new THREE.GLTFLoader();
   loader2.crossOrigin = true;
-  loader2.load( 'src/medias/models/ufo/ufoLowPoly.gltf', function ( data ) {
+  loader2.load( 'src/medias/models/ufo/scene.gltf', function ( data ) {
   
     var object = data.scene;
     object.position.set(soucoupeBox.position.x, -1, soucoupeBox.position.z); //-30, 0, 22
