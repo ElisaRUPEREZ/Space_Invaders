@@ -47,7 +47,7 @@ function createMoon() {
   scene.add(orbit);
 
   var loaderm = new THREE.TextureLoader(manager);
-  var texture = loaderm.load("src/medias/models/moon/textures/Material.002_diffuse.jpeg");
+  var texture = loaderm.load("src/medias/models/moon/material.jpg");
 
   var moonMaterial = new THREE.MeshPhongMaterial({
     color: 0xaaaaaa,
