@@ -66,6 +66,7 @@ function keyPressed(e) {
 
     case 'k':
       scene.remove(aliens);
+      soundDeathAlien.play();
       scene.remove(soucoupe);       
       GameSuccess();
     break;
