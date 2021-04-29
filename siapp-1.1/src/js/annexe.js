@@ -1,10 +1,3 @@
-let scoreJeu = {
-  scoreniv1 :0,
-  scoreniv2 :0,
-  scoreniv3 :0,
-  scoretotal :0
-};
-
 function changeCSSTheme() {
     var theme = document.getElementsByTagName('link')[1];
 
@@ -33,7 +26,6 @@ function MusicButton() {
 }
 
 function EffectButton() {
-
   if (soundLaser.getVolume()>0) {
       soundLaser.setVolume(0);
       soundDeathAlien.setVolume(0);
@@ -53,6 +45,7 @@ function calculPoints(pts) {
 }
 
 function GameSuccess() { 
+  music.stop();
   ScoreTab[niveau-1]=points;
   niveau++;
   console.log("niveau : " + niveau);
@@ -75,13 +68,6 @@ function GameSuccess() {
   
   document.getElementById("ModalSuccessAll3Lvl").style.display = "block";
 
-    let btn = document.getElementById("buttonReturnMainMenu");
-         btn.onclick = function() {
-        document.getElementById('mainMenu').style.display = "block";
-       document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
-        document.getElementById("ModalSuccessAll3Lvl").style.display = "none";
-  }
-
   } else {
     document.getElementById("ModalGameSuccess").style.display = "block";
   }
@@ -90,11 +76,18 @@ function GameSuccess() {
 
 function GameOver() {
   pause = true;
+  document.getElementById("scoreGameOver").innerHTML = "Score : " + points;
   document.getElementById("ModalGameOver").style.display = "block";
-  let btn = document.getElementById("buttonGameOver");
-  btn.onclick = function() {
-    document.getElementById('mainMenu').style.display = "block";
-    document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
-    document.getElementById("ModalGameOver").style.display = "none";
-  }
+}
+
+
+function returnMainMenu(id) {
+  document.getElementById('mainMenu').style.display = "block";
+  document.getElementById(id).style.display = "none";
+   
+  document.getElementById('OptionDiv').getElementsByTagName('h2')[0].style.visibility = "visible";
+  document.getElementById('OptionDiv').getElementsByTagName('button')[0].style.visibility = "visible";
+  document.getElementById("OptionDiv").style.visibility = "hidden";
+
+  music.stop();
 }

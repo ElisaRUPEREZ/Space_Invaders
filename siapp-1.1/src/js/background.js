@@ -1,4 +1,4 @@
-let sun; let orbit; 
+let sun; let orbit; let orbitsun; let moon;
 let scenebackground = {};
 
 function createBackgroundObjects() {
@@ -8,7 +8,48 @@ function createBackgroundObjects() {
     orbit.position.set(0,0,0);
     scene.add(orbit);
 
-  var loader = new THREE.GLTFLoader(manager);
+    
+
+
+ /* orbitsun = new THREE.Mesh( geometry, material, );
+    orbitsun.position.set(0,0,120);
+    orbit.attach(orbitsun);*/
+/*
+  var loaderm = new THREE.TextureLoader(manager);
+  var texture = loaderm.load("src/medias/models/moon/textures/Material.002_diffuse.jpeg");
+
+  var moonMaterial = new THREE.MeshPhongMaterial({
+    color: 0xaaaaaa,
+    specular: 0x333333,
+    flatShading: false,
+    map: texture,
+
+  });
+
+  var loaderp1 = new THREE.TextureLoader(manager);
+  var colorMap = loaderp1.load("src/medias/models/exo_planet/Planet_diffuse.png");
+
+ /* var loaderp2 = new THREE.TextureLoader(manager);
+  var specMap = loaderp2.load("src/medias/models/exo_planet/Planet_specularGlossiness.png");
+
+  var loaderp3 = new THREE.TextureLoader(manager);
+  var normalMap = loaderp3.load("src/medias/models/exo_planet/Planet_normal.png");
+*/
+/*
+  var planetMaterial = new THREE.MeshPhongMaterial({
+    color: 0xaaaaaa,
+    specular: 0x333333,
+    flatShading: false,
+    map: colorMap,
+    //specularMap: specMap,
+    //normalMap: normalMap
+  });
+
+  planet = new THREE.Mesh( new THREE.SphereGeometry(6, 7, 7), planetMaterial);
+  planet.position.set(0, 0, 350); //200
+  */
+
+    var loader = new THREE.GLTFLoader(manager);
   loader.crossOrigin = true;
   loader.load( 'src/medias/models/sun/scene.gltf', function ( data ) {
   
@@ -20,30 +61,22 @@ function createBackgroundObjects() {
     object.attach(light);
 
     orbit.attach(object);
+    //object.attach(planet);
     sun = object;
     //, onProgress, onError );
   });
-
-
-
-  var loader2 = new THREE.GLTFLoader(manager);
-  loader2.crossOrigin = true;
-  loader2.load( 'src/medias/models/moon/scene.gltf', function ( data ) {
-  var object = data.scene;
-  object.position.set(0, 20, 1500)
-  //sun.attach(object);
-    //, onProgress, onError );
-  });
-
 }
 
 
 function updateDecor(step) {
 
-    sun.rotateY(step*3); //sens antihoraire
+    sun.rotateY(step*0.5); //sens antihoraire
     orbit.rotateY(step * 0.6);
     orbit.rotateX(step*0.3);
+  //  orbitsun.rotateY(step*0.05);
+    //orbitsun.rotateX(step*0.2);
 
+   // planet.rotateY(step*2);
 }
 
 

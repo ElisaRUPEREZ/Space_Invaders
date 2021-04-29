@@ -35,6 +35,7 @@ function startLevel(level) {
   }
   document.getElementById("loadingDiv").style.display = "block";
   addObjectToscene();
+  
 }
 
 function clearGame() {
@@ -57,6 +58,8 @@ function clearGame() {
   collidableMeshList = []; // liste objet pouvant être touchés par le joueur
   bulletAlTabObject = [];
   pause = false;
+
+  
 }
 
 
@@ -75,15 +78,15 @@ function addObjectToscene() {
   switch (niveau) {
     case 1:
       createAliens();
-      createBackground('7.jpg', '6.jpg');//bleu
+      createBackground('7.jpg', '6.jpg');//planet
       break;
     case 2 :
       createAliensCircle();
-      createBackground('11.jpg', '25.jpg'); //rouge
+      createBackground('24.jpg', '20.jpg'); //moon
       break;
     case 3 :
       createAliensWave();
-      createBackground('24.jpg', '20.jpg'); //violet
+      createBackground('11.jpg', '25.jpg'); //sun
       break;
   }
 
@@ -121,6 +124,8 @@ function StartGame() {
   loop.slowStep = loop.slow * loop.step;
 
   gameLoop();
+  document.getElementById("OptionDiv").style.visibility = "visible";
+  music.play();
 }
 
 function gameLoop() {

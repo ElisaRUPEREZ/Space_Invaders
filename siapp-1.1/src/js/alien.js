@@ -78,7 +78,7 @@ function createAliensWave() {
   }
 }
 
-function loadAlien(mesh, x, y, z, points) {
+function loadAlien(material, x, y, z, points) {
   var object; let i = 0;
   var loader2 = new THREE.GLTFLoader(manager);
   loader2.crossOrigin = true;
@@ -86,7 +86,7 @@ function loadAlien(mesh, x, y, z, points) {
   
     object = data.scene;
 
-    var mat = mesh;
+    var mat = material;
     object.traverse((o) => {
       if (o.isMesh) o.material = mat;
     })
@@ -102,7 +102,7 @@ function loadAlien(mesh, x, y, z, points) {
     aliens.add( alien );
     collidableMeshList.push(alien);
 
-    createBulletAlien(alien, mesh);
+    createBulletAlien(alien, material);
 
   });
  // return object;

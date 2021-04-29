@@ -92,8 +92,8 @@ function keyPressed(e) {
 }
 
 function init() {
-  document.getElementById('OptionDiv').getElementsByTagName('h1')[0].style.visibility = "hidden";
-
+  document.getElementById('OptionDiv').getElementsByTagName('h2')[0].style.visibility = "visible";
+  document.getElementById('OptionDiv').getElementsByTagName('button')[0].style.visibility = "visible";
   container = document.querySelector('#siapp');
   w = container.clientWidth;
   h = container.clientHeight;
@@ -119,7 +119,7 @@ function init() {
   audioLoader.load( '/src/medias/sounds/background_music.mp3', function( buffer ) {
   	music.setBuffer( buffer );
   	music.setLoop( true );
-  	music.setVolume( 0.4 );
+  	music.setVolume( 0.6 );
   });
 
   scene.add(music);
@@ -145,7 +145,7 @@ function init() {
   soundLoader.load( '/src/medias/sounds/alienDeath.mp3', function( buffer ) {
   	soundDeathAlien.setBuffer( buffer );
   	soundDeathAlien.setLoop( false );
-  	soundDeathAlien.setVolume( 0.4 );
+  	soundDeathAlien.setVolume( 0.3 );
   });
 
   scene.add(soundDeathAlien);
@@ -164,7 +164,6 @@ function init() {
 function go() {
   console.log("Go!");
   document.getElementById('mainMenu').style.display = "none";
- // music.play();
   startLevel(1);
 }
 
