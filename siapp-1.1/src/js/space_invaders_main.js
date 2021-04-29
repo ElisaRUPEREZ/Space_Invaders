@@ -32,7 +32,8 @@ let niveau = 1;
 
 let lightMode = true;
 let ScoreTab = [];
-window.addEventListener('load', init);
+
+window.addEventListener('load', function() {document.getElementById("goButton").disabled= false;});
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
 
@@ -157,12 +158,11 @@ function init() {
   renderer.setSize(w, h);
   container.appendChild(renderer.domElement);
 
-
-  document.getElementById("goButton").disabled = false;
 }
 
 function go() {
   console.log("Go!");
+  init();
   document.getElementById('mainMenu').style.display = "none";
   startLevel(1);
 }

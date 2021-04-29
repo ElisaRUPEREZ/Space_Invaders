@@ -1,15 +1,11 @@
-
 html, body, #siapp{
   background: #262626;
 }
 
 body {
   color: white;
-/*  margin: 0.3em 0.3em 0.3em 0.3em;*/
   text-shadow: 2px 2px 10px black;
-
 }
-
 
 #mainMenu {
   background-color: #262626;
@@ -22,10 +18,10 @@ body {
   text-shadow: 2px 2px 10px black;
 }
 
-#mainMenu > button:hover {
+#mainMenu > button:hover:enabled {
   background-color: grey;
 }
-
+ 
 .modal-content {
   background-color: #202020;
   border-color: #888;

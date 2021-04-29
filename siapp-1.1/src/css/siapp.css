@@ -34,10 +34,12 @@ button:hover {
 }
 
 #DivMessage {
-  top: 1em;
-  left: 12em;
+  bottom: 1em;
   display: none;
   font-size: 22px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
 }
 
 .vieIMG {
@@ -61,6 +63,12 @@ button:hover {
   font-size: 18px;
   border-radius: 20px;
   padding: 0.8em;
+}
+#mainMenu > button:disabled {
+  cursor:default;
+  background-color: hotpink;
+  border-color: indigo;
+  color: blue;
 }
 
 #helpMenu {

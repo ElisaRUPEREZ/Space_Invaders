@@ -13,7 +13,6 @@ manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
   //Affichage écran
     
     console.log(`Items loaded: ${itemsLoaded}/${itemsTotal}`);
-   //document.getElementById("progressBar").innerHTML = `<progress value="${itemsLoaded}" max="${itemsTotal}">%</progress>`;
     let bar = document.getElementById("progressBar");
     bar.value = itemsLoaded;
     bar.max = itemsTotal;
@@ -79,23 +78,23 @@ function addObjectToscene() {
     case 1:
       createAliens();
       createBackground('7.jpg', '6.jpg');//planet
+      createPlanet();
       break;
     case 2 :
       createAliensCircle();
       createBackground('24.jpg', '20.jpg'); //moon
+      createMoon();
       break;
     case 3 :
       createAliensWave();
       createBackground('11.jpg', '25.jpg'); //sun
+      createSun();
       break;
   }
 
-  
+
   let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
   scene.add(light);
-
-  createBackgroundObjects();
-
 
     // add Stats.js - https://github.com/mrdoob/stats.js
   stats = new Stats();
@@ -175,7 +174,6 @@ function update(step) {
   }
 
   if (soucoupe!=undefined && Math.round(Math.random()*1000) == 8 && !ApparitionSoucoupe) {
-    console.log("SOUCOUPE EN VUE");
     ApparitionSoucoupe = true;
     soucoupe.visible = true;
     soucoupeBox.position.x = -45;

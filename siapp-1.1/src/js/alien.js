@@ -9,19 +9,19 @@ function createAliens() {
   var xOffset = -28;
   for (var k = 0; k <= 1; k++) {
     for (var i = 1; i <= 10 ; i++) {
-      loadAlien(new THREE.MeshPhongMaterial({color: 0x333333, shininess: 40}), xOffset + (4 * i), 1, 4.5*k, 100);    
+      loadAlien(new THREE.MeshPhongMaterial({color: 0x006600, shininess: 40}), xOffset + (4 * i), 1, 4.5*k, 100);    
               
     }
   }
 
   for (var k = 0; k <= 1; k++) {
     for (var i = 1; i <= 10 ; i++) {
-      loadAlien(new THREE.MeshStandardMaterial({color: 0x999999}),xOffset + (4 * i), 1, 8.5 +(4.5*k), 200);            
+      loadAlien(new THREE.MeshStandardMaterial({color: 0x006699}),xOffset + (4 * i), 1, 8.5 +(4.5*k), 200);            
     }
   }
 
   for (var i = 1; i <= 10 ; i++) {
-    loadAlien(new THREE.MeshLambertMaterial({color: 0xd9d9d9}),xOffset+ (4 * i), 1, 9+(4.5*k), 300);
+    loadAlien(new THREE.MeshLambertMaterial({color: 0x4d2600}),xOffset+ (4 * i), 1, 9+(4.5*k), 300);
   }
 }
 
@@ -32,15 +32,15 @@ function createAliensCircle() {
   let radius = 13;
 
   for (var i = 0; i < 20 ; i++) {
-    loadAlien(new THREE.MeshPhysicalMaterial({color: 0xcc0066}), Offsetx + Math.cos(i*Math.PI/10)*radius, 1, Math.sin(i*Math.PI/10)*radius+4, 100);             
+    loadAlien(new THREE.MeshPhysicalMaterial({color: 0x808080}), Offsetx + Math.cos(i*Math.PI/10)*radius, 1, Math.sin(i*Math.PI/10)*radius+4, 100);             
   }
 
   for (var i = 0; i < 20 ; i++) {
-    loadAlien(new THREE.MeshPhongMaterial({color: 0xff66a3}), Offsetx + Math.cos(i*Math.PI/10)*(radius-4), 1, Math.sin(i*Math.PI/10)*(radius-4)+4, 200); 
+    loadAlien(new THREE.MeshPhongMaterial({color: 0xe6b3cc}), Offsetx + Math.cos(i*Math.PI/10)*(radius-4), 1, Math.sin(i*Math.PI/10)*(radius-4)+4, 200); 
   }
 
   for (var i = 0; i < 10 ; i++) {
-    loadAlien(new THREE.MeshStandardMaterial({color: 0xff6600}), Offsetx + Math.cos(i*Math.PI/5)*(radius-8), 1, Math.sin(i*Math.PI/5)*(radius-8)+4, 300);                     
+    loadAlien(new THREE.MeshStandardMaterial({color: 0xff66a3}), Offsetx + Math.cos(i*Math.PI/5)*(radius-8), 1, Math.sin(i*Math.PI/5)*(radius-8)+4, 300);                     
   }
 }
 
@@ -58,7 +58,7 @@ function createAliensWave() {
       } else {
         valZ = Math.sin(i) + k*6 -4;
       }
-      loadAlien(new THREE.MeshPhysicalMaterial({color: 0x00b386}), Offsetx +3.2*i, 1, valZ + Offsetz, 100);
+      loadAlien(new THREE.MeshPhysicalMaterial({color: 0xff8533}), Offsetx +3.2*i, 1, valZ + Offsetz, 100);
     }
   }
   for (var k = 0; k <= 1; k++) {
@@ -69,12 +69,12 @@ function createAliensWave() {
       } else {
         valZ = Math.sin(i) + 10+k*6;
       }
-      loadAlien(new THREE.MeshPhysicalMaterial({color: 0x006bb3}), Offsetx + 3.2*i, 1, valZ + Offsetz, 200);
+      loadAlien(new THREE.MeshPhysicalMaterial({color: 0xb30000}), Offsetx + 3.2*i, 1, valZ + Offsetz, 200);
     }
   }
        
   for (var i = 0; i < 10 ; i++) {
-    loadAlien(new THREE.MeshNormalMaterial(), Offsetx + 14.5+Math.cos(i*Math.PI/5)*2.5, 1, 6+Math.sin(i*Math.PI/5)*2.5 + Offsetz, 300);        
+    loadAlien(new THREE.MeshPhysicalMaterial({color: 0x1a1a1a}), Offsetx + 14.5+Math.cos(i*Math.PI/5)*2.5, 1, 6+Math.sin(i*Math.PI/5)*2.5 + Offsetz, 300);        
   }
 }
 
@@ -145,7 +145,6 @@ function createSoucoupe() {
     soucoupeBox.attach(object);
     object.visible = true;
 
-    //, onProgress, onError );
   });
 }
 /*--------------------------------------------------DESTRUCTION DES OBJETS -----------------------------------------------------------------*/

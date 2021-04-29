@@ -1,20 +1,51 @@
-let sun; let orbit; let orbitsun; let moon;
+let sphereObj; let orbit;
 let scenebackground = {};
 
-function createBackgroundObjects() {
-    let geometry = new THREE.SphereGeometry();
-    let material = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
-    orbit = new THREE.Mesh( geometry, material, );
-    orbit.position.set(0,0,0);
-    scene.add(orbit);
+function createOrbit() {
+  let geometry = new THREE.SphereGeometry();
+  let material = new THREE.MeshNormalMaterial({opacity: 0,transparent: true});
+  object = new THREE.Mesh( geometry, material, );
+  object.position.set(0,0,0);
+  return object;
+}
 
-    
+function createPlanet() {
+  orbit = createOrbit();
+  scene.add(orbit);
+
+  var loaderp1 = new THREE.TextureLoader(manager);
+  var colorMap = loaderp1.load("src/medias/models/exo_planet/Planet_diffuse.png");
+
+  var loaderp2 = new THREE.TextureLoader(manager);
+  var specMap = loaderp2.load("src/medias/models/exo_planet/Planet_specularGlossiness.png");
+
+  var loaderp3 = new THREE.TextureLoader(manager);
+  var normalMap = loaderp3.load("src/medias/models/exo_planet/Planet_normal.png");
+
+  var planetMaterial = new THREE.MeshPhongMaterial({
+    color: 0xaaaaaa,
+    specular: 0x333333,
+    flatShading: false,
+    map: colorMap,
+    specularMap: specMap,
+    normalMap: normalMap
+  });
+
+  sphereObj = new THREE.Mesh( new THREE.SphereGeometry(14, 12, 12), planetMaterial);
+  sphereObj.position.set(0, 0, 120); //200
+  orbit.attach(sphereObj);
 
 
- /* orbitsun = new THREE.Mesh( geometry, material, );
-    orbitsun.position.set(0,0,120);
-    orbit.attach(orbitsun);*/
-/*
+  light = new THREE.SpotLight( 0xffffbb, 1, 0, Math.PI/2, 0.8, 2);
+  light.position.set(0,300,-200);
+  scene.add(light);
+
+}
+
+function createMoon() {
+  orbit = createOrbit();
+  scene.add(orbit);
+
   var loaderm = new THREE.TextureLoader(manager);
   var texture = loaderm.load("src/medias/models/moon/textures/Material.002_diffuse.jpeg");
 
@@ -26,57 +57,42 @@ function createBackgroundObjects() {
 
   });
 
-  var loaderp1 = new THREE.TextureLoader(manager);
-  var colorMap = loaderp1.load("src/medias/models/exo_planet/Planet_diffuse.png");
+  sphereObj = new THREE.Mesh( new THREE.SphereGeometry(14, 12, 12), moonMaterial);
+  sphereObj.position.set(0, 0, 120); //200
+  orbit.attach(sphereObj);
 
- /* var loaderp2 = new THREE.TextureLoader(manager);
-  var specMap = loaderp2.load("src/medias/models/exo_planet/Planet_specularGlossiness.png");
+  light = new THREE.SpotLight( 0xffffbb, 1, 0, Math.PI/2, 0.8, 2);
+  light.position.set(0,300,-100);
+  scene.add(light);
+}
 
-  var loaderp3 = new THREE.TextureLoader(manager);
-  var normalMap = loaderp3.load("src/medias/models/exo_planet/Planet_normal.png");
-*/
-/*
-  var planetMaterial = new THREE.MeshPhongMaterial({
-    color: 0xaaaaaa,
-    specular: 0x333333,
-    flatShading: false,
-    map: colorMap,
-    //specularMap: specMap,
-    //normalMap: normalMap
-  });
+function createSun() {
+  orbit = createOrbit();
+  scene.add(orbit);
 
-  planet = new THREE.Mesh( new THREE.SphereGeometry(6, 7, 7), planetMaterial);
-  planet.position.set(0, 0, 350); //200
-  */
-
-    var loader = new THREE.GLTFLoader(manager);
+  var loader = new THREE.GLTFLoader(manager);
   loader.crossOrigin = true;
   loader.load( 'src/medias/models/sun/scene.gltf', function ( data ) {
   
     var object = data.scene;
-    object.position.set(0,0,170); //-30, 0, 22
+    object.position.set(0,0,170);
       
-    light = new THREE.SpotLight( 0xffffbb, 3, 0, Math.PI/2, 0.5, 2);
+    light = new THREE.SpotLight( 0xffffbb, 1.5, 0, Math.PI/2, 0.5, 2);
     light.position.set(object.position.x, object.position.y, object.position.z);
     object.attach(light);
 
     orbit.attach(object);
-    //object.attach(planet);
-    sun = object;
+    sphereObj = object;
     //, onProgress, onError );
   });
 }
 
-
 function updateDecor(step) {
-
-    sun.rotateY(step*0.5); //sens antihoraire
-    orbit.rotateY(step * 0.6);
-    orbit.rotateX(step*0.3);
-  //  orbitsun.rotateY(step*0.05);
-    //orbitsun.rotateX(step*0.2);
-
-   // planet.rotateY(step*2);
+  if (niveau!=2) {
+    sphereObj.rotateY(step*2); //sens antihoraire
+  }
+  orbit.rotateY(step * 0.6);
+  orbit.rotateX(step*0.3);
 }
 
 
