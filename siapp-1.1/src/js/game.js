@@ -53,16 +53,15 @@ function clearGame() {
   moveDir = true; /// sens de déplacement des aliens
   ApparitionSoucoupe = false;
     //tabObjects
-  collidableMeshList = []; // liste objet pouvant être touchés par le joueur
+  collidableMeshList = []; 
   bulletAlTabObject = [];
   pause = false;
 
-  ScoreTab = [];
+  
 
   sphereObj = null;
   orbit = null;
   scenebackground = {};
-
 }
 
 
