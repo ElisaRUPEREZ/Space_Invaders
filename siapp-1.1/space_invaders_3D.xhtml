@@ -8,19 +8,7 @@
 		<link href="./src/css/siapp-light.css" rel="stylesheet" type="text/css" />
 	</head>
 <body>
-<!--
-	Cette page doit être servie par un serveur Web. https://developer.mozilla.org/fr/docs/Apprendre/Common_questions/configurer_un_serveur_de_test_local
-	Pour en créer un à  partir du terminal, lancer la commande suivante :
 
-	python -m SimpleHTTPServer
-	ou
-	python3 -m http.server
-
-	et dans le navigateur, ouvrez l'URL :
-
-	http://localhost:8000
-
-	 -->
 	<div class="superpose" id="mainMenu">
 		<h1>Space Invaders 3D</h1><hr />
 		<button id="goButton" type="button" onclick="go()" disabled="true" >Commencer à jouer !</button>
@@ -55,10 +43,10 @@
 	<div class="superpose" id="VieDiv"></div>
 	<div class="superpose" id="OptionDiv">
 		<h1>Niveau</h1>
-		<h2>Affichage : </h2>
+	<span><h2>Affichage : </h2>
 		<button type="button" name="LightDarkMode" onclick="changeCSSTheme()">
 			<img id="iconSunMoon" src="src/medias/images/moon-solid.svg" alt="dark_mode" height="30px" width="30px"/>
-		</button>
+		</button></span>
 		<br />
 		<h2>Musique : </h2>
 			<button type="button" name="MusicButton" onclick="MusicButton()">

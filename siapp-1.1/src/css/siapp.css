@@ -44,6 +44,8 @@ button:hover {
 
 .vieIMG {
   padding: 0.5em;
+  margin-bottom: 0.5em;
+  margin-right: 0.5em;
 }
 
 #mainMenu {
@@ -66,9 +68,9 @@ button:hover {
 }
 #mainMenu > button:disabled {
   cursor:default;
-  background-color: hotpink;
-  border-color: indigo;
-  color: blue;
+  background-color: rgb(194, 194, 194);
+  border-color: grey;
+  color: rgb(102, 102, 102);
 }
 
 #helpMenu {
@@ -89,8 +91,12 @@ button:hover {
   margin-left: 0.3em;  
   visibility: hidden;
 }
-#OptionDiv h1 {
-  visibility: hidden;
+
+#OptionDiv > span{
+  visibility: visible;
+}
+#OptionDiv > h1{
+  margin-bottom: 1em;
 }
 
 .modal {

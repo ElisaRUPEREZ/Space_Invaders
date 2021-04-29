@@ -34,7 +34,6 @@ function startLevel(level) {
   }
   document.getElementById("loadingDiv").style.display = "block";
   addObjectToscene();
-  
 }
 
 function clearGame() {
@@ -58,7 +57,12 @@ function clearGame() {
   bulletAlTabObject = [];
   pause = false;
 
-  
+  ScoreTab = [];
+
+  sphereObj = null;
+  orbit = null;
+  scenebackground = {};
+
 }
 
 
@@ -112,6 +116,7 @@ function addObjectToscene() {
 
 function StartGame() {
   console.log("START GAME");
+  music.play();
   const fps  = 60;
   const slow = 1; // slow motion! 1: normal speed, 2: half speed...
   loop.dt       = 0,
@@ -124,7 +129,7 @@ function StartGame() {
 
   gameLoop();
   document.getElementById("OptionDiv").style.visibility = "visible";
-  music.play();
+
 }
 
 function gameLoop() {

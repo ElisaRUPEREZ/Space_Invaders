@@ -33,7 +33,7 @@ let niveau = 1;
 let lightMode = true;
 let ScoreTab = [];
 
-window.addEventListener('load', function() {document.getElementById("goButton").disabled= false;});
+window.addEventListener('load', function() {document.getElementById("goButton").disabled= false; init()});
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', keyPressed);
 
@@ -134,7 +134,7 @@ function init() {
   soundLoader.load( '/src/medias/sounds/laser_sound.mp3', function( buffer ) {
   	soundLaser.setBuffer( buffer );
   	soundLaser.setLoop( false );
-  	soundLaser.setVolume( 0.4 );
+  	soundLaser.setVolume( 0.3 );
   });
 
   scene.add(soundLaser);
@@ -162,7 +162,6 @@ function init() {
 
 function go() {
   console.log("Go!");
-  init();
   document.getElementById('mainMenu').style.display = "none";
   startLevel(1);
 }

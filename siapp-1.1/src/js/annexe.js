@@ -45,7 +45,6 @@ function calculPoints(pts) {
 }
 
 function GameSuccess() { 
-  music.stop();
   ScoreTab[niveau-1]=points;
   niveau++;
   console.log("niveau : " + niveau);
@@ -85,9 +84,7 @@ function returnMainMenu(id) {
   document.getElementById('mainMenu').style.display = "block";
   document.getElementById(id).style.display = "none";
    
-  document.getElementById('OptionDiv').getElementsByTagName('h2')[0].style.visibility = "visible";
-  document.getElementById('OptionDiv').getElementsByTagName('button')[0].style.visibility = "visible";
   document.getElementById("OptionDiv").style.visibility = "hidden";
-
+  document.getElementById('OptionDiv').getElementsByTagName('span')[0].style.visibility = "visible";
   music.stop();
 }
