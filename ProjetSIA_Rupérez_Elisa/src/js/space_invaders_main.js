@@ -135,7 +135,7 @@ function init() {
   soundLoader.load( '/src/medias/sounds/laser_sound.mp3', function( buffer ) {
   	soundLaser.setBuffer( buffer );
   	soundLaser.setLoop( false );
-  	soundLaser.setVolume( 0.3 );
+  	soundLaser.setVolume( 0.4 );
   });
 
   scene.add(soundLaser);
@@ -165,6 +165,7 @@ function go() {
   console.log("Go!");
   document.getElementById('mainMenu').style.display = "none";
   startLevel(1);
+  music.play();
 }
 
 function resize() {

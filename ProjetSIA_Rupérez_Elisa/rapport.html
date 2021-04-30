@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+	<head>
+		<title>Rapport - Space Invaders 3D</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <link href="./rapport/css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+    <body>
+
+        <h1>Rapport - Space Invaders 3D</h1>
+        <em>Rupérez Elisa - M1 Technologie de l'Internet - 2021</em>
+        <hr />
+
+        <p>Retrouvez ce classique du jeu vidéo dans une toute nouvelle version en 3D ! Cliquez <a href="./space_invaders_3D.xhtml">ici</a> pour jouer maintenant.</p>
+        <section>
+            <div>
+                <h2>Déroulement du jeu : </h2>
+                <p>Le joueur arrive d'abord sur la page d'accueil qui lui présente les différents aliens et leurs points correspondants. Il lui suffit d'apuyer sur le bouton pour commencer à jouer.
+                    Après le court écran de chargement, le joueur peut enfin commencer à jouer ! Le jeu comporte au total trois niveaux différents, lorsque le joueur a tué toute la horde d'aliens un message s'affiche invitant le joueur à passer au niveau suivant, si il n'y parvient pas un message de game over s'affiche et le joueur revient à la page d'accueil.
+                    Lorsque le joueur complète les trois niveaux un tableau récapitulatif de ses scores s'affiche, il peut ensuite revenir à la page d'accueil pour refaire une nouvelle partie.
+                <h3>Interface Utilisateur</h3>
+                <img id="imgUI" src="./rapport/images/UI.png" width="100%"/>
+                </p>
+            </div>
+            <div>
+                <h2>Graphisme</h2>
+                <p>
+                    Les aliens ont tous un aspect 3D en fonction du niveau et de leurs points ils possèdent des couleurs et des matériaux différents.
+                    <br />
+                    Dans le décor vous pourrez observer une planète, une lune ou une étoile qui se déplace dans l'espace. Le fond de la scène change lui aussi en fonction du niveau et du mode jour/nuit choisi (voir la section « <a href="#bonus">Bonus</a> » pour plus d'informations), ce qui donne un total de 6 arrières plan différents.
+                    <br />
+                    <!--L'effet de post-processing-->
+                </p>
+            </div>
+            <div>
+                <h2>Dialogue avec utilisateur</h2>
+                <p>
+                    A chaque fin de niveau, quelque soit le résultat, victoire ou défaite, un message s'affiche à l'écran permettant de passer au niveau suivant ou de revenir à l'écran d'accueil.
+                    Le joueur peut afficher une aide en jeu en appuyant sur la touche <b>« H »</b>.
+                </p>
+            </div>
+            <div>
+                <h2>Points de vue caméra</h2>
+                <p>Le jeu possède trois positionnements de caméra différents : 
+                    <ul>
+                        <li>Une caméra fixe au dessus du plateau (0)</li>
+                        <li>Une caméra mobile attachée au vaisseau permettant une vue à la première personne (1)</li>
+                        <li>Une caméra mobile atttachée au vaisseau permettant une vue à la troisième personne (2)</li>
+                    </ul>
+                </p>
+            </div>
+            <div>
+                <h2>Gestion des collisions</h2>
+                <p>
+                    Lorsqu'un joueur tire un missile, ce missile disparaît lorsqu'il touche un alien, un missile alien, un bouclier ou alors lorsqu'il quitte la zone de jeu. 
+                    Lorsqu'un bouclier est touché par un missile (alien ou du joueur) il devient de plus en plus rouge indiquant qu'il est à la limite de la destruction totale.
+                    <img id="bouclierDMG" src="./rapport/images/bouclier_dmg.gif" />
+                </p>
+            </div>
+            <div>
+                <h2>Musique et son</h2>
+                <p>
+                    Le jeu dispose d'une musique tout au long de la partie, le joueur peut choisir de l'arrêter et de la remettre à tout moment du jeu grâce au bouton à gauche de l'écran.
+                    Il peut aussi choisir d'activer ou de désactiver les effets sonores (lorsqu'un alien meurt ou lors du tir du missile) grâce à un autre bouton situé sur la gauche de l'écran.
+                </p>
+            </div>
+            <div>
+                <h2>Touches « magiques »</h2>
+                <p>
+                    <ul>
+                        <li>La touche « i » : permet de devenir invincible si les tirs aliens vous touchent, ils disparaîtront et vous ne perdrez pas une vie</li>
+                        <li>La touche « k » : permet de tuer tous les aliens et donc de passer au niveau suivant, cependant vous ne gagnerais pas de points.</li>
+                    </ul>
+                </p>
+            </div>
+            <div>
+                <h2 id="bonus">Bonus</h2>
+                <p>Cette nouvelle version apporte une toute nouvelle fonctionnalité : vous pouvez désormais choisir entre un mode jour et un mode nuit en appuyant sur le bouton à gauche de l'écran.
+                Il est désormais possible d'avoir un récapitulatif de ses scores niveau par niveau ainsi que son score total.
+                </p>
+            </div>
+        </section>
+
+    </body>
+</html>

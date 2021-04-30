@@ -4,7 +4,7 @@ html, body, #siapp{
 
 body {
   color: white;
-  text-shadow: 2px 2px 10px black;
+  text-shadow:1px 1px 2px black, 0 0 1em rgb(54, 54, 54), 0 0 0.2em rgb(94, 94, 94);
 }
 
 #mainMenu {
@@ -15,7 +15,8 @@ body {
   background-color: #262626;
   border-color: white;
   color: white;
-  text-shadow: 2px 2px 10px black;
+  text-shadow:1px 1px 2px black, 0 0 1em rgb(54, 54, 54), 0 0 0.2em rgb(94, 94, 94);
+
 }
 
 #mainMenu > button:hover:enabled {
@@ -40,5 +41,5 @@ body {
 }
 
 #loadingDiv {
-  background-color: black;
+  background-color: #262626;
 }

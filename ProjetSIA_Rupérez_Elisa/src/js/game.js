@@ -104,18 +104,10 @@ function addObjectToscene() {
   stats.domElement.style.position	= 'absolute';
   stats.domElement.style.bottom	= '0px';
   document.body.appendChild( stats.domElement );
-
- // GridHelper
-  const gridHelper = new THREE.GridHelper(70, 25);
-  scene.add(gridHelper);
-
-
-
 }
 
 function StartGame() {
   console.log("START GAME");
-  music.play();
   const fps  = 60;
   const slow = 1; // slow motion! 1: normal speed, 2: half speed...
   loop.dt       = 0,

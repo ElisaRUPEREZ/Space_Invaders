@@ -82,6 +82,11 @@ button:hover {
   position: absolute;
   top: 0;
   right:0;
+  font-size: 18px;
+  
+}
+#helpMenu>ul, li {
+  text-align:left;
   list-style: none;
 }
 
