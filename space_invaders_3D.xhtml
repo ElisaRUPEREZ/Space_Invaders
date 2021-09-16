@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Space Invaders 3D</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+		<link href="./src/css/siapp.css" rel="stylesheet" type="text/css" />
+		<link href="./src/css/siapp-light.css" rel="stylesheet" type="text/css" />
+	</head>
+<body>
+	
+	<div class="superpose" id="mainMenu"><img id="imgMenu" src="./src/medias/images/MenuImage.png" width="100%"/>
+		<h1>Space Invaders 3D</h1><hr />
+
+		<div id="divButton"><button id="goButton" type="button" onclick="go()" disabled="true" >Commencer à jouer !</button></div>
+		<h3>Rupérez Elisa - M1 Technologie de l'internet - 2021</h3>
+		
+	</div>
+
+	<div class="superpose" id="helpMenu">
+		<h1>Commandes clavier : </h1>
+		<ul>
+			<li><img  src="src/medias/images/caret-square-left-regular.png" width="20px" height="20px"/> ou <img  src="src/medias/images/caret-square-right-regular.png" width="20px" height="20px"/> : déplacement du vaisseau</li>
+			<li>Espace : tirer un missile</li>
+			<li>H : affiche ce menu d'aide</li>	
+			<li><img  src="src/medias/images/video-solid.png" width="24px" height="18px"/> Caméra : 
+				<ul>
+					<li>0 : Vue du dessus</li>
+					<li>1 : Vue à la  1ère personne</li>
+					<li>2 : Vue à la 3ème personne</li>
+				</ul>
+			</li>
+							
+		</ul>
+	</div>
+	<div class="superpose" id="loadingDiv"><h1>Chargement ...</h1><progress id="progressBar"></progress></div>
+	<div class="superpose" id="ScoreDiv">
+		<h1>Score : 0000</h1>
+	</div>
+
+	<div class="superpose" id="DivMessage"><b><i>|Mode invincible activé|</i></b></div>
+	<div class="superpose" id="VieDiv"></div>
+	<div class="superpose" id="OptionDiv">
+		<h1>Niveau</h1>
+	<span><h2>Affichage : </h2>
+		<button type="button" name="LightDarkMode" onclick="changeCSSTheme()">
+			<img id="iconSunMoon" src="src/medias/images/moon-solid.svg" alt="dark_mode" height="30px" width="30px"/>
+		</button></span>
+		<br />
+		<h2>Musique : </h2>
+			<button type="button" name="MusicButton" onclick="MusicButton()">
+				<img id="iconMusic" src="src/medias/images/play-solid.svg" alt="light_mode" height="30px" width="30px"/>
+			</button>
+		<h2>Effets Sonores : </h2>
+		<button type="button" name="EffectButton" onclick="EffectButton()">
+			<img id="iconVolume" src="src/medias/images/volume-up-solid.svg" alt="muteButton" height="30px" width="30px"/>
+		</button>
+	</div>
+
+	<!-- The Modal -->
+<div id="ModalGameSuccess" class="modal">
+	<!-- Modal content -->
+	<div class="modal-content">
+	<!--  <span class="close">X</span> -->
+	  <h2>Félicitations vous venez de terminer le niveau !</h2>
+	  <hr />
+	  <button type="button" class="modalButton" onclick="startLevel(niveau)">Avancer au niveau suivant</button>
+	</div>
+  </div>
+
+  <div id="ModalGameOver" class="modal">
+	<!-- Modal content -->
+	<div class="modal-content">
+	<!--  <span class="close">X</span> -->
+	  <h2>Game Over ...</h2>
+	  <hr />
+	  <h3 id="scoreGameOver"></h3>
+	  <button type="button" id="buttonGameOver" class="modalButton" onclick="returnMainMenu('ModalGameOver')">Retourner au menu principal</button>
+	</div>
+  </div>
+
+  <div id="ModalSuccessAll3Lvl" class="modal">
+	<!-- Modal content -->
+	<div class="modal-content">
+	<!--  <span class="close">X</span> -->
+	  <h2>Vous avez terminé le jeu, félicitations !</h2>
+	  <hr />
+	  <h3>Récapitulatif des scores : </h3>
+	  <table id="tabScore"></table>
+	  <button type="button" id="buttonReturnMainMenu" class="modalButton" onclick="returnMainMenu('ModalSuccessAll3Lvl')">Retourner au menu principal</button>
+	  <p><i>* Attention vos scores ne seront pas sauvegardés</i></p>
+	</div>
+  </div>
+
+	<div id="siapp"><!-- La 3D insérée ici --></div>
+
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.js"></script>
+
+	<!-- bibliothèques Three.js -->
+	<!-- Trouvez leur nom et leur chemin à partir de l'arborescence github : -->
+	<!-- https://github.com/mrdoob/three.js                                  -->
+
+	<!-- Par exemple pour TrackballControls : https://github.com/mrdoob/three.js/tree/dev/examples/js/controls -->
+	<script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>
+	<script src="src/lib/THREEx.KeyboardState.js"></script> <!-- facilite la reconnaissance des touches-->
+	<script src="src/lib/GLTFLoader.js"></script>
+
+	<!-- Code personnel -->
+	<script src="./src/js/space_invaders_main.js"></script>
+	<script src="./src/js/alien.js"></script>
+	<script src="./src/js/player.js"></script>
+	<script src="./src/js/annexe.js"></script>
+	<script src="./src/js/background.js"></script>
+	<script src="./src/js/game.js"></script>
+
+</body>
+</html>

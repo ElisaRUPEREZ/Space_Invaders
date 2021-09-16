@@ -1,0 +1,11 @@
+Model Information:
+* title:	Mad Octopus
+* source:	https://sketchfab.com/3d-models/mad-octopus-80fd3c4d6bed496190a44f82918b0a11
+* author:	Key3D (https://sketchfab.com/Keyshack)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Mad Octopus" (https://sketchfab.com/3d-models/mad-octopus-80fd3c4d6bed496190a44f82918b0a11) by Key3D (https://sketchfab.com/Keyshack) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

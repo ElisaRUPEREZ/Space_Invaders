@@ -1,0 +1,208 @@
+html, body, #siapp, #mainMenu, #helpMenu {
+  width: 100%;
+  height: 100%;
+}
+
+body, #siapp, #mainMenu, #helpMenu {
+  margin: 0;
+  overflow: hidden;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+button:hover {
+  cursor:pointer;
+}
+
+.superpose {
+  margin: 0;
+  background: transparent;
+  position: absolute;
+  user-select: none;
+}
+#ScoreDiv {
+  width: 100%;
+  text-align: center;
+}
+
+#VieDiv { /*pour texte couleur blanc et contour noir*/
+  right: 0;
+  bottom: 0;
+}
+
+#DivMessage {
+  bottom: 1em;
+  display: none;
+  font-size: 22px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.vieIMG {
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  margin-right: 0.5em;
+}
+
+#mainMenu {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  text-align: center;
+  background-image: url("../medias/images/MenuImageBack.jpg");
+}
+
+#mainMenu > h3{
+  position: absolute;
+  bottom: 0.8em;
+  text-align: center;
+  width: 100%;
+  z-index: 10;
+  
+}
+#imgMenu {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right:0;
+}
+
+#goButton {
+  margin:auto;
+  font-size: 25px;
+  border-radius: 12px;
+  padding: 0.6em;
+  z-index: 5;
+  width: 30%;
+  position: relative;
+}
+#divButton{
+  position: absolute;
+  bottom: 4em;
+  width: 100%;
+}
+#mainMenu > button:disabled {
+  cursor:default;
+  background-color: rgb(194, 194, 194);
+  border-color: grey;
+  color: rgb(102, 102, 102);
+}
+
+#helpMenu {
+  width: 20em;
+  height: 60%;
+  z-index: 2;
+  text-align: center;
+  display: none;
+  position: absolute;
+  top: 0;
+  right:0;
+  font-size: 18px;
+  
+}
+#helpMenu>ul > li {
+  text-align:left;
+  list-style: none;
+}
+
+#OptionDiv {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  margin-left: 0.3em;  
+  visibility: hidden;
+}
+
+#OptionDiv > span{
+  visibility: visible;
+}
+#OptionDiv > h1{
+  margin-bottom: 1em;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  user-select: none;
+}
+
+/* Modal Content */
+.modal-content {
+  text-align: center;
+  margin: auto;
+  padding: 20px;
+  width: 70%;
+  height: auto;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 25px;
+}
+.modal-content > h2  {
+  margin-top: 1em;
+}
+
+/* The Close Button */
+.modalButton {
+  font-size: 15px;
+  font-weight: bold;
+  background-color: transparent;
+  border-color: transparent;
+  margin-top: 1em;
+}
+
+.modalButton:hover,
+.modalButton:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#loadingDiv {
+  width:100%;
+  height: 100%;
+  display: none;
+  z-index: 3;
+}
+#loadingDiv h1{
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+}
+#loadingDiv progress{
+  position:absolute;
+  top: 50%;
+  right: 25%;
+  left: 25%;
+  width:50%;
+  height: 5em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+th, td {
+  padding: 0.6em;
+  font-size: 21px;
+  /*border: 2px solid black;*/
+  text-align: center;
+}
+hr {
+  margin-bottom: 0.5em;
+}

@@ -1,0 +1,17 @@
+body {
+    background-color: lightgray;
+    padding: 0.2em;
+    text-align: justify;
+}
+h1, h2, h3 {
+    text-align: center;
+}
+p, li {
+    font-size: 18px;
+}
+
+
+.imgCenter {
+    padding-left: 0.2em;
+    text-align: center;
+}

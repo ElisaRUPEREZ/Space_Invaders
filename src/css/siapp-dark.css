@@ -1,0 +1,45 @@
+html, body, #siapp{
+  background: #262626;
+}
+
+body {
+  color: white;
+  text-shadow:1px 1px 2px black, 0 0 1em rgb(54, 54, 54), 0 0 0.2em rgb(94, 94, 94);
+}
+
+#mainMenu {
+  background-color: #262626;
+}
+
+#goButton {
+  background-color: #26262686;
+  border-color: white;
+  color: white;
+  text-shadow:1px 1px 2px black, 0 0 1em rgb(54, 54, 54), 0 0 0.2em rgb(94, 94, 94);
+
+}
+
+#goButton:hover:enabled {
+  background-color: grey;
+}
+ 
+.modal-content {
+  background-color: #202020;
+  border-color: #888;
+}
+
+/* The Close Button */
+.modalButton {
+  color: white;
+  border-color: white;
+}
+
+.modalButton:hover,
+.modalButton:focus {
+  color: white;
+  background-color: grey;
+}
+
+#loadingDiv {
+  background-color: #262626;
+}
